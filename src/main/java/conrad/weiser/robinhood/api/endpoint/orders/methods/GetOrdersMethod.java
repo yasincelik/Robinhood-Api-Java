@@ -10,12 +10,19 @@ import conrad.weiser.robinhood.api.request.RequestMethod;
  */
 public class GetOrdersMethod extends Orders {
 
+    /**
+     * Set api URL to GET from & return type ({@link SecurityOrderListElement}).
+     */
     public GetOrdersMethod() {
         this.setUrlBase("https://api.robinhood.com/orders/");
 
         //Add the send-receive headers into the request
-        this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
-        this.addHttpHeaderParameter(new HttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded"));
+        this.addHttpHeaderParameter(
+                new HttpHeaderParameter("Accept", "application/json")
+        );
+        this.addHttpHeaderParameter(
+                new HttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded")
+        );
 
         //This method should be ran as POST
         this.setMethod(RequestMethod.GET);
