@@ -35,12 +35,9 @@ public class MakeMarketStopOrder extends Orders {
         setOrderParameters();
 
         try {
-
             //Verify the ticker and add it to the instrument URL to be used for later
             this.tickerInstrumentUrl = verifyTickerData(this.ticker);
-
         } catch (Exception e) {
-
             this.setOrderSafe(false);
         }
     }
