@@ -154,7 +154,7 @@ public class RequestManager {
 
 		}
 
-       throw new RobinhoodApiException();
+       throw new RobinhoodApiException("Failed to communicate with Robinhood servers");
 
 	}
 

@@ -4,6 +4,7 @@ package com.ampro.robinhood.endpoint.quote.methods;
 import com.ampro.robinhood.endpoint.quote.TickerQuoteElementList;
 import com.ampro.robinhood.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.throwables.RequestTooLargeException;
 
 import java.util.Collection;
 
@@ -19,6 +20,8 @@ import java.util.Collection;
  */
 public class GetTickerGetQuoteList extends GetQuote {
 
+    private static int MAX_TICKERS = 5000;
+
     /**
      * Construct a method to get multiple security quotes by tickers
      * (e.g. MSFT, FIT, etc). <br>
@@ -27,8 +30,14 @@ public class GetTickerGetQuoteList extends GetQuote {
      *
      * @param tickers The tickers to request quotes of.
      */
-    public GetTickerGetQuoteList(Collection<String> tickers) {
+    public GetTickerGetQuoteList(Collection<String> tickers)
+    throws RequestTooLargeException {
         super();
+        if (tickers.size() > MAX_TICKERS) {
+            throw new RequestTooLargeException(
+                    "Ticker request must be under " + MAX_TICKERS
+            );
+        }
 
         //Reform the collection as a url param
         //replaceAll("[\\[\\]\\s+]", "") replaces "[]" and empty spaces

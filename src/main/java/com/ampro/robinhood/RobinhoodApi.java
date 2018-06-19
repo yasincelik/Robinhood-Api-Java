@@ -21,12 +21,12 @@ import com.ampro.robinhood.endpoint.quote.methods.GetTickerGetQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerGetQuoteList;
 import com.ampro.robinhood.request.RequestManager;
 import com.ampro.robinhood.request.RequestStatus;
+import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
+
 import java.util.logging.Logger;
 
 public class RobinhoodApi {
@@ -392,10 +392,17 @@ public class RobinhoodApi {
      * @throws RobinhoodApiException
      */
 	public List<TickerQuoteElement> getQuoteListByTickers(Collection<String> tickers)
-    throws RobinhoodApiException {
+    throws RobinhoodApiException, RequestTooLargeException {
         ApiMethod method = new GetTickerGetQuoteList(tickers);
         return ((TickerQuoteElementList) requestManager.makeApiRequest(method))
                                                        .getQuotes();
+    }
+
+    public Map<String, TickerQuoteElement>
+    getQuoteMapByTickers(Collection<String> tickers) {
+	    HashMap hashMap = new HashMap();
+	    //TODO This mapo retrun may not even be needed...
+	    return null;
     }
 
 	/**
@@ -482,7 +489,5 @@ public class RobinhoodApi {
 		}
 		return true;
 	}
-
-
 
 }
