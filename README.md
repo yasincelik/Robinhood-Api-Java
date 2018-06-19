@@ -7,6 +7,7 @@ Thanks to [Conrad Weiser](https://github.com/ConradWeiser) for making
 
 ## Contents
 - [Installation](#INSTALL)
+- [Usage](#USAGE)
 - [RoadMap](#RDMP)
 - [Contributing](#CONTR)
 - [Log](#LOG)
@@ -29,13 +30,15 @@ if you want to use this library. Gradle/Maven incoming...*hopefully*
     - Get
         - Get full history (live and closed orders)
     - Post
-        - Make & cancel orders (limit, stop, etc)
-        - Set Complex orders with take-profit & (trailing)stoploss
+        - ~~Make &~~ cancel orders (limit, stop, etc)
 - ...
+- Include a more comprehensive guide on what data you are getting from each method.
 
-- Include a more comprehensive guide on what data you are getting from each method (Probably within the javadocs)
-- Continue implementing more of the working methods we have available
-- Streamline the library framework in general. Currently things work very well, but it's not perfect
+### Things that will likely *never* happen here
+- Transfering funds from bank accounts to Robinhood & visa versa.
+    - That's a *lot* of security
+    [we can't provide](https://www.youtube.com/watch?v=2bVhjOcz0s0)
+    (at least not now) and will leave it to Robinhood & their applications.
 
 <a name='CONTR'></a>
 ## Contributing
@@ -44,22 +47,25 @@ Any pull requests will be looked over and (likely) accepted given they follow
 a few guidlines:
 
 - Documentation
-    - ALL CLASSES & METHODS MUST BE DOCUMENTED!
+    - Classes & methods must have java docs, unless they are increadibly
+    intuituve (e.g. ``getAccountId()``).
     - We cant accept your code if we don't know what's going on, and we don't
-    have time to decrypt your method calls and intentions, as good as they might be.
+    have time to decrypt your methods, as good as they might be.
 - Adding new Dependencies
-    - If you use an external library, it MUST be available from the maven
-    repositories, since this library is built from gradle.
+    - If you use an external library, it should be available from the
+    maven/gradle repositories or a reputable library wtih gradle compatablity,
+    since this library is built from gradle.
     - Try to keep any new external dependencies to a minimum. We will accept
-    most things from tried & reputable sources (Apache, Google, etc), but we
+    most things from reputable sources (Apache, Google, etc), but we
     still reserve the right to deny any pull requests that add too many and/or
      unreliable dependencies.
 - Prettyness
     - We're pretty open to coding styles here, everyone has their prefered way
-    to code, but at some point...*ya gotta look consistant*. So in no particular order:
-    1. ``for``, ``if``, ``while``, etc ***MUST*** have curly braces. We know it looks so
-    *minimalistic* without them, but it helps code reading a ton!
-    2. Try your best to keep lines under ``80`` characters and *must* be under 90.
+    to code, but at some point...*ya gotta look consistant*.
+    1. ``for``, ``if``, ``while``, etc should have curly braces. We know it
+    looks so *minimalistic* without them, but it helps code reading a ton!
+    2. Try your best to keep lines under ``80`` characters and *must* be under
+    ``90``.
     If a method or constructor is called and it ends up being too long, let it
     span across multiple lines, like so (no need to be perfect, just...similar)...
 ```java
@@ -70,18 +76,12 @@ thisThing.superCoolMethod(
             "Wow this param is such a stupid long string wow...maybe too long?"
 );
 ```
+`` ``
+    - If you find anything in the existing code, feel free to correct or point
+    it out, nobody's perfect...
 
-
-<a name='LOG'><a/>
-## Log
-- 6/15/18
-    - Work on understanding the API basis from
-    [conrad's repo](https://github.com/ConradWeiser/Unofficial-Robinhood-Api)
-    - Get live & closed orders from API & SecurityOrderListElement cerated to
-    hold the paginated return.
-- 6/14/18 ***The Journey Begins***
-
-## Usage
+<a name='USAGE'></a>
+## Usage (From Conrad)
 
 [Javadocs available - Click me!](https://conradweiser.github.io/Unofficial-Robinhood-Api/)
 This library is built with the intention of making extracting information from the Robinhood API as easy as possible.
@@ -100,20 +100,37 @@ String accountNumber = accountData.getAccountNumber();
 Float buyingPower = accountData.getBuyingPower();
 
 //Print to console!
-System.out.println(accountNumber + " : " + String.valueOf(buyingPower));
+System.out.println(accountNumber + " : " + buyingPower);
 ```
 
-### For more detailed instructions on usage, [Click me!](https://github.com/ConradWeiser/Unofficial-Robinhood-Api/blob/master/Usage.md)
-
+### For more detailed instructions on usage, [Click me!](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki/Usage)
 
 ## Disclaimer
-I have never taken up a project working with APIs like this. I intend to write this wrapper to the best of my ability, and continue to give support/make changes as time passes.
+(This is from org. author but it applies to me too)<br><br>
+I have never taken up a project working with APIs like this.
+I intend to write this wrapper to the best of my ability, and continue to
+give support/make changes as time passes.
 
-I however am a student, and have never programmed in a professional enviroment. Things might seem a little messy until the library gets a little closer to completion.
+However, that being said, I aim to make the finished project both efficient in
+terms of how much computing power it requires, and easy for other developers to
+build functionality on top of.
 
-However, that being said, I aim to make the finished project both efficient in terms of how much computing power it requires, and easy for other developers to build functionality on top of. Stay tuned for future updates!
-____
+If you have any questions feel free to email AMPro at
+aquaticmasteryproductions@gmail.com
 
-If you have any questions, comments or suggestions, please do throw me an Email!
+-- Jono
+
+<a name='LOG'><a/>
+## Log
+- 6/19/18
+    - Geting multiple quotes by their tickers.
+    - 1st Reddit post
+- 6/15/18
+    - Work on understanding the API basis from
+    [conrad's repo](https://github.com/ConradWeiser/Unofficial-Robinhood-Api)
+    - Get live & closed orders from API & SecurityOrderListElement cerated to
+    hold the paginated return.
+- 6/14/18 ***The Journey Begins***
+
 
 
