@@ -10,6 +10,7 @@ import conrad.weiser.robinhood.api.endpoint.account.methods.*;
 import conrad.weiser.robinhood.api.endpoint.authorize.data.Token;
 import conrad.weiser.robinhood.api.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import conrad.weiser.robinhood.api.endpoint.authorize.methods.LogoutFromRobinhood;
+import conrad.weiser.robinhood.api.endpoint.fundamentals.data.InstrumentFundamentalElement;
 import conrad.weiser.robinhood.api.endpoint.fundamentals.data.TickerFundamentalElement;
 import conrad.weiser.robinhood.api.endpoint.orders.enums.TimeInForce;
 import conrad.weiser.robinhood.api.endpoint.orders.methods.MakeLimitOrder;
@@ -30,6 +31,8 @@ import conrad.weiser.robinhood.api.endpoint.account.data.AccountHolderInvestment
 import conrad.weiser.robinhood.api.endpoint.account.data.BasicAccountHolderInfoElement;
 import conrad.weiser.robinhood.api.endpoint.account.data.BasicUserInfoElement;
 import conrad.weiser.robinhood.api.endpoint.fundamentals.methods.GetTickerFundamental;
+import conrad.weiser.robinhood.api.endpoint.midlands.data.InstrumentFundamentalListElement;
+import conrad.weiser.robinhood.api.endpoint.midlands.methods.GetCollectionData;
 import conrad.weiser.robinhood.api.endpoint.orders.data.SecurityOrderElement;
 import conrad.weiser.robinhood.api.endpoint.orders.enums.OrderTransactionType;
 import conrad.weiser.robinhood.api.request.RequestManager;
@@ -414,6 +417,29 @@ public class RobinhoodApi {
 
 
 	}
+	
+    /**
+     * Gets the collection data.
+     *
+     * @param collectionName the collection name
+     * @return the collection data
+     * @throws RobinhoodApiException the robinhood api exception
+     * @throws RobinhoodNotLoggedInException the robinhood not logged in exception
+     */
+    public List<InstrumentFundamentalElement> getCollectionData(String collectionName)
+        throws RobinhoodApiException, RobinhoodNotLoggedInException {
+  
+      // Create the API method
+      ApiMethod method = new GetCollectionData(collectionName);
+  
+  
+      // Return the current account positions
+      InstrumentFundamentalListElement response = requestManager.makeApiRequest(method);
+      return response.getInstrumentFundamentalList();
+  
+  
+    }
+      
 
 	/**
 	 * A method which attempts to throw a {@link RobinhoodNotLoggedInException} to see if there is currently a user logged
