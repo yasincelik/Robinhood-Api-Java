@@ -25,7 +25,7 @@ if you want to use this library. Gradle/Maven incoming...*hopefully*
 - ~~Get account information~~
 [(JSON Response contents)](https://github.com/sanko/Robinhood/blob/master/Account.md#gather-list-of-accounts)
 - ~~Getting information about tickers~~
-- Get Portfolio & watchlist
+- Imporve & clarify many, many vague exceptions
 - Orders
     - Get
         - Get full history (live and closed orders)
@@ -47,7 +47,7 @@ Any pull requests will be looked over and (likely) accepted given they follow
 a few guidlines:
 
 - Documentation
-    - Classes & methods must have java docs, unless they are increadibly
+    - Classes & methods must have docs, unless they are increadibly
     intuituve (e.g. ``getAccountId()``).
     - We cant accept your code if we don't know what's going on, and we don't
     have time to decrypt your methods, as good as they might be.

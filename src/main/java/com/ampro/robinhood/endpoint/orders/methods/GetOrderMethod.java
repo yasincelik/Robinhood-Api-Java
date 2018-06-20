@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
-import com.ampro.robinhood.endpoint.orders.Orders;
+import com.ampro.robinhood.endpoint.orders.OrderMethod;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
 import com.ampro.robinhood.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.request.RequestMethod;
@@ -9,12 +9,12 @@ import com.ampro.robinhood.request.RequestMethod;
  * REST GET method to retrieve a user's orders.
  * @author Jonathan Augustine
  */
-public class GetOrdersMethod extends Orders {
+public class GetOrderMethod extends OrderMethod {
 
     /**
      * Set api URL to GET from & return type ({@link SecurityOrderListElement}).
      */
-    public GetOrdersMethod() {
+    public GetOrderMethod() {
         this.setUrlBase("https://api.robinhood.com/orders/");
 
         //Add the send-receive headers into the request

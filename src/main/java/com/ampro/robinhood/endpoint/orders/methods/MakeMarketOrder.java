@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.ConfigurationManager;
-import com.ampro.robinhood.endpoint.orders.Orders;
+import com.ampro.robinhood.endpoint.orders.OrderMethod;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.throwables.InvalidTickerException;
@@ -11,7 +11,7 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
 /**
  * Created by SirensBell on 6/15/2017.
  */
-public class MakeMarketOrder extends Orders {
+public class MakeMarketOrder extends OrderMethod {
 
     private String ticker = null;
     private int quantity = 0;

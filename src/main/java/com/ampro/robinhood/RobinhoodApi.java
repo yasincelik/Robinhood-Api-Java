@@ -368,6 +368,18 @@ public class RobinhoodApi {
 
 }
 
+    /**
+     * Cancel an order. The order must be open & not completed.
+     * @param order The order to cancel
+     * @return The cancelled order
+     */
+    public SecurityOrderElement cancelOrder(SecurityOrderElement order)
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+	   ApiMethod method = new CancelOrderMethod(order);
+	   method.addAuthTokenParameter();
+	   return requestManager.makeApiRequest(method);
+    }
+
 	/**
 	 * Method returning a {@link TickerQuoteElement} for the supplied ticker.
      * Contains general information, such as the current asking price and the
@@ -465,7 +477,7 @@ public class RobinhoodApi {
 	throws RobinhoodNotLoggedInException, RobinhoodApiException {
 		SecurityOrderListElement orders;
 		//Setup the web method call
-		ApiMethod method = new GetOrdersMethod();
+		ApiMethod method = new GetOrderMethod();
 		method.addAuthTokenParameter();
 		//Attempt to GET from Robinhood API
 		orders = requestManager.makeApiRequest(method);

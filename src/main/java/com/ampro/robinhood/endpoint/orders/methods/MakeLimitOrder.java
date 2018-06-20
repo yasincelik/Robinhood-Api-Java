@@ -1,14 +1,14 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.ConfigurationManager;
-import com.ampro.robinhood.endpoint.orders.Orders;
+import com.ampro.robinhood.endpoint.orders.OrderMethod;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.throwables.InvalidTickerException;
 import com.ampro.robinhood.parameters.UrlParameter;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
-public class MakeLimitOrder extends Orders {
+public class MakeLimitOrder extends OrderMethod {
 
 	private String ticker = null;
 	private TimeInForce time = null;
@@ -18,8 +18,9 @@ public class MakeLimitOrder extends Orders {
 
 	private String tickerInstrumentUrl = null;
 
-	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice, int quantity, OrderTransactionType orderType) throws
-            RobinhoodApiException, InvalidTickerException {
+	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice,
+	                      int quantity, OrderTransactionType orderType)
+	throws RobinhoodApiException, InvalidTickerException {
 
 		this.ticker = ticker;
 		this.time = time;
@@ -34,12 +35,9 @@ public class MakeLimitOrder extends Orders {
 		setOrderParameters();
 
 		try {
-
 			//Verify the ticker, and add the instrument URL to be used for later
 			this.tickerInstrumentUrl = verifyTickerData(this.ticker);
-
 		} catch (Exception e) {
-
 			//If there is an invalid ticker, set this order to be unsafe
 			this.setOrderSafe(false);
 		}

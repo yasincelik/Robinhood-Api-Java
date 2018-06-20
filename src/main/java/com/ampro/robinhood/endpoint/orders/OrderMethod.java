@@ -12,9 +12,9 @@ import com.ampro.robinhood.request.RequestManager;
 import com.ampro.robinhood.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
-public class Orders extends ApiMethod {
+public class OrderMethod extends ApiMethod {
 
-	protected Orders() {
+	protected OrderMethod() {
 
 		super("orders");
 		orderSafe = true;
