@@ -15,6 +15,7 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 
 /**
  * Manage HTTP(S) requests.
+ * @author Conrad Weise, modified by Jonathan Augustine
  */
 public class RequestManager {
 
@@ -66,7 +67,6 @@ public class RequestManager {
 		}
 
 		return response;
-
 	}
 
 	/**
@@ -79,14 +79,10 @@ public class RequestManager {
 
 		HttpRequestWithBody request = Unirest.post(method.getBaseUrl());
 
-
 		//Append each of the headers for the method
-		Iterator<HttpHeaderParameter> headerIterator = method.getHttpHeaderParameters().iterator();
-		while(headerIterator.hasNext()) {
-
-			HttpHeaderParameter currentHeader = headerIterator.next();
-			request.header(currentHeader.getKey(), currentHeader.getValue());
-		}
+        for (HttpHeaderParameter currentHeader : method.getHttpHeaderParameters()) {
+            request.header(currentHeader.getKey(), currentHeader.getValue());
+        }
 
 		try {
             //Append the request body
@@ -104,18 +100,18 @@ public class RequestManager {
             if(method.getReturnType() == Void.TYPE)
                 return (T) Void.TYPE;
 
-            T data = gson.fromJson(responseJsonString, method.getReturnType());
-            return data;
+            return gson.fromJson(responseJsonString, method.getReturnType());
 
         } catch (UnirestException ex) {
-
-            System.err.println("[RobinhoodApi] Failed to communicate with Robinhood servers, request failed");
-
+            System.err.println(
+                    "[RobinhoodApi] Failed to communicate with endpoint"
+            );
+            ex.printStackTrace();
         }
 
-		throw new RobinhoodApiException();
+        throw new RobinhoodApiException("Failed to communicate with endpoint");
 
-	}
+    }
 
 	/**
 	 * Method which uses Unirest to send a GET request to the specified URL saved
@@ -127,12 +123,9 @@ public class RequestManager {
 		GetRequest request = Unirest.get(method.getBaseUrl());
 
 		//Append each of the headers for the method
-		Iterator<HttpHeaderParameter> headerIterator = method.getHttpHeaderParameters().iterator();
-		while(headerIterator.hasNext()) {
-
-			HttpHeaderParameter currentHeader = headerIterator.next();
-			request.header(currentHeader.getKey(), currentHeader.getValue());
-		}
+        for (HttpHeaderParameter currentHeader : method.getHttpHeaderParameters()) {
+            request.header(currentHeader.getKey(), currentHeader.getValue());
+        }
 
 		try {
 
@@ -143,21 +136,17 @@ public class RequestManager {
 			Gson gson = new Gson();
 			String responseJsonString = jsonResponse.getBody().toString();
 
-			T data = gson.fromJson(responseJsonString, method.getReturnType());
-
-			return data;
-
+			return gson.fromJson(responseJsonString, method.getReturnType());
 
 		} catch (UnirestException ex) {
-
-			System.err.println("[RobinhoodApi] Failed to communicate with Robinhood servers, request failed");
-
+			System.err.println(
+			        "[RobinhoodApi] Failed to communicate with endpoint"
+            );
+			ex.printStackTrace();
 		}
 
-       throw new RobinhoodApiException("Failed to communicate with Robinhood servers");
+       throw new RobinhoodApiException("Failed to communicate with endpoint");
 
 	}
-
-
 
 }
