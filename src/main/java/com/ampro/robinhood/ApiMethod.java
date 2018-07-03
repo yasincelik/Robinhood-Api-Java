@@ -3,20 +3,26 @@ package com.ampro.robinhood;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.ampro.robinhood.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.parameters.UrlParameter;
 import com.ampro.robinhood.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
+/**
+ * A Wrapper object for making REST requests through
+ * {@link com.mashape.unirest.http.Unirest}
+ * @author Conrad Weisse, Modified by Jonathan Augustine
+ */
 public abstract class ApiMethod {
 
 	private final ConfigurationManager manager = ConfigurationManager.getInstance();
 	private String urlBase;
 	public final String service;
-
 
 	/**
 	 * Constructor which stores the service which is being used
@@ -35,27 +41,20 @@ public abstract class ApiMethod {
 	 */
 	private final List<HttpHeaderParameter> httpHeaderParameters = new LinkedList<HttpHeaderParameter>();
 
-	/**
-	 * Default request method
-	 */
+	/** Default request method is GET*/
 	private RequestMethod method = RequestMethod.GET;
 
-	/**
-	 * The body for the request
-	 */
+	/** The body for the request */
 	private String body = null;
 
-	/**
-	 * The return type for the request
-	 */
+	/** The return type for the request */
 	private Type returnType = null;
 
 	/**
-	 * A flag for the method specifying if it requires an AuthToken for the user in order
-	 * to be ran.
+	 * A flag for the method specifying if it requires an AuthToken for the
+     * user in order to be ran.
 	 */
 	private boolean requireToken = false;
-
 
 	/**
 	 * A method which adds a HttpHeaderParameter to the API request header
@@ -65,44 +64,101 @@ public abstract class ApiMethod {
 		httpHeaderParameters.add(param);
 	}
 
+    /**
+     * A method which adds a HttpHeaderParameter to the API request header
+     * @param key The key to map to
+     * @param value The value to map
+     * @author Jonathan Augustine
+     */
+	protected void addHttpHeaderParameter(String key, String value) {
+	    httpHeaderParameters.add(new HttpHeaderParameter(key, value));
+    }
+
+    /**
+     * A method which adds HttpHeaderParameters to the API request header
+     * @param paramMap A String -> String map of Key -> Val pairs
+     * @author Jonathan Augustine
+     */
+    private void addHttpHeaderParameters(Map<String, String> paramMap) {
+	    paramMap.forEach((key, val) -> addHttpHeaderParameter(key, val));
+    }
+
+    /**
+     * A method which adds HttpHeaderParameters to the API request header
+     * @param params A Collection of {@link HttpHeaderParameter}
+     * @author Jonathan Augustine
+     */
+    private void addHttpHeaderParameters(Collection<HttpHeaderParameter> params) {
+        params.forEach((header) -> addHttpHeaderParameter(header));
+    }
+
 	/**
 	 * A method which adds a HttpUrlParameter to the API URL
+     * @param param The {@link UrlParameter} to add
 	 */
 	protected void addUrlParameter(UrlParameter param) {
 		urlParameters.add(param);
 	}
 
+    /**
+     * A method which adds a HttpUrlParameter to the API URL
+     * @param key The key to map to
+     * @param val The value to map
+     * @author Jonathan Augustine
+     */
+	protected void addUrlParameter(String key, String val) {
+	    urlParameters.add(new UrlParameter(key, val));
+    }
+
+    /**
+     * A method which adds HttpUrlParameters to the API URL
+     * @param params The {@link UrlParameter UrlParameters} to add
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameters(Collection<UrlParameter> params) {
+	    params.forEach(p -> addUrlParameter(p));
+    }
+
+    /**
+     * A method which adds HttpUrlParameters to the API URL
+     * @param paramMap A String -> String map of Key -> Val pairs
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameters(Map<String, String> paramMap) {
+        paramMap.forEach((key, val) -> addUrlParameter(new UrlParameter(key, val)));
+    }
+
 	/**
 	 * Method which adds the Authorization Token to the HTTP request header
-	 * @throws RobinhoodNotLoggedInException if the token does not exist. If the user is not logged in.
+	 * @throws RobinhoodNotLoggedInException if the token does not exist or
+     *              If the user is not logged in.
 	 */
 	protected void addAuthTokenParameter() throws RobinhoodNotLoggedInException {
-		addHttpHeaderParameter(new HttpHeaderParameter("Authorization", "Token " + manager.getToken()));
+		addHttpHeaderParameter(
+				new HttpHeaderParameter("Authorization", "Token " + manager.getToken())
+		);
 	}
 
 	/**
 	 * Method which returns if the User Token is required for this method or not
 	 */
-	public boolean doesRequireToken() {
+	public boolean requiresToken() {
 		return this.requireToken;
 	}
 
-	/**
-	 * Method which returns the request body
-	 */
+	/** Method which returns the request body */
 	public String getBody() {
 		return this.body;
 	}
 
-	/**
-	 * Method to return what the ReturnType is
-	 */
+	/** Method to return what the ReturnType is */
 	public Type getReturnType() {
 		return this.returnType;
 	}
 
 	/**
-	 * Method to retrieve all of the HttpHeaderParameters currently loaded into the method
+	 * Method to retrieve all of the HttpHeaderParameters currently loaded into
+     * the method
 	 */
 	public List<HttpHeaderParameter> getHttpHeaderParameters() {
 		return this.httpHeaderParameters;

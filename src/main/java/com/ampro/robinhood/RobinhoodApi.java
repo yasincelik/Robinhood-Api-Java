@@ -181,15 +181,14 @@ public class RobinhoodApi {
 	public AccountElement getAccountData()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
 
-
 		//Create the API method for this request
 		ApiMethod method = new GetAccounts();
 		method.addAuthTokenParameter();
 
-		//TODO: This is a temporary fix, as the Robinhood API seems to have some features implemented, but are not used yet
+		//TODO: This is a temporary fix, as the Robinhood API seems
+		//to have some features implemented, but are not used yet
 		AccountArrayWrapper data = requestManager.makeApiRequest(method);
 		return data.getResults();
-
 	}
 
 	/**
@@ -292,9 +291,9 @@ public class RobinhoodApi {
 	 * @throws InvalidTickerException Thrown when the ticker supplied to the method is invalid.
 	 * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api instance is not logged into an account. Run the login method first.
 	 */
-	public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
-                                               float limitPrice, int quantity,
-                                               OrderTransactionType orderType)
+	public SecurityOrderElement
+    makeLimitOrder(String ticker, TimeInForce timeInForce, float limitPrice,
+                   int quantity, OrderTransactionType orderType)
     throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
 
 		//Create the API method
@@ -317,11 +316,9 @@ public class RobinhoodApi {
      * @throws RobinhoodApiException There is a general problem with the API.
      * @throws RobinhoodNotLoggedInException Thrown when the current instance is not logged into an account. Run the login method first.
      */
-	public SecurityOrderElement makeLimitStopOrder(String ticker,
-                                                   TimeInForce timeInForce,
-                                                   float limitPrice, int quantity,
-                                                   OrderTransactionType orderType,
-                                                   float stopPrice)
+	public SecurityOrderElement
+    makeLimitStopOrder(String ticker, TimeInForce timeInForce, float limitPrice
+            , int quantity, OrderTransactionType orderType, float stopPrice)
     throws InvalidTickerException, RobinhoodApiException, RobinhoodNotLoggedInException {
 
 		//Create the API method
@@ -408,14 +405,7 @@ public class RobinhoodApi {
         ApiMethod method = new GetTickerGetQuoteList(tickers);
         return ((TickerQuoteElementList) requestManager.makeApiRequest(method))
                                                        .getQuotes();
-    }
-
-    public Map<String, TickerQuoteElement>
-    getQuoteMapByTickers(Collection<String> tickers) {
-	    HashMap hashMap = new HashMap();
-	    //TODO This mapo retrun may not even be needed...
-	    return null;
-    }
+   }
 
 	/**
 	 * Returns a list of {@link PositionElement} for each entry on the account's watchlist. If the quantity of the

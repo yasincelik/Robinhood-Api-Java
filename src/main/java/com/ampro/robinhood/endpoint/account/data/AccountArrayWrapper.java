@@ -13,28 +13,34 @@ public class AccountArrayWrapper {
 	private String next;
 	private String previous;
 
+	/** The Account element within the JSON response */
 	private AccountElement[] results;
 
-	public String getNext() {
-		return next;
-	}
-
-
-
-	public String getPrevious() {
-		return previous;
-	}
-
-
 	/**
-	 * Currently, there will NEVER be more than just one of these. To make it easy for the user to use the methods requiring
+	 * Currently, there will NEVER be more than just one of these.
+     * To make it easy for the user to use the methods requiring
 	 * this, we only return the existing data.
-	 * @return
+	 * @return The {@link AccountElement} within the result.
 	 */
 	public AccountElement getResults() {
 		return results[0];
 	}
 
-
+    /**
+     * Does nothing
+     * @return
+     */
+    @Deprecated
+    public String getNext() {
+        return next;
+    }
+    /**
+     * Does nothing
+     * @return
+     */
+    @Deprecated
+    public String getPrevious() {
+        return previous;
+    }
 
 }

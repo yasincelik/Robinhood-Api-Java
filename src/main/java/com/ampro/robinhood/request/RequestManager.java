@@ -40,7 +40,6 @@ public class RequestManager {
 		return RequestManager.instance;
 	}
 
-
 	public <T> T makeApiRequest(ApiMethod method) throws RobinhoodApiException {
 
 		T response = null;
@@ -75,7 +74,8 @@ public class RequestManager {
 	 * @throws UnirestException
 	 */
 	@SuppressWarnings("unchecked")
-	private <T> T makePostRequest(ApiMethod method) throws RobinhoodApiException {
+	private <T> T makePostRequest(ApiMethod method)
+            throws RobinhoodApiException {
 
 		HttpRequestWithBody request = Unirest.post(method.getBaseUrl());
 
@@ -128,10 +128,8 @@ public class RequestManager {
         }
 
 		try {
-
 			//Make the request
 			HttpResponse<JsonNode> jsonResponse = request.asJson();
-
 			//Parse the response with Gson
 			Gson gson = new Gson();
 			String responseJsonString = jsonResponse.getBody().toString();
