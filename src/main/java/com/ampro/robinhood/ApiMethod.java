@@ -79,7 +79,7 @@ public abstract class ApiMethod {
      * @param paramMap A String -> String map of Key -> Val pairs
      * @author Jonathan Augustine
      */
-    private void addHttpHeaderParameters(Map<String, String> paramMap) {
+    protected void addHttpHeaderParameters(Map<String, String> paramMap) {
 	    paramMap.forEach((key, val) -> addHttpHeaderParameter(key, val));
     }
 
@@ -88,7 +88,7 @@ public abstract class ApiMethod {
      * @param params A Collection of {@link HttpHeaderParameter}
      * @author Jonathan Augustine
      */
-    private void addHttpHeaderParameters(Collection<HttpHeaderParameter> params) {
+    protected void addHttpHeaderParameters(Collection<HttpHeaderParameter> params) {
         params.forEach((header) -> addHttpHeaderParameter(header));
     }
 
