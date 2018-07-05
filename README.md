@@ -7,6 +7,7 @@ Thanks to [Conrad Weiser](https://github.com/ConradWeiser) for making
 
 ## Contents
 - [Installation](#INSTALL)
+    - [Dependencies](#DEPEN)
 - [Usage](#USAGE)
 - [RoadMap](#RDMP)
 - [Contributing](#CONTR)
@@ -14,10 +15,17 @@ Thanks to [Conrad Weiser](https://github.com/ConradWeiser) for making
 
 <a name='INSTALL'></a>
 ## Installation
-(*Sorry, still working on this part*.)
-You can download the repo or a jar from the
-[releases](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/releases)
-if you want to use this library. Gradle/Maven incoming...*hopefully*
+To install & use the Robinhood API, you can either install the latest
+[release](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/releases)
+, download the latest source code & build the project yourself,
+or use [JitPack](https://jitpack.io/) to add the repository to your 
+gradle, maven, sbt, or leiningen.
+You can download the latest stable build here:
+
+<a name='DEPEN'></a>
+#### The Robinhood API Depends on these projects & packages
+- [Mashape's Unirest](http://unirest.io/java.html)
+- [Google's Gson](https://github.com/google/gson)
 
 <a name='RDMP'></a>
 ## Roadmap
