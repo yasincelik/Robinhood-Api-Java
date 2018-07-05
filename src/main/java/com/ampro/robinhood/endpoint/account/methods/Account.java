@@ -1,12 +1,12 @@
-package com.ampro.robinhood.endpoint.account;
+package com.ampro.robinhood.endpoint.account.methods;
 
 import com.ampro.robinhood.ApiMethod;
+import com.ampro.robinhood.Configuration;
 
 public class Account extends ApiMethod {
 
-	protected Account() {
-
-		super("account");
+	protected Account(Configuration config) {
+		super("account", config);
 
 		//We do require a token for these methods. Thus we require it for all methods using this service
 		this.requireToken();

@@ -1,10 +1,11 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.account.data.enums.*;
 
 import java.net.URL;
 
-public class AccountHolderInvestmentElement {
+public class AccountHolderInvestmentElement implements ApiElement {
 
 	private String annual_income;
 	private String investment_experience;
@@ -21,6 +22,8 @@ public class AccountHolderInvestmentElement {
 	//TODO: Updated_at
 	private URL user;
 
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the annual_income

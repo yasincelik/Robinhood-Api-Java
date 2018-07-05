@@ -1,7 +1,6 @@
 package com.ampro.robinhood.endpoint.orders.enums;
 
 public enum OrderState {
-
 	QUEUED,
 	UNCONFIRMED,
 	CONFIRMED,

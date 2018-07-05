@@ -1,19 +1,16 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
 
-import com.ampro.robinhood.endpoint.account.Account;
+import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.AccountHolderEmploymentElement;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 
 public class GetAccountHolderEmploymentInfo extends Account {
 
-	public GetAccountHolderEmploymentInfo() {
+	public GetAccountHolderEmploymentInfo(Configuration config) {
+		super(config);
 
 		this.setUrlBase("https://api.robinhood.com/user/employment/");
-
-		//Add the headers into the request
-		this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
 
 		//This method is ran as GET
 		this.setMethod(RequestMethod.GET);

@@ -1,10 +1,11 @@
 package com.ampro.robinhood.endpoint.orders.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderState;
 
 import java.net.URL;
 
-public class SecurityOrderElement {
+public class SecurityOrderElement implements ApiElement {
 
 	//TODO: updated_at
 	private Execution[] executions;
@@ -38,7 +39,6 @@ public class SecurityOrderElement {
 	 * The state of the order. This is returned as an {@link OrderState} enum in the getter
 	 */
 	private String state;
-
 
 	//TODO: last_transaction_at
 	/**
@@ -74,6 +74,9 @@ public class SecurityOrderElement {
 	private boolean override_day_trade_checks;
 
 	private boolean override_dtbp_checks;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the executions

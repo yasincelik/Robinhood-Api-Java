@@ -10,7 +10,6 @@ import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
-import com.ampro.robinhood.endpoint.instrument.methods.GetInstrument;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
@@ -18,13 +17,12 @@ import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.methods.*;
-import com.ampro.robinhood.endpoint.orders.throwables.InvalidTickerException;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
-import com.ampro.robinhood.request.RequestManager;
-import com.ampro.robinhood.request.RequestStatus;
+import com.ampro.robinhood.net.request.RequestManager;
+import com.ampro.robinhood.net.request.RequestStatus;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
@@ -51,7 +49,7 @@ public class RobinhoodApi {
 	 * The active instance of the Configuration Manager.
      * The Auth-token is stored in this instance.
 	 */
-	private static ConfigurationManager configManager = null;
+	private final Configuration config;
 
 	/**
 	 * Constructor which creates all of the access points to use the API.
@@ -62,7 +60,7 @@ public class RobinhoodApi {
 	public RobinhoodApi() {
 		//Do nothing. Allow users to access the unauthorized sections of the API
 		RobinhoodApi.requestManager = RequestManager.getInstance();
-		RobinhoodApi.configManager = ConfigurationManager.getInstance();
+		this.config = new Configuration();
 	}
 
 	/**
@@ -76,9 +74,9 @@ public class RobinhoodApi {
 	public RobinhoodApi(String username, String password)
     throws RobinhoodApiException {
 
-		//Construct the managers
+		//Construct the manager
 		RobinhoodApi.requestManager = RequestManager.getInstance();
-		RobinhoodApi.configManager = ConfigurationManager.getInstance();
+        this.config = new Configuration();
 
 		//Log the user in and store the auth token
 		this.logUserIn(username, password);
@@ -90,7 +88,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException
 	 */
 	public String getAccountAuthToken() throws RobinhoodNotLoggedInException {
-		return configManager.getToken();
+		return this.config.getToken();
 	}
 
 	/**
@@ -101,7 +99,7 @@ public class RobinhoodApi {
 	 */
 	@Deprecated
 	public void setAuthToken(String token) {
-		configManager.setAuthToken(token);
+		this.config.setAuthToken(token);
 	}
 
 	/**
@@ -118,21 +116,19 @@ public class RobinhoodApi {
 	 */
 	public RequestStatus logUserIn(String username, String password)
     throws RobinhoodApiException {
-
 			//TODO: Implement multifactor authorization
 			ApiMethod method = new AuthorizeWithoutMultifactor(username, password);
 
 			try {
-
 				Token token = requestManager.makeApiRequest(method);
 
 				//Save the token into the configuration manager to be used with
                 // other methods
-				configManager.setAuthToken(token.getToken());
+				this.config.setAuthToken(token.getToken());
 
 				//Save the account number into the configuraiton manager to be
                 // used with other methods
-				ApiMethod accountMethod = new GetAccounts();
+				ApiMethod accountMethod = new GetAccounts(this.config);
 				accountMethod.addAuthTokenParameter();
 				//TODO: Clean up the following line, it should not have to use
                 //the array wrapper. Tuck that code elsewhere
@@ -146,10 +142,9 @@ public class RobinhoodApi {
 					        "Failed to get account Number."
                     );
 
-				configManager.setAccountNumber(data.getAccountNumber());
+				this.config.setAccountNumber(data.getAccountNumber());
 
 				return RequestStatus.SUCCESS;
-
 
 			}  catch (RobinhoodNotLoggedInException e) {
 				System.out.println(
@@ -167,11 +162,9 @@ public class RobinhoodApi {
 	 * @return an enum containing either "SUCCESS", "FAILURE" or "NOT_LOGGED_IN"
 	 */
 	public RequestStatus logUserOut() throws RobinhoodApiException {
-
 		try {
-
 			//Create the APIMethod which attempts to log the user out, and run it
-			ApiMethod method = new LogoutFromRobinhood();
+			ApiMethod method = new LogoutFromRobinhood(this.config);
 			method.addAuthTokenParameter();
 			requestManager.makeApiRequest(method);
 
@@ -179,7 +172,6 @@ public class RobinhoodApi {
 			return RequestStatus.SUCCESS;
 
 		} catch (RobinhoodNotLoggedInException ex) {
-
 			//If there was no token in the configManager, the user was never logged in
 			return RequestStatus.NOT_LOGGED_IN;
 		}
@@ -196,7 +188,7 @@ public class RobinhoodApi {
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
 
 		//Create the API method for this request
-		ApiMethod method = new GetAccounts();
+		ApiMethod method = new GetAccounts(this.config);
 		method.addAuthTokenParameter();
 
 		//TODO: This is a temporary fix, as the Robinhood API seems
@@ -211,13 +203,10 @@ public class RobinhoodApi {
 	 */
 	public BasicUserInfoElement getBasicUserInfo()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-
 		//Create the API method for the request
-		ApiMethod method = new GetBasicUserInfo();
+		ApiMethod method = new GetBasicUserInfo(this.config);
 		method.addAuthTokenParameter();
-
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	/**
@@ -226,14 +215,10 @@ public class RobinhoodApi {
 	 */
 	public BasicAccountHolderInfoElement getAccountHolderInfo()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-
-
 		//Create the API method
-		ApiMethod method = new GetBasicAccountHolderInfo();
+		ApiMethod method = new GetBasicAccountHolderInfo(this.config);
 		method.addAuthTokenParameter();
-
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	/**
@@ -242,13 +227,10 @@ public class RobinhoodApi {
 	 */
 	public AccountHolderAffiliationElement getAccountHolderAffiliation()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-
 		//Create the API method
-		ApiMethod method = new GetAccountHolderAffiliationInfo();
+		ApiMethod method = new GetAccountHolderAffiliationInfo(this.config);
 		method.addAuthTokenParameter();
-
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	/**
@@ -257,13 +239,10 @@ public class RobinhoodApi {
 	 */
 	public AccountHolderEmploymentElement getAccountHolderEmployment()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-
 		//Create the API method
-		ApiMethod method = new GetAccountHolderEmploymentInfo();
+		ApiMethod method = new GetAccountHolderEmploymentInfo(this.config);
 		method.addAuthTokenParameter();
-
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	/**
@@ -272,16 +251,75 @@ public class RobinhoodApi {
 	 */
 	public AccountHolderInvestmentElement getAccountHolderInvestment()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-
 		//Create the API method
-		ApiMethod method = new GetAccountHolderInvestmentInfo();
+		ApiMethod method = new GetAccountHolderInvestmentInfo(this.config);
 		method.addAuthTokenParameter();
-
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	//ORDERS
+
+    /**
+     * Returns a list of {@link PositionElement} for each entry on the account's watchlist. If the quantity of the
+     * {@link PositionElement} is above 0, that means that you have an active position in that stock. All of the other information
+     * which can be retrieved from this can be found in the PositionElement page itself
+     * @return
+     * @throws RobinhoodApiException
+     * @throws RobinhoodNotLoggedInException
+     */
+    public List<PositionElement> getAccountWatchlist()
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+        //Create the API method
+        ApiMethod method = new GetAccountPositions(this.config);
+        method.addAuthTokenParameter();
+        //Return the current account positions
+        PositionElementList response = requestManager.makeApiRequest(method);
+        return response.getPositionList();
+
+    }
+
+    /**
+     * Method which gets all of the account positions a user actually has shares in.
+     * @return {@link PositionElement} containing all of the stocks an account has shares in
+     * @throws RobinhoodApiException
+     * @throws RobinhoodNotLoggedInException
+     */
+    public List<PositionElement> getAccountPositions()
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+
+        //Get the entire watchlist for the account
+        List<PositionElement> accountWatchlist = this.getAccountWatchlist();
+
+        //Parse the watchlist for things which have a quantity
+        // >= 1 and return it
+        Vector<PositionElement> accountPositions = new Vector<>();
+
+        for(PositionElement currentWatchlistEntity : accountWatchlist) {
+            if(currentWatchlistEntity.getQuantity() >= 1) {
+                accountPositions.add(currentWatchlistEntity);
+            }
+        }
+        return accountPositions;
+    }
+
+    /**
+     * @return Closed and open orders.
+     * @throws RobinhoodNotLoggedInException
+     * @throws RobinhoodApiException
+     *
+     * @author Jonathan Augustine
+     */
+    public List<SecurityOrderElement> getOrders()
+    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+        SecurityOrderListElement orders;
+        //Setup the web method call
+        ApiMethod method = new GetOrderMethod(this.config);
+        method.addAuthTokenParameter();
+        //Attempt to GET from Robinhood API
+        orders = requestManager.makeApiRequest(method);
+        //Return the list from the paginated object from the call
+        return orders.getSecurtiyOrders();
+    }
 
     /**
      * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
@@ -291,44 +329,49 @@ public class RobinhoodApi {
      * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
      * @param quantity The number of shares you would like to buy or sell
      * @param orderType Which type of order is being made. A buy, or sell.
-     * @throws InvalidTickerException Thrown when the ticker supplied to the method is invalid.
-     * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api instance is not logged into an account. Run the login method first.
+     * @throws TickerNotFoundException Thrown when the ticker supplied to the
+     *                                  method is invalid.
+     * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api
+     *      instance is not logged into an account. Run the login method first.
      */
     public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
                                                float limitPrice, int quantity,
                                                OrderTransactionType orderType)
-            throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws TickerNotFoundException, RobinhoodNotLoggedInException, RobinhoodApiException {
 
         //Create the API method
-        ApiMethod method = new MakeLimitOrder(ticker, timeInForce, limitPrice, quantity, orderType);
+        ApiMethod method = new MakeLimitOrder(ticker, timeInForce, limitPrice,
+                quantity, orderType, this.config);
         method.addAuthTokenParameter();
         return requestManager.makeApiRequest(method);
 
     }
 
     /**
-     * Method which returns a {@link SecurityOrderElement} after running a LIMIT STOP order given the supplied
-     * parameters
+     * Method which returns a {@link SecurityOrderElement} after running a
+     * LIMIT STOP order given the supplied parameters
      * @param ticker The ticker which the buy or sell order should be performed on
      * @param timeInForce The Enum representation for when this order should be made
      * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
      * @param quantity The number of shares you would like to buy or sell
      * @param orderType Which type of order is being made. A buy, or a sell
-     * @param stopPrice The price at which the stop trigger converts the order into a market order
-     * @throws InvalidTickerException The ticker supplied is not valid.
+     * @param stopPrice The price at which the stop trigger converts the order
+     *                      into a market order
+     * @throws TickerNotFoundException The ticker supplied is not valid.
      * @throws RobinhoodApiException There is a general problem with the API.
-     * @throws RobinhoodNotLoggedInException Thrown when the current instance is not logged into an account. Run the login method first.
+     * @throws RobinhoodNotLoggedInException Thrown when the current instance
+     *              is not logged into an account. Run the login method first.
      */
     public SecurityOrderElement makeLimitStopOrder(String ticker, TimeInForce timeInForce,
                                                    float limitPrice, int quantity,
                                                    OrderTransactionType orderType,
                                                    float stopPrice)
-            throws InvalidTickerException, RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws TickerNotFoundException, RobinhoodApiException, RobinhoodNotLoggedInException {
 
         //Create the API method
-        ApiMethod method = new MakeLimitStopOrder(ticker, timeInForce, limitPrice, quantity, orderType, stopPrice);
+        ApiMethod method = new MakeLimitStopOrder(ticker, timeInForce, limitPrice,
+                quantity, orderType, stopPrice, this.config);
         method.addAuthTokenParameter();
-
         return requestManager.makeApiRequest(method);
 
     }
@@ -340,31 +383,43 @@ public class RobinhoodApi {
      * @param orderType Which type of order is being made. A buy, or a sell.
      * @param time The Enum representation of when this order should be made.
      * @return The SecurityOrderElement object with the API response.
-     * @throws InvalidTickerException if the ticker supplied was invalid
-     * @throws RobinhoodNotLoggedInException if you are not logged into Robinhood on this API object
+     * @throws TickerNotFoundException if the ticker supplied was invalid
+     * @throws RobinhoodNotLoggedInException if you are not logged into
+     *              Robinhood on this API object
      */
     public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
                                                 OrderTransactionType orderType,
                                                 TimeInForce time)
-            throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws TickerNotFoundException, RobinhoodNotLoggedInException, RobinhoodApiException {
 
         //Create the API method
-        ApiMethod method = new MakeMarketOrder(ticker, quantity, orderType, time);
+        ApiMethod method = new MakeMarketOrder(ticker, quantity, orderType, time,
+                this.config);
         method.addAuthTokenParameter();
-
         return requestManager.makeApiRequest(method);
 
     }
 
+    /**
+     * TODO Docs
+     * @param ticker
+     * @param quantity
+     * @param orderType
+     * @param time
+     * @param stopPrice
+     * @return
+     * @throws RobinhoodApiException
+     * @throws TickerNotFoundException
+     * @throws RobinhoodNotLoggedInException
+     */
     public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
                                                     OrderTransactionType orderType,
                                                     TimeInForce time, float stopPrice)
-            throws RobinhoodApiException, InvalidTickerException, RobinhoodNotLoggedInException {
-
+    throws RobinhoodApiException, TickerNotFoundException, RobinhoodNotLoggedInException {
         //Create the API method
-        ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time, stopPrice);
+        ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time,
+                                                   stopPrice, this.config);
         method.addAuthTokenParameter();
-
         return requestManager.makeApiRequest(method);
 
     }
@@ -375,8 +430,8 @@ public class RobinhoodApi {
      * @return The cancelled order
      */
     public SecurityOrderElement cancelOrder(SecurityOrderElement order)
-            throws RobinhoodApiException, RobinhoodNotLoggedInException {
-        ApiMethod method = new CancelOrderMethod(order);
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+        ApiMethod method = new CancelOrderMethod(order, this.config);
         method.addAuthTokenParameter();
         return requestManager.makeApiRequest(method);
     }
@@ -448,75 +503,6 @@ public class RobinhoodApi {
         return list;
     }
 
-	/**
-	 * Returns a list of {@link PositionElement} for each entry on the account's watchlist. If the quantity of the
-	 * {@link PositionElement} is above 0, that means that you have an active position in that stock. All of the other information
-	 * which can be retrieved from this can be found in the PositionElement page itself
-	 * @return
-	 * @throws RobinhoodApiException
-	 * @throws RobinhoodNotLoggedInException
-	 */
-	public List<PositionElement> getAccountWatchlist()
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
-
-		//Create the API method
-		ApiMethod method = new GetAccountPositions();
-		method.addAuthTokenParameter();
-
-		//Return the current account positions
-		PositionListElement response = requestManager.makeApiRequest(method);
-		return response.getPositionList();
-
-	}
-
-	/**
-	 * Method which gets all of the account positions a user actually has shares in.
-	 * @return {@link PositionElement} containing all of the stocks an account has shares in
-	 * @throws RobinhoodApiException
-	 * @throws RobinhoodNotLoggedInException
-	 */
-	public List<PositionElement> getAccountPositions()
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
-
-		//Get the entire watchlist for the account
-		List<PositionElement> accountWatchlist = this.getAccountWatchlist();
-
-		//Parse the watchlist for things which have a quantity
-        // >= 1 and return it
-		Vector<PositionElement> accountPositions = new Vector<>();
-
-		for(PositionElement currentWatchlistEntity : accountWatchlist) {
-
-			if(currentWatchlistEntity.getQuantity() >= 1) {
-
-				accountPositions.add(currentWatchlistEntity);
-			}
-		}
-
-		return accountPositions;
-
-
-
-	}
-
-    /**
-     * @return Closed and open orders.
-     * @throws RobinhoodNotLoggedInException
-     * @throws RobinhoodApiException
-     *
-     * @author Jonathan Augustine
-     */
-	public List<SecurityOrderElement> getOrders()
-	throws RobinhoodNotLoggedInException, RobinhoodApiException {
-		SecurityOrderListElement orders;
-		//Setup the web method call
-		ApiMethod method = new GetOrderMethod();
-		method.addAuthTokenParameter();
-		//Attempt to GET from Robinhood API
-		orders = requestManager.makeApiRequest(method);
-		//Return the list from the paginated object from the call
-		return orders.getSecurtiyOrders();
-	}
 
 	/**
 	 * A method which attempts to throw a {@link RobinhoodNotLoggedInException} to see if there is currently a user logged

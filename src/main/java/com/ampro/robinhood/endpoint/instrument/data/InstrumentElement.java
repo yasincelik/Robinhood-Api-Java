@@ -1,5 +1,6 @@
 package com.ampro.robinhood.endpoint.instrument.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +9,10 @@ import com.google.gson.annotations.SerializedName;
  * Robinhood's partners (~7,197 are trade-able)
  * @author Jonathan Augustine
  */
-public class InstrumentElement {
+public class InstrumentElement implements ApiElement {
+
+    @Override
+    public boolean requiresAuth() { return false; }
 
     @SerializedName("tradable_chain_id")
     @Expose

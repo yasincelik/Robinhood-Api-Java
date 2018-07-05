@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.net.URL;
 
-public class BasicUserInfoElement {
+public class BasicUserInfoElement implements ApiElement {
 
 	private String username;
 	private String first_name;
@@ -16,6 +18,9 @@ public class BasicUserInfoElement {
 	private URL international_info;
 	private URL employment;
 	private URL additional_info;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the username

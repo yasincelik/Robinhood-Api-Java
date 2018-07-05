@@ -1,6 +1,8 @@
 package com.ampro.robinhood.endpoint.account.data;
 
-public class BasicAccountHolderInfoElement  {
+import com.ampro.robinhood.endpoint.ApiElement;
+
+public class BasicAccountHolderInfoElement implements ApiElement {
 
 	private String address;
 	private String citizenship;
@@ -16,6 +18,9 @@ public class BasicAccountHolderInfoElement  {
 	//TODO: updated_at
 
 	private int zipcode;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the address

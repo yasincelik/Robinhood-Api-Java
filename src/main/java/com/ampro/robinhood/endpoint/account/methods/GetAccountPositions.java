@@ -1,32 +1,29 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
 
-import com.ampro.robinhood.ConfigurationManager;
-import com.ampro.robinhood.endpoint.account.Account;
-import com.ampro.robinhood.endpoint.account.data.PositionListElement;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.endpoint.account.data.PositionElementList;
+import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
  * Created by SirensBell on 6/19/2017.
  */
 public class GetAccountPositions extends Account {
 
-    public GetAccountPositions() {
+    public GetAccountPositions(Configuration config) {
+        super(config);
 
         //Get the current account ID to be used with the position search
-        String accountId = ConfigurationManager.getInstance().getAccountNumber();
+        String accountId = config.getAccountNumber();
 
-        this.setUrlBase("https://api.robinhood.com/accounts/" + accountId + "/positions/");
-
-        //Add the headers into the request'
-        this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
+        this.setUrlBase("https://api.robinhood.com/accounts/"
+                + accountId + "/positions/");
 
         //This method is to be ran as GETe
         this.setMethod(RequestMethod.GET);
 
         //Declare what the response should look like
-        this.setReturnType(PositionListElement.class);
+        this.setReturnType(PositionElementList.class);
 
     }
 }

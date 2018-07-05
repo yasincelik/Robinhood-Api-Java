@@ -1,20 +1,18 @@
 package com.ampro.robinhood.endpoint.authorize.methods;
 
-import com.ampro.robinhood.endpoint.authorize.Authentication;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.parameters.UrlParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 
-public class AuthorizeWithoutMultifactor extends Authentication {
+public class AuthorizeWithoutMultifactor extends Authorize {
 
 	public AuthorizeWithoutMultifactor(String username, String password) {
+		super();
 
 		setUrlBase("https://api.robinhood.com/api-token-auth/");
 
 		//Add the parameters into the request
-		this.addUrlParameter(new UrlParameter("username", username));
-		this.addUrlParameter(new UrlParameter("password", password));
+		this.addUrlParameter("username", username);
+		this.addUrlParameter("password", password);
 
 		this.addHttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 

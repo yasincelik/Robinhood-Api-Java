@@ -1,4 +1,4 @@
-package com.ampro.robinhood.request;
+package com.ampro.robinhood.net.request;
 
 /**
  * An enum for which HTTP method that the library is requesting

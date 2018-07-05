@@ -1,10 +1,12 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 /**
  * Method containing the Margin_Balance data structure to be extracted from Json requests
  *
  */
-public class MarginBalanceElement {
+public class MarginBalanceElement implements ApiElement {
 
 	private float day_trade_buying_power;
 
@@ -26,6 +28,9 @@ public class MarginBalanceElement {
 	private float unsettled_funds;
 	private float day_trade_ratio;
 	private float overnight_ratio;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the day_trade_buying_power

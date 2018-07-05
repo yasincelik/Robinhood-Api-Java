@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.net.URL;
 
-public class AccountElement {
+public class AccountElement implements ApiElement {
 
 	/**
 	 * Public class declaring the response structure for the api.robinhood.com/accounts/ endpoint
@@ -34,6 +36,9 @@ public class AccountElement {
 	private String account_number;
 	private float uncleared_deposits;
 	private float unsettled_funds;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the deactivated
@@ -167,6 +172,5 @@ public class AccountElement {
 	public float getUnsettledFunds() {
 		return unsettled_funds;
 	}
-
 
 }

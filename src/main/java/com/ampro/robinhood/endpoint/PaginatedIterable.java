@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  *           (e.g. a {@link TickerQuoteElementList} will have a type of
  *           {@link TickerQuoteElement})
  */
-public class PaginatedIterable<T> implements Iterable<T> {
+public class PaginatedIterable<T extends ApiElement> implements Iterable<T> {
 
     private String token;
 

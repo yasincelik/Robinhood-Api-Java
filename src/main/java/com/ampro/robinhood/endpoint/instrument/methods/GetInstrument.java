@@ -1,7 +1,8 @@
 package com.ampro.robinhood.endpoint.instrument.methods;
 
 import com.ampro.robinhood.ApiMethod;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
  * An HTTP(S) wrapper object for making Instrument Get requests to the
@@ -11,8 +12,7 @@ import com.ampro.robinhood.request.RequestMethod;
 public abstract class GetInstrument extends ApiMethod {
 
     protected GetInstrument() {
-        super("instrument");
-        this.addHttpHeaderParameter("Accept", "application/json");
+        super("instrument", Configuration.getDefault());
         this.setMethod(RequestMethod.GET);
     }
 }

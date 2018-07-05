@@ -1,8 +1,6 @@
 package com.ampro.robinhood.endpoint.quote.methods;
 
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
 
 /**
  * Created by SirensBell on 6/19/2017.

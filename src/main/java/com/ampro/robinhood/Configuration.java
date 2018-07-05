@@ -6,61 +6,41 @@ import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
  * Method which stores the current configuration for the library.
  * The authentication key used for most of the other functions is stored here.
  *
- * Singleton is used so there can only be one instance of this running.
- * @author Conrad
- *
+ * @author Jonathan Augustine
  */
-public class ConfigurationManager {
+public class Configuration {
+
+	/** How long should the system wait between requests? (milisec)*/
+	private static long rateLimitValue = 2000;
+
+	/** The authentication token for the logged in user, if one exists */
+	private String authToken;
 
 	/**
-	 * The authentication token for the logged in user, if one exists
+	 * The Account Number for the account logged in. This variable is used for
+     * various other functions.
 	 */
-	private String authToken = null;
+	private String accountNumber;
 
 	/**
-	 * The Account Number for the account logged in. This variable is used for various other functions.
+	 * The Account URL for the account logged in. This variable is required to
+     * run a lot of the order requests.
 	 */
-	private String accountNumber = null;
+	private String accountUrl;
 
-	/**
-	 * The Account URL for the account logged in. This variable is required to run a lot of the
-	 * order requests.
-	 */
-	private String accountUrl = null;
-
-	/**
-	 * The current ratelimit. How long should the system wait between requests?
-	 */
-	private long rateLimitValue = 2000;
-
-	/**
-	 * The current instance of the ConfigurationManager
-	 */
-	private static ConfigurationManager instance = null;
-
-	/**
-	 * Method which gets the current instance of the ConfigurationManager
-	 * If one does not exist, it creates one and returns it
-	 */
-	public static ConfigurationManager getInstance() {
-
-		if(ConfigurationManager.instance == null) {
-			ConfigurationManager.instance = new ConfigurationManager();
-		}
-
-		return ConfigurationManager.instance;
-	}
+	/** The default Config (to reduce repeated allocations for non-auth methods) */
+	private static final Configuration defaultConfig = new Configuration();
 
 	/**
 	 * Method which gets the saved authorization token if the user is logged in.
-	 * If one does not exist, it throws an error reminding the user to run the login functions
+	 * If one does not exist, it throws an error reminding the user to run the
+     * login functions
 	 * first.
 	 *
 	 * @return the saved Token for the logged in user
 	 * @throws RobinhoodNotLoggedInException if there is no stored Token. This must be populated by the setToken() method first
 	 */
 	public String getToken() throws RobinhoodNotLoggedInException {
-
 		if(authToken == null)
 			throw new RobinhoodNotLoggedInException();
 
@@ -73,8 +53,7 @@ public class ConfigurationManager {
 	 * @param token verified Authorization Token for the user
 	 */
 	public void setAuthToken(String token) {
-
-		ConfigurationManager.instance.authToken = token;
+		this.authToken = token;
 	}
 
 	/**
@@ -82,7 +61,6 @@ public class ConfigurationManager {
 	 * By default, this is 500 milliseconds (.5 seconds)
 	 */
 	public long getRatelimit() {
-
 		return this.rateLimitValue;
 	}
 
@@ -90,7 +68,6 @@ public class ConfigurationManager {
 	 * Set a new ratelimit (in milliseconds)
 	 */
 	public void setRatelimit(int newRateLimitValue) {
-
 		this.rateLimitValue = newRateLimitValue;
 	}
 
@@ -110,5 +87,7 @@ public class ConfigurationManager {
 	public String getAccountUrl() {
 		return "https://api.robinhood.com/accounts/" + this.accountNumber + "/";
 	}
+
+	public static Configuration getDefault() { return defaultConfig; }
 
 }

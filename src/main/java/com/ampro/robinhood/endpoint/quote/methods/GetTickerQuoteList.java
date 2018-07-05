@@ -2,8 +2,7 @@ package com.ampro.robinhood.endpoint.quote.methods;
 
 
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 
 import java.util.Collection;

@@ -1,9 +1,11 @@
 package com.ampro.robinhood.endpoint.quote.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 /**
  * Created by SirensBell on 6/19/2017.
  */
-public class TickerQuoteElement {
+public class TickerQuoteElement implements ApiElement {
 
     private float ask_price;
     private int ask_size;
@@ -19,6 +21,9 @@ public class TickerQuoteElement {
     private String symbol;
     private boolean trading_halted;
     private String updated_at;
+
+    @Override
+    public boolean requiresAuth() { return false; }
 
     public float getAskPrice() {
         return ask_price;

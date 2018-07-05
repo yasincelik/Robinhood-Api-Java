@@ -1,12 +1,13 @@
 package com.ampro.robinhood.endpoint.fundamentals.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 /**
  * Created by SirensBell on 6/20/2017.
  */
-public class InstrumentFundamentalElement {
+public class InstrumentFundamentalElement implements ApiElement {
 
     //TODO: Change 'state' to an Enum
-
 
     private float min_tick_size;
     private float margin_initial_ratio;
@@ -23,6 +24,9 @@ public class InstrumentFundamentalElement {
     private float maintenance_ratio;
     private String id;
     private String simple_name;
+
+    @Override
+    public boolean requiresAuth() { return false; }
 
     public float getMin_tick_size() {
         return min_tick_size;

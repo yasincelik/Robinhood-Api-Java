@@ -1,9 +1,8 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
-import com.ampro.robinhood.endpoint.account.Account;
+import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.AccountArrayWrapper;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
  * An {@link com.ampro.robinhood.ApiMethod} used to get a list of a user's
@@ -18,13 +17,10 @@ public class GetAccounts extends Account {
 	 * Get a list of a user's accounts. <br>
 	 * <b>(ONLY CONTAINS 1 ACCOUNT ELEMENT AS OF 3/7/2018)</b>
 	 */
-	public GetAccounts()  {
-		this.setUrlBase("https://api.robinhood.com/accounts/");
+	public GetAccounts(Configuration config)  {
+	    super(config);
 
-		//Add the headers into the request
-		this.addHttpHeaderParameter(
-				new HttpHeaderParameter("Accept", "application/json")
-		);
+		this.setUrlBase("https://api.robinhood.com/accounts/");
 
 		//This method is ran as GET
 		this.setMethod(RequestMethod.GET);

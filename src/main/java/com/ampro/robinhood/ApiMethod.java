@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.parameters.UrlParameter;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.parameters.HttpHeaderParameter;
+import com.ampro.robinhood.net.parameters.UrlParameter;
+import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
@@ -20,15 +20,18 @@ import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
  */
 public abstract class ApiMethod {
 
-	private final ConfigurationManager manager = ConfigurationManager.getInstance();
+	protected final Configuration config;
 	private String urlBase;
 	public final String service;
 
 	/**
 	 * Constructor which stores the service which is being used
 	 */
-	protected ApiMethod(String service) {
+	protected ApiMethod(String service, Configuration config) {
+	    this.config = config;
 		this.service = service;
+        //All methods get json responses
+        this.addHttpHeaderParameter("Accept", "appliation/json");
 	}
 
 	/**
@@ -111,6 +114,47 @@ public abstract class ApiMethod {
     }
 
     /**
+     * A method which adds a HttpUrlParameter to the API URL
+     * @param key The key to map to
+     * @param val The value to map
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameter(String key, int val) {
+        urlParameters.add(new UrlParameter(key, val));
+    }
+
+    /**
+     * A method which adds a HttpUrlParameter to the API URL
+     * @param key The key to map to
+     * @param val The value to map
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameter(String key, long val) {
+        urlParameters.add(new UrlParameter(key, val));
+    }
+
+    /**
+     * A method which adds a HttpUrlParameter to the API URL
+     * @param key The key to map to
+     * @param val The value to map
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameter(String key, boolean val) {
+        urlParameters.add(new UrlParameter(key, val));
+    }
+
+    /**
+     * A method which adds a HttpUrlParameter to the API URL
+     * @param key The key to map to
+     * @param val The value to map
+     * @author Jonathan Augustine
+     */
+    protected void addUrlParameter(String key, Object val) {
+        urlParameters.add(new UrlParameter(key, val));
+    }
+
+
+    /**
      * A method which adds HttpUrlParameters to the API URL
      * @param params The {@link UrlParameter UrlParameters} to add
      * @author Jonathan Augustine
@@ -134,7 +178,7 @@ public abstract class ApiMethod {
      *              If the user is not logged in.
 	 */
 	protected void addAuthTokenParameter() throws RobinhoodNotLoggedInException {
-		addHttpHeaderParameter("Authorization", "Token " + manager.getToken());
+		addHttpHeaderParameter("Authorization", "Token " + this.config.getToken());
 	}
 
 	/**

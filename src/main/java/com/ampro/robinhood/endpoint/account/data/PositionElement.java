@@ -2,15 +2,17 @@ package com.ampro.robinhood.endpoint.account.data;
 
 
 import com.ampro.robinhood.ApiMethod;
+import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.fundamentals.data.InstrumentFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetInstrumentFundamental;
-import com.ampro.robinhood.request.RequestManager;
+import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
  * Element containing information of a given position which exists on a users watchlist.
  */
-public class PositionElement {
+public class PositionElement implements ApiElement {
 
 
     private float shares_held_for_stock_grants;
@@ -25,6 +27,9 @@ public class PositionElement {
     private float quantity;
 
     private String instrument;
+
+    @Override
+    public boolean requiresAuth() { return true; }
 
 
     public float getShares_held_for_stock_grants() {

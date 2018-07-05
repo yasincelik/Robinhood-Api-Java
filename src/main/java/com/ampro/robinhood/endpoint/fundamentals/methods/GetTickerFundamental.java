@@ -1,19 +1,14 @@
 package com.ampro.robinhood.endpoint.fundamentals.methods;
 
-import com.ampro.robinhood.endpoint.fundamentals.Fundamentals;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
-import com.ampro.robinhood.request.RequestMethod;
-import com.mashape.unirest.http.Unirest;
+import com.ampro.robinhood.net.request.RequestMethod;
 
-public class GetTickerFundamental extends Fundamentals {
+public class GetTickerFundamental extends GetFundamental {
 
 	public GetTickerFundamental(String ticker) {
+		super();
 
 		this.setUrlBase("https://api.robinhood.com/fundamentals/" + ticker +"/");
-
-		//Add the headers into the request
-		this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "appliation/json"));
 
 		//This method is ran as GET
 		this.setMethod(RequestMethod.GET);

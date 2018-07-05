@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.fundamentals.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.net.URL;
 
-public class TickerFundamentalElement {
+public class TickerFundamentalElement implements ApiElement {
 
 	/**
 	 * The ticker price at market open
@@ -40,6 +42,10 @@ public class TickerFundamentalElement {
 	 */
 	private String description;
 	private URL instrument;
+
+	@Override
+	public boolean requiresAuth() { return false; }
+
 	/**
 	 * @return the open
 	 */

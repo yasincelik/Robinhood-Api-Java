@@ -1,16 +1,13 @@
 package com.ampro.robinhood.endpoint.authorize.methods;
 
-
-import com.ampro.robinhood.endpoint.authorize.Authentication;
-
 /**
- * TODO
+ * TODO THIS API METHOD IS FAR FROM COMPLETE
  * @author Jonathan Augustine
  */
-public class AuthorizeWithMultifactor extends Authentication {
+public class AuthorizeWithMultifactor extends Authorize {
 
     public AuthorizeWithMultifactor() {
-
+        super();
     }
 
 }

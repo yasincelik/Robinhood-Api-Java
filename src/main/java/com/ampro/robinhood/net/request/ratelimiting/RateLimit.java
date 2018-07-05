@@ -1,4 +1,4 @@
-package com.ampro.robinhood.request.ratelimiting;
+package com.ampro.robinhood.net.request.ratelimiting;
 
 public class RateLimit {
 

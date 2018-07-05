@@ -1,4 +1,4 @@
-package com.ampro.robinhood.parameters;
+package com.ampro.robinhood.net.parameters;
 
 import com.ampro.robinhood.RobinhoodApi;
 

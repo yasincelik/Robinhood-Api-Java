@@ -1,6 +1,8 @@
 package com.ampro.robinhood.endpoint.account.data;
 
-public class CashBalancesElement {
+import com.ampro.robinhood.endpoint.ApiElement;
+
+public class CashBalancesElement implements ApiElement {
 
 	private float cash_held_for_orders;
 
@@ -13,6 +15,9 @@ public class CashBalancesElement {
 	private float cash_available_for_withdrawl;
 	private float uncleared_deposits;
 	private float unsettled_funds;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the cash_held_for_orders

@@ -1,4 +1,4 @@
-package com.ampro.robinhood.request;
+package com.ampro.robinhood.net.request;
 
 public enum RequestStatus {
 

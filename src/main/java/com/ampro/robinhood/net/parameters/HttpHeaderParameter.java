@@ -1,4 +1,4 @@
-package com.ampro.robinhood.parameters;
+package com.ampro.robinhood.net.parameters;
 
 /**
  * Class which acts as a wrapper to store HTTP header data

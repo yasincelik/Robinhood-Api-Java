@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.net.URL;
 
-public class AccountHolderAffiliationElement {
+public class AccountHolderAffiliationElement implements ApiElement {
 
 
 	private boolean control_person;
@@ -18,6 +20,8 @@ public class AccountHolderAffiliationElement {
 	//TODO: updated_at
 	private URL user;
 
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the control_person

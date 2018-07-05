@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.net.URL;
 
-public class AccountHolderEmploymentElement {
+public class AccountHolderEmploymentElement implements ApiElement {
 
 	private String employer_address;
 	private String employer_city;
@@ -15,6 +17,9 @@ public class AccountHolderEmploymentElement {
 	//TODO: updated_at
 	private URL user;
 	private int years_employed;
+
+	@Override
+	public boolean requiresAuth() { return true; }
 
 	/**
 	 * @return the employer_address

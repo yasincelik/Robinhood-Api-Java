@@ -1,9 +1,8 @@
 package com.ampro.robinhood.endpoint.fundamentals.methods;
 
 import com.ampro.robinhood.RobinhoodApi;
-import com.ampro.robinhood.endpoint.fundamentals.Fundamentals;
 import com.ampro.robinhood.endpoint.fundamentals.data.InstrumentFundamentalElement;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
  * Given a instrument ID, this method returns a {@link InstrumentFundamentalElement}
@@ -12,10 +11,9 @@ import com.ampro.robinhood.request.RequestMethod;
  * because these IDs are generally not public, and
  * must be retrieved from other API methods.
  */
-public class GetInstrumentFundamental extends Fundamentals {
+public class GetInstrumentFundamental extends GetFundamental {
 
     public GetInstrumentFundamental(String instrumentUrl) {
-
         this.setUrlBase(instrumentUrl);
 
         //This method is run as GET

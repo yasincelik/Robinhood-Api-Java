@@ -1,7 +1,5 @@
 package com.ampro.robinhood.throwables;
 
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
-
 /**
  * An exception to be thrown when a ticker is not found after polling Robinhood
  * @author Jonathan Augustine

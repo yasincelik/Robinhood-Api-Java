@@ -1,6 +1,7 @@
 package com.ampro.robinhood.endpoint.quote.data;
 
 
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,7 +15,8 @@ import java.util.List;
  * returns from {@link GetTickerQuoteList GetTickerQuoteList}.
  * @author Jonathan Augustine
  */
-public class TickerQuoteElementList {
+public class TickerQuoteElementList implements ApiElement {
+
     @SerializedName("results")
     @Expose
     private List<TickerQuoteElement> results;
@@ -25,5 +27,8 @@ public class TickerQuoteElementList {
         results = results == null ? new ArrayList<>() : results;
         return Collections.unmodifiableList(results);
     }
+
+    @Override
+    public boolean requiresAuth() { return false; }
 
 }

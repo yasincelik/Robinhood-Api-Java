@@ -1,8 +1,8 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
-import com.ampro.robinhood.endpoint.orders.OrderMethod;
+import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.request.RequestMethod;
+import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
@@ -17,8 +17,9 @@ public class CancelOrderMethod extends OrderMethod {
      * @param order The order to cancel
      * @throws RobinhoodApiException If the order cannot be cancelled
      */
-    public CancelOrderMethod(SecurityOrderElement order)
+    public CancelOrderMethod(SecurityOrderElement order, Configuration config)
     throws RobinhoodApiException {
+        super(config);
         switch (order.getTransactionState()) {
             case CONFIRMED:
             case QUEUED:
@@ -32,13 +33,9 @@ public class CancelOrderMethod extends OrderMethod {
         if (order.getCancel() == null) {
             throw new RobinhoodApiException("Order cancel is null.");
         }
+        this.setMethod(RequestMethod.POST);
         this.setUrlBase(order.getCancel().toExternalForm());
         this.setReturnType(SecurityOrderElement.class);
-    }
-
-    @Override
-    public RequestMethod getMethod() {
-        return RequestMethod.POST;
     }
 
 }

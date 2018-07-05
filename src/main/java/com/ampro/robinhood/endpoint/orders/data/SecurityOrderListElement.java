@@ -2,6 +2,8 @@ package com.ampro.robinhood.endpoint.orders.data;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * A paginated list of {@link SecurityOrderElement Order elements}.
  * @author Jonathan Augustine
  */
-public class SecurityOrderListElement implements Serializable {
+public class SecurityOrderListElement implements Serializable, ApiElement {
 
     @SerializedName("previous")
     @Expose
@@ -29,5 +31,8 @@ public class SecurityOrderListElement implements Serializable {
     public List<SecurityOrderElement> getSecurtiyOrders() {
         return results;
     }
+
+    @Override
+    public boolean requiresAuth() { return true; }
 
 }

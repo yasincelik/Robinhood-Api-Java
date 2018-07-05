@@ -1,9 +1,7 @@
-package com.ampro.robinhood.request;
-
-import java.util.Iterator;
+package com.ampro.robinhood.net.request;
 
 import com.ampro.robinhood.ApiMethod;
-import com.ampro.robinhood.parameters.HttpHeaderParameter;
+import com.ampro.robinhood.net.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
@@ -13,12 +11,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 
+import static com.ampro.robinhood.net.request.RequestMethod.*;
+
 /**
  * Manage HTTP(S) requests.
  * @author Conrad Weise, modified by Jonathan Augustine
  */
 public class RequestManager {
-
 
 	/**
 	 * Singleton instance of this class.
@@ -62,7 +61,6 @@ public class RequestManager {
 			break;
 		default:
 			break;
-
 		}
 
 		return response;
