@@ -4,6 +4,7 @@ import com.ampro.robinhood.endpoint.fundamentals.Fundamentals;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.request.RequestMethod;
+import com.mashape.unirest.http.Unirest;
 
 public class GetTickerFundamental extends Fundamentals {
 

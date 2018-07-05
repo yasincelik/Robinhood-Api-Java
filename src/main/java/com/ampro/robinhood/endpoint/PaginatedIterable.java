@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import com.ampro.robinhood.endpoint.quote.data.*;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * A class that uses Robinhood pagination to iterate through an "incomplete"
@@ -26,18 +28,51 @@ import com.ampro.robinhood.endpoint.quote.data.*;
  */
 public class PaginatedIterable<T> implements Iterable<T> {
 
-    @Override
-    public Iterator<T> iterator() {
-        return null;
+    @SerializedName("previous")
+    @Expose
+    protected String previous;
+
+    @SerializedName("next")
+    @Expose
+    protected String next;
+
+    /** An iterator for this class */
+    private class PaginatedIterator implements Iterator<T> {
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return null;
+        }
     }
 
+    /**
+     * TODO
+     * @return
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new PaginatedIterator();
+    }
+
+    /**
+     * TODO
+     * @param consumer
+     */
     @Override
     public void forEach(Consumer<? super T> consumer) {
 
     }
 
-    @Override
-    public Spliterator<T> spliterator() {
-        return null;
+    public String getNext() {
+        return next;
     }
+
+    public String getPrevious() {
+        return previous;
+    }
+
 }

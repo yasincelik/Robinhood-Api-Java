@@ -16,9 +16,7 @@ public class AuthorizeWithoutMultifactor extends Authentication {
 		this.addUrlParameter(new UrlParameter("username", username));
 		this.addUrlParameter(new UrlParameter("password", password));
 
-		//We're going to want a Json response
-		this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
-		this.addHttpHeaderParameter(new HttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded"));
+		this.addHttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 
 		//This needs to be ran as POST
 		this.setMethod(RequestMethod.POST);

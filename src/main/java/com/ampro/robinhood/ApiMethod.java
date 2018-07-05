@@ -34,12 +34,12 @@ public abstract class ApiMethod {
 	/**
 	 * Linked List containing all of the urlParameters for the next request
 	 */
-	private final List<UrlParameter> urlParameters = new LinkedList<UrlParameter>();
+	private final List<UrlParameter> urlParameters = new LinkedList<>();
 
 	/**
 	 * Linked List containing all of the HttpHeaderParameters for the next request
 	 */
-	private final List<HttpHeaderParameter> httpHeaderParameters = new LinkedList<HttpHeaderParameter>();
+	private final List<HttpHeaderParameter> httpHeaderParameters = new LinkedList<>();
 
 	/** Default request method is GET*/
 	private RequestMethod method = RequestMethod.GET;
@@ -134,9 +134,7 @@ public abstract class ApiMethod {
      *              If the user is not logged in.
 	 */
 	protected void addAuthTokenParameter() throws RobinhoodNotLoggedInException {
-		addHttpHeaderParameter(
-				new HttpHeaderParameter("Authorization", "Token " + manager.getToken())
-		);
+		addHttpHeaderParameter("Authorization", "Token " + manager.getToken());
 	}
 
 	/**

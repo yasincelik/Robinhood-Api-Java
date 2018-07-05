@@ -1,32 +1,36 @@
 package com.ampro.robinhood;
 
 import com.ampro.robinhood.endpoint.account.data.*;
-import com.ampro.robinhood.endpoint.account.data.PositionElement;
-import com.ampro.robinhood.endpoint.account.data.PositionListElement;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
+import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
+import com.ampro.robinhood.endpoint.instrument.methods.GetInstrument;
+import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.methods.*;
 import com.ampro.robinhood.endpoint.orders.throwables.InvalidTickerException;
-import com.ampro.robinhood.endpoint.quote.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
-import com.ampro.robinhood.endpoint.quote.methods.GetTickerGetQuote;
-import com.ampro.robinhood.endpoint.quote.methods.GetTickerGetQuoteList;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
+import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
+import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.ampro.robinhood.request.RequestManager;
 import com.ampro.robinhood.request.RequestStatus;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
+import com.ampro.robinhood.throwables.TickerNotFoundException;
 
-import java.util.*;
-
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 public class RobinhoodApi {
@@ -174,6 +178,8 @@ public class RobinhoodApi {
 
 	}
 
+	//ACCOUNT DATA
+
 	/**
 	 * Method returning a {@link AccountElement} using the currently logged in user
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
@@ -267,41 +273,30 @@ public class RobinhoodApi {
 
 	}
 
-	/**
-	 * Method returning a {@link TickerFundamentalElement} for the supplied ticker name
-	 */
-	public TickerFundamentalElement getTickerFundamental(String ticker)
-    throws RobinhoodApiException {
+	//ORDERS
 
+    /**
+     * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
+     * given the supplied parameters.
+     * @param ticker The ticker which the buy or sell order should be performed on
+     * @param timeInForce The Enum representation for when this order should be made
+     * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
+     * @param quantity The number of shares you would like to buy or sell
+     * @param orderType Which type of order is being made. A buy, or sell.
+     * @throws InvalidTickerException Thrown when the ticker supplied to the method is invalid.
+     * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api instance is not logged into an account. Run the login method first.
+     */
+    public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
+                                               float limitPrice, int quantity,
+                                               OrderTransactionType orderType)
+            throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
 
-		//Create the API method
-		ApiMethod method = new GetTickerFundamental(ticker);
-		return requestManager.makeApiRequest(method);
+        //Create the API method
+        ApiMethod method = new MakeLimitOrder(ticker, timeInForce, limitPrice, quantity, orderType);
+        method.addAuthTokenParameter();
+        return requestManager.makeApiRequest(method);
 
-	}
-
-	/**
-	 * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
-	 * given the supplied parameters.
-	 * @param ticker The ticker which the buy or sell order should be performed on
-	 * @param timeInForce The Enum representation for when this order should be made
-	 * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
-	 * @param quantity The number of shares you would like to buy or sell
-	 * @param orderType Which type of order is being made. A buy, or sell.
-	 * @throws InvalidTickerException Thrown when the ticker supplied to the method is invalid.
-	 * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api instance is not logged into an account. Run the login method first.
-	 */
-	public SecurityOrderElement
-    makeLimitOrder(String ticker, TimeInForce timeInForce, float limitPrice,
-                   int quantity, OrderTransactionType orderType)
-    throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
-
-		//Create the API method
-		ApiMethod method = new MakeLimitOrder(ticker, timeInForce, limitPrice, quantity, orderType);
-		method.addAuthTokenParameter();
-		return requestManager.makeApiRequest(method);
-
-	}
+    }
 
     /**
      * Method which returns a {@link SecurityOrderElement} after running a LIMIT STOP order given the supplied
@@ -316,54 +311,55 @@ public class RobinhoodApi {
      * @throws RobinhoodApiException There is a general problem with the API.
      * @throws RobinhoodNotLoggedInException Thrown when the current instance is not logged into an account. Run the login method first.
      */
-	public SecurityOrderElement
-    makeLimitStopOrder(String ticker, TimeInForce timeInForce, float limitPrice
-            , int quantity, OrderTransactionType orderType, float stopPrice)
-    throws InvalidTickerException, RobinhoodApiException, RobinhoodNotLoggedInException {
+    public SecurityOrderElement makeLimitStopOrder(String ticker, TimeInForce timeInForce,
+                                                   float limitPrice, int quantity,
+                                                   OrderTransactionType orderType,
+                                                   float stopPrice)
+            throws InvalidTickerException, RobinhoodApiException, RobinhoodNotLoggedInException {
 
-		//Create the API method
-		ApiMethod method = new MakeLimitStopOrder(ticker, timeInForce, limitPrice, quantity, orderType, stopPrice);
-		method.addAuthTokenParameter();
-
-		return requestManager.makeApiRequest(method);
-
-	}
-
-	/**
-	 *
-	 * @param ticker What ticker you are performing this order on
-	 * @param quantity How many shares should be transacted
-	 * @param orderType Which type of order is being made. A buy, or a sell.
-	 * @param time The Enum representation of when this order should be made.
-	 * @return The SecurityOrderElement object with the API response.
-	 * @throws InvalidTickerException if the ticker supplied was invalid
-	 * @throws RobinhoodNotLoggedInException if you are not logged into Robinhood on this API object
-	 */
-	public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
-                                                OrderTransactionType orderType,
-                                                TimeInForce time)
-    throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
-
-			//Create the API method
-			ApiMethod method = new MakeMarketOrder(ticker, quantity, orderType, time);
-			method.addAuthTokenParameter();
-
-			return requestManager.makeApiRequest(method);
-
-	}
-
-	public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
-                                                    OrderTransactionType orderType,
-                                                    TimeInForce time, float stopPrice)
-    throws RobinhoodApiException, InvalidTickerException, RobinhoodNotLoggedInException {
-
-		//Create the API method
-		ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time, stopPrice);
+        //Create the API method
+        ApiMethod method = new MakeLimitStopOrder(ticker, timeInForce, limitPrice, quantity, orderType, stopPrice);
         method.addAuthTokenParameter();
 
-		return requestManager.makeApiRequest(method);
+        return requestManager.makeApiRequest(method);
 
-}
+    }
+
+    /**
+     *
+     * @param ticker What ticker you are performing this order on
+     * @param quantity How many shares should be transacted
+     * @param orderType Which type of order is being made. A buy, or a sell.
+     * @param time The Enum representation of when this order should be made.
+     * @return The SecurityOrderElement object with the API response.
+     * @throws InvalidTickerException if the ticker supplied was invalid
+     * @throws RobinhoodNotLoggedInException if you are not logged into Robinhood on this API object
+     */
+    public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
+                                                OrderTransactionType orderType,
+                                                TimeInForce time)
+            throws InvalidTickerException, RobinhoodNotLoggedInException, RobinhoodApiException {
+
+        //Create the API method
+        ApiMethod method = new MakeMarketOrder(ticker, quantity, orderType, time);
+        method.addAuthTokenParameter();
+
+        return requestManager.makeApiRequest(method);
+
+    }
+
+    public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
+                                                    OrderTransactionType orderType,
+                                                    TimeInForce time, float stopPrice)
+            throws RobinhoodApiException, InvalidTickerException, RobinhoodNotLoggedInException {
+
+        //Create the API method
+        ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time, stopPrice);
+        method.addAuthTokenParameter();
+
+        return requestManager.makeApiRequest(method);
+
+    }
 
     /**
      * Cancel an order. The order must be open & not completed.
@@ -371,11 +367,26 @@ public class RobinhoodApi {
      * @return The cancelled order
      */
     public SecurityOrderElement cancelOrder(SecurityOrderElement order)
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
-	   ApiMethod method = new CancelOrderMethod(order);
-	   method.addAuthTokenParameter();
-	   return requestManager.makeApiRequest(method);
+            throws RobinhoodApiException, RobinhoodNotLoggedInException {
+        ApiMethod method = new CancelOrderMethod(order);
+        method.addAuthTokenParameter();
+        return requestManager.makeApiRequest(method);
     }
+
+	//PUBLIC DATA
+
+	/**
+	 * Method returning a {@link TickerFundamentalElement} for the supplied ticker name
+	 */
+	public TickerFundamentalElement getTickerFundamental(String ticker)
+    throws RobinhoodApiException {
+
+
+		//Create the API method
+		ApiMethod method = new GetTickerFundamental(ticker);
+		return requestManager.makeApiRequest(method);
+
+	}
 
 	/**
 	 * Method returning a {@link TickerQuoteElement} for the supplied ticker.
@@ -387,7 +398,7 @@ public class RobinhoodApi {
 	public TickerQuoteElement getQuoteByTicker(String ticker)
     throws RobinhoodApiException {
 		//Create the API method
-		ApiMethod method = new GetTickerGetQuote(ticker);
+		ApiMethod method = new GetTickerQuote(ticker);
 		return requestManager.makeApiRequest(method);
 	}
 
@@ -402,10 +413,25 @@ public class RobinhoodApi {
      */
 	public List<TickerQuoteElement> getQuoteListByTickers(Collection<String> tickers)
     throws RobinhoodApiException, RequestTooLargeException {
-        ApiMethod method = new GetTickerGetQuoteList(tickers);
+        ApiMethod method = new GetTickerQuoteList(tickers);
         return ((TickerQuoteElementList) requestManager.makeApiRequest(method))
                                                        .getQuotes();
    }
+
+    /**
+     * TODO DOCS
+     * @param ticker
+     * @return
+     * @throws RobinhoodApiException
+     * @author Jonathan Augustine
+     */
+    public InstrumentElement getInstrumentByTicker(String ticker)
+    throws RobinhoodApiException, TickerNotFoundException {
+        ApiMethod method = new GetInstrumentByTicker(ticker);
+        InstrumentElementList list = requestManager.makeApiRequest(method);
+        if (!list.isEmpty()) return list.getResults().get(0);
+        throw new TickerNotFoundException().with(ticker);
+    }
 
 	/**
 	 * Returns a list of {@link PositionElement} for each entry on the account's watchlist. If the quantity of the

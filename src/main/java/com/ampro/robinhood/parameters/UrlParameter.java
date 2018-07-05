@@ -52,7 +52,6 @@ public class UrlParameter {
 	 * @return The objects key
 	 */
 	protected String getKey() {
-
 		return this.key;
 	}
 

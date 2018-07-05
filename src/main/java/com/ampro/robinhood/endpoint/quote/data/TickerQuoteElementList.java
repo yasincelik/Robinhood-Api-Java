@@ -1,8 +1,7 @@
-package com.ampro.robinhood.endpoint.quote;
+package com.ampro.robinhood.endpoint.quote.data;
 
 
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
-import com.ampro.robinhood.endpoint.quote.methods.GetTickerGetQuoteList;
+import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 /**
  * A list of {@link TickerQuoteElement TickerQuoteElements} that Robinhood
- * returns from {@link GetTickerGetQuoteList GetTickerGetQuoteList}.
+ * returns from {@link GetTickerQuoteList GetTickerQuoteList}.
  * @author Jonathan Augustine
  */
 public class TickerQuoteElementList {

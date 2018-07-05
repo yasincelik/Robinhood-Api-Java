@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.quote.methods;
 
 
-import com.ampro.robinhood.endpoint.quote.TickerQuoteElementList;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.parameters.HttpHeaderParameter;
 import com.ampro.robinhood.request.RequestMethod;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
@@ -18,7 +18,7 @@ import java.util.Collection;
  *
  * @author Jonathan Augustine
  */
-public class GetTickerGetQuoteList extends GetQuote {
+public class GetTickerQuoteList extends GetQuote {
 
     private static int MAX_TICKERS = 5000;
 
@@ -30,7 +30,7 @@ public class GetTickerGetQuoteList extends GetQuote {
      *
      * @param tickers The tickers to request quotes of.
      */
-    public GetTickerGetQuoteList(Collection<String> tickers)
+    public GetTickerQuoteList(Collection<String> tickers)
     throws RequestTooLargeException {
         super();
         if (tickers.size() > MAX_TICKERS) {
@@ -46,9 +46,6 @@ public class GetTickerGetQuoteList extends GetQuote {
                 .append(tickers.toString().replaceAll("[\\[\\]\\s+]", ""));
 
         this.setUrlBase("https://api.robinhood.com/quotes/" + list);
-
-        //Add the header into the request accepting Json
-        this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "appliation/json"));
 
         //This method is ran as GET
         this.setMethod(RequestMethod.GET);
