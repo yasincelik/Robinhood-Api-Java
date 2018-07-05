@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 /**
+ * TODO WARN!! THIS CLASS IS NOT FINISHED, DO NOT USE IT!!
  * A class that uses Robinhood pagination to iterate through an "incomplete"
  * list. <br>
  *     Since the Robinhood API returns Paginated lists of results when responses
@@ -41,7 +42,9 @@ public class PaginatedIterable<T> implements Iterable<T> {
     @Expose
     protected String next;
 
-    /** An iterator for this class */
+    /** An iterator for this class
+     * TODO WARN!! THIS CLASS IS NOT FINISHED, DO NOT USE IT!!
+     */
     private class PaginatedIterator implements Iterator<T> {
         @Override
         public boolean hasNext() {
@@ -56,7 +59,7 @@ public class PaginatedIterable<T> implements Iterable<T> {
     }
 
     /**
-     * TODO
+     * TODO WARN!! THIS CLASS IS NOT FINISHED, DO NOT USE IT!!
      * @return
      */
     @Override
@@ -65,7 +68,7 @@ public class PaginatedIterable<T> implements Iterable<T> {
     }
 
     /**
-     * TODO
+     * TODO WARN!! THIS CLASS IS NOT FINISHED, DO NOT USE IT!!
      * @param consumer
      */
     @Override
