@@ -7,14 +7,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- *
+ * A Paginated List of {@link InstrumentElement}
  * @author Jonathan Augustine
  */
 public class InstrumentElementList extends PaginatedIterable<InstrumentElement> {
 
     @SerializedName("results")
     @Expose
-    private List<InstrumentElement> results = null;
+    private final List<InstrumentElement> results = null;
 
     public List<InstrumentElement> getResults() {
         return results;

@@ -1,5 +1,6 @@
 package com.ampro.robinhood;
 
+import com.ampro.robinhood.endpoint.PaginatedIterable;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
@@ -11,6 +12,7 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrument;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
+import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
@@ -46,7 +48,8 @@ public class RobinhoodApi {
 	private static RequestManager requestManager = null;
 
 	/**
-	 * The active instance of the Configuration Manager. The Auth-token is stored in this instance.
+	 * The active instance of the Configuration Manager.
+     * The Auth-token is stored in this instance.
 	 */
 	private static ConfigurationManager configManager = null;
 
@@ -87,7 +90,6 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException
 	 */
 	public String getAccountAuthToken() throws RobinhoodNotLoggedInException {
-
 		return configManager.getToken();
 	}
 
@@ -99,7 +101,6 @@ public class RobinhoodApi {
 	 */
 	@Deprecated
 	public void setAuthToken(String token) {
-
 		configManager.setAuthToken(token);
 	}
 
@@ -118,7 +119,6 @@ public class RobinhoodApi {
 	public RequestStatus logUserIn(String username, String password)
     throws RobinhoodApiException {
 
-
 			//TODO: Implement multifactor authorization
 			ApiMethod method = new AuthorizeWithoutMultifactor(username, password);
 
@@ -126,20 +126,25 @@ public class RobinhoodApi {
 
 				Token token = requestManager.makeApiRequest(method);
 
-				//Save the token into the configuration manager to be used with other methods
+				//Save the token into the configuration manager to be used with
+                // other methods
 				configManager.setAuthToken(token.getToken());
 
-				//Save the account number into the configuraiton manager to be used with other methods
+				//Save the account number into the configuraiton manager to be
+                // used with other methods
 				ApiMethod accountMethod = new GetAccounts();
 				accountMethod.addAuthTokenParameter();
-				//TODO: Clean up the following line, it should not have to use the array wrapper. Tuck that code elsewhere
+				//TODO: Clean up the following line, it should not have to use
+                //the array wrapper. Tuck that code elsewhere
 				AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
 				AccountElement data = requestData.getResults();
 
 				//If there is no account number, something went wrong. Throw an exception
 				//TODO: Make this more graceful
 				if(data.getAccountNumber() == null)
-					throw new RobinhoodApiException("Failed to get account data for the account.");
+					throw new RobinhoodApiException(
+					        "Failed to get account Number."
+                    );
 
 				configManager.setAccountNumber(data.getAccountNumber());
 
@@ -147,7 +152,10 @@ public class RobinhoodApi {
 
 
 			}  catch (RobinhoodNotLoggedInException e) {
-				System.out.println("[Error] User is not logged in. You should never see this error. File a bug report if you do!");
+				System.out.println(
+				        "[Error] User is not logged in. You should never see " +
+                                "this error. File a bug report if you do!"
+                );
 			}
 			return RequestStatus.FAILURE;
 	}
@@ -433,6 +441,13 @@ public class RobinhoodApi {
         throw new TickerNotFoundException().with(ticker);
     }
 
+    public PaginatedIterable<InstrumentElement> getInstrumentsByKeyword(String word)
+    throws RobinhoodApiException {
+        ApiMethod method = new SearchInstrumentsByKeyword(word);
+        InstrumentElementList list = requestManager.makeApiRequest(method);
+        return list;
+    }
+
 	/**
 	 * Returns a list of {@link PositionElement} for each entry on the account's watchlist. If the quantity of the
 	 * {@link PositionElement} is above 0, that means that you have an active position in that stock. All of the other information
@@ -441,7 +456,8 @@ public class RobinhoodApi {
 	 * @throws RobinhoodApiException
 	 * @throws RobinhoodNotLoggedInException
 	 */
-	public List<PositionElement> getAccountWatchlist() throws RobinhoodApiException, RobinhoodNotLoggedInException {
+	public List<PositionElement> getAccountWatchlist()
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
 
 		//Create the API method
 		ApiMethod method = new GetAccountPositions();
@@ -459,7 +475,8 @@ public class RobinhoodApi {
 	 * @throws RobinhoodApiException
 	 * @throws RobinhoodNotLoggedInException
 	 */
-	public List<PositionElement> getAccountPositions() throws RobinhoodApiException, RobinhoodNotLoggedInException {
+	public List<PositionElement> getAccountPositions()
+    throws RobinhoodApiException, RobinhoodNotLoggedInException {
 
 		//Get the entire watchlist for the account
 		List<PositionElement> accountWatchlist = this.getAccountWatchlist();

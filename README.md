@@ -21,6 +21,12 @@ if you want to use this library. Gradle/Maven incoming...*hopefully*
 
 <a name='RDMP'></a>
 ## Roadmap
+#### TOP: The structure of the ConfigManager needs to be restructured
+from static/global management to instance-based authorization. The top
+option right now is to change ConfigManager to just a "local" config
+for each API instance (this is to allow for multiple APIs logged in to
+different accounts)
+
 -  ~~Logging users in and out~~
 - ~~Get account information~~
 [(JSON Response contents)](https://github.com/sanko/Robinhood/blob/master/Account.md#gather-list-of-accounts)
@@ -32,7 +38,8 @@ if you want to use this library. Gradle/Maven incoming...*hopefully*
     - Post
         - ~~Make &~~ cancel orders (limit, stop, etc)
 - ...
-- Include a more comprehensive guide on what data you are getting from each method.
+- Include a more comprehensive guide on what data you are getting from
+each method.
 
 ### Things that will likely *never* happen here
 - Transfering funds from bank accounts to Robinhood & visa versa.

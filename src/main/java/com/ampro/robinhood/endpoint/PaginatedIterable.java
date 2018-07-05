@@ -1,11 +1,14 @@
 package com.ampro.robinhood.endpoint;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import com.ampro.robinhood.endpoint.quote.data.*;
+import com.ampro.robinhood.RobinhoodApi;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mashape.unirest.http.Unirest;
+
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * A class that uses Robinhood pagination to iterate through an "incomplete"
@@ -28,6 +31,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PaginatedIterable<T> implements Iterable<T> {
 
+    private String token;
+
     @SerializedName("previous")
     @Expose
     protected String previous;
@@ -40,11 +45,12 @@ public class PaginatedIterable<T> implements Iterable<T> {
     private class PaginatedIterator implements Iterator<T> {
         @Override
         public boolean hasNext() {
-            return false;
+            return PaginatedIterable.this.next != null;
         }
 
         @Override
         public T next() {
+            Unirest.get(next);
             return null;
         }
     }
