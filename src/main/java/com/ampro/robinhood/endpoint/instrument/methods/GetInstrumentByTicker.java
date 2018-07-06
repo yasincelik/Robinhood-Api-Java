@@ -8,9 +8,9 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 public class GetInstrumentByTicker extends GetInstrument {
     public GetInstrumentByTicker(String ticker) {
         super();
-        setUrlBase("https://api.robinhood.com/instruments/?symbol=" + ticker);
+        setUrlBase("https://api.robinhood.com/instruments/");
+        addQueryParameter("symbol", ticker);
         //Declare what the response should look like
         this.setReturnType(InstrumentElementList.class);
-
     }
 }

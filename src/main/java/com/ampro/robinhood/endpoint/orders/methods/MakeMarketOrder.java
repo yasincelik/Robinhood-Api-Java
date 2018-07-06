@@ -42,14 +42,14 @@ public class MakeMarketOrder extends OrderMethod {
      * Market order, given the settings from the constructor
      */
     private void setOrderParameters() throws RobinhoodApiException {
-        this.addUrlParameter("account", this.config.getAccountUrl());
-        this.addUrlParameter("instrument", this.tickerInstrumentUrl);
-        this.addUrlParameter("symbol", this.ticker);
-        this.addUrlParameter("type", "market");
-        this.addUrlParameter("time_in_force", getTimeInForceString(this.time));
-        this.addUrlParameter("trigger", "immediate");
-        this.addUrlParameter("quantity", String.valueOf(this.quantity));
-        this.addUrlParameter("side", getOrderSideString(orderType));
+        this.addFieldParameter("account", this.config.getAccountUrl());
+        this.addFieldParameter("instrument", this.tickerInstrumentUrl);
+        this.addFieldParameter("symbol", this.ticker);
+        this.addFieldParameter("type", "market");
+        this.addFieldParameter("time_in_force", getTimeInForceString(this.time));
+        this.addFieldParameter("trigger", "immediate");
+        this.addFieldParameter("quantity", String.valueOf(this.quantity));
+        this.addFieldParameter("side", getOrderSideString(orderType));
     }
 
 

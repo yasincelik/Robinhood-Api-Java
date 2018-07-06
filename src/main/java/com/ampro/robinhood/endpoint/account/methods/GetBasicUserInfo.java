@@ -12,7 +12,7 @@ public class GetBasicUserInfo extends Account {
         this.setUrlBase("https://api.robinhood.com/user/");
 
         //This method is ran as GET
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
         this.setReturnType(BasicUserInfoElement.class);

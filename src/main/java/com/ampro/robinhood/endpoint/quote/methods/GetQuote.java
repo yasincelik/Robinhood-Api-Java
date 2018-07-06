@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.quote.methods;
 
 
-import com.ampro.robinhood.ApiMethod;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.net.request.RequestMethod;
 
@@ -14,6 +14,6 @@ public class GetQuote extends ApiMethod {
     protected GetQuote() {
         super("GetQuote", Configuration.getDefault());
         //This method is ran as GET
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
     }
 }

@@ -1,8 +1,7 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
-import com.ampro.robinhood.net.parameters.HttpHeaderParameter;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
@@ -12,18 +11,18 @@ import com.ampro.robinhood.net.request.RequestMethod;
 public class GetOrderMethod extends OrderMethod {
 
     /**
-     * Set api URL to GET from & return type ({@link SecurityOrderListElement}).
+     * Set api URL to GET from & return type ({@link SecurityOrderElementList}).
      */
     public GetOrderMethod(Configuration config) {
         super(config);
         this.setUrlBase("https://api.robinhood.com/orders/");
 
-        this.addHttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
+        this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 
         //This method should be ran as POST
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
 
-        this.setReturnType(SecurityOrderListElement.class);
+        this.setReturnType(SecurityOrderElementList.class);
     }
 
 }

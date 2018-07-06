@@ -1,8 +1,7 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 
-import com.ampro.robinhood.ApiMethod;
-import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.fundamentals.data.InstrumentFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetInstrumentFundamental;

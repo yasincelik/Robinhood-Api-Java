@@ -5,11 +5,9 @@ package com.ampro.robinhood.endpoint;
  * @author Jonathan Augustine
  */
 public interface ApiElement {
-
     /**
      * @return If the element requires an authorized API
      *              (i.e. Is user-specific data)
      */
     boolean requiresAuth();
-
 }

@@ -47,15 +47,15 @@ public class MakeLimitStopOrder extends OrderMethod {
      */
     private void setOrderParameters() throws RobinhoodApiException {
         //Add the account URL for the currently logged in account
-        this.addUrlParameter("account", this.config.getAccountUrl());
-        this.addUrlParameter("instrument", this.tickerInstrumentUrl);
-        this.addUrlParameter("symbol", this.ticker);
-        this.addUrlParameter("type", "limit");
-        this.addUrlParameter("time_in_force", getTimeInForceString(this.time));
-        this.addUrlParameter("price", this.limitPrice);
-        this.addUrlParameter("trigger", "immediate");
-        this.addUrlParameter("quantity", String.valueOf(this.quantity));
-        this.addUrlParameter("side", getOrderSideString(this.orderType));
+        this.addFieldParameter("account", this.config.getAccountUrl());
+        this.addFieldParameter("instrument", this.tickerInstrumentUrl);
+        this.addFieldParameter("symbol", this.ticker);
+        this.addFieldParameter("type", "limit");
+        this.addFieldParameter("time_in_force", getTimeInForceString(this.time));
+        this.addFieldParameter("price", this.limitPrice);
+        this.addFieldParameter("trigger", "immediate");
+        this.addFieldParameter("quantity", String.valueOf(this.quantity));
+        this.addFieldParameter("side", getOrderSideString(this.orderType));
     }
 
 }

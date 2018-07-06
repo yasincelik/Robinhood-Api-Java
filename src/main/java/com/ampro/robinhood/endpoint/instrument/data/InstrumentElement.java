@@ -5,8 +5,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * An Instrument contains data on any of the ~9,825 instruments tracked by
- * Robinhood's partners (~7,197 are trade-able)
+ * An Instrument contains data on any of the 10,000+ instruments tracked by
+ * Robinhood's partners (~8,000 are trade-able)
  * @author Jonathan Augustine
  */
 public class InstrumentElement implements ApiElement {

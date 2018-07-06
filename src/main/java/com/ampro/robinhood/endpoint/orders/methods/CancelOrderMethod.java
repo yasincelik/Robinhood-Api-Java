@@ -33,7 +33,7 @@ public class CancelOrderMethod extends OrderMethod {
         if (order.getCancel() == null) {
             throw new RobinhoodApiException("Order cancel is null.");
         }
-        this.setMethod(RequestMethod.POST);
+        this.setMethodType(RequestMethod.POST);
         this.setUrlBase(order.getCancel().toExternalForm());
         this.setReturnType(SecurityOrderElement.class);
     }

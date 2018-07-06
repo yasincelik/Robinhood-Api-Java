@@ -9,7 +9,8 @@ public class GetTickerQuote extends GetQuote {
 
     public GetTickerQuote(String ticker) {
         super();
-        this.setUrlBase("https://api.robinhood.com/quotes/" + ticker + "/");
+        this.setUrlBase("https://api.robinhood.com/quotes/{ticker}/");
+        addRouteParameter("ticker", ticker);
         //Declare what the response should look like
         this.setReturnType(TickerQuoteElement.class);
     }

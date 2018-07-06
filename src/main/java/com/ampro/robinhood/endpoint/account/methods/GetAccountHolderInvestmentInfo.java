@@ -13,7 +13,7 @@ public class GetAccountHolderInvestmentInfo extends Account {
 				+ config.getAccountNumber() + "/positions/");
 
 		//This method is to be ran as GET
-		this.setMethod(RequestMethod.GET);
+		this.setMethodType(RequestMethod.GET);
 
 		//Declare what the response should look like
 		this.setReturnType(AccountHolderInvestmentElement.class);

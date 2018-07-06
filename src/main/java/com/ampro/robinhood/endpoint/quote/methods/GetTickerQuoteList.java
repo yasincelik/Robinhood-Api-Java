@@ -19,8 +19,6 @@ import java.util.Collection;
  */
 public class GetTickerQuoteList extends GetQuote {
 
-    private static int MAX_TICKERS = 5000;
-
     /**
      * Construct a method to get multiple security quotes by tickers
      * (e.g. MSFT, FIT, etc). <br>
@@ -37,17 +35,14 @@ public class GetTickerQuoteList extends GetQuote {
                     "Ticker request must be under " + MAX_TICKERS
             );
         }
-
+        this.setUrlBase("https://api.robinhood.com/quotes/");
         //Reform the collection as a url param
         //replaceAll("[\\[\\]\\s+]", "") replaces "[]" and empty spaces
         // in collection.toString
-        StringBuilder list = new StringBuilder("?symbols=")
-                .append(tickers.toString().replaceAll("[\\[\\]\\s+]", ""));
-
-        this.setUrlBase("https://api.robinhood.com/quotes/" + list);
+        addQueryParameter("symbols", tickers.toString().replaceAll("[\\[\\]\\s+]", ""));
 
         //This method is ran as GET
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
         this.setReturnType(TickerQuoteElementList.class);

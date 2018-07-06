@@ -20,7 +20,7 @@ public class GetAccountPositions extends Account {
                 + accountId + "/positions/");
 
         //This method is to be ran as GETe
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
         this.setReturnType(PositionElementList.class);

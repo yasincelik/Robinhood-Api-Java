@@ -13,7 +13,7 @@ public class GetAccountHolderAffiliationInfo extends Account {
 		this.setUrlBase("https://api.robinhood.com/user/additional_info/");
 
 		//This method is ran as GET
-		this.setMethod(RequestMethod.GET);
+		this.setMethodType(RequestMethod.GET);
 
 		//Declare what the response should look like
 		this.setReturnType(AccountHolderAffiliationElement.class);

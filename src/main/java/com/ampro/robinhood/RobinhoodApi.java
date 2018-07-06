@@ -1,6 +1,5 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.endpoint.PaginatedIterable;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
@@ -13,7 +12,7 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderListElement;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.methods.*;
@@ -21,12 +20,14 @@ import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestStatus;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.Collection;
 import java.util.List;
@@ -116,43 +117,45 @@ public class RobinhoodApi {
 	 */
 	public RequestStatus logUserIn(String username, String password)
     throws RobinhoodApiException {
-			//TODO: Implement multifactor authorization
-			ApiMethod method = new AuthorizeWithoutMultifactor(username, password);
-
-			try {
-				Token token = requestManager.makeApiRequest(method);
-
-				//Save the token into the configuration manager to be used with
-                // other methods
-				this.config.setAuthToken(token.getToken());
-
-				//Save the account number into the configuraiton manager to be
-                // used with other methods
-				ApiMethod accountMethod = new GetAccounts(this.config);
-				accountMethod.addAuthTokenParameter();
-				//TODO: Clean up the following line, it should not have to use
-                //the array wrapper. Tuck that code elsewhere
-				AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
-				AccountElement data = requestData.getResults();
-
-				//If there is no account number, something went wrong. Throw an exception
-				//TODO: Make this more graceful
-				if(data.getAccountNumber() == null)
-					throw new RobinhoodApiException(
-					        "Failed to get account Number."
-                    );
-
-				this.config.setAccountNumber(data.getAccountNumber());
-
-				return RequestStatus.SUCCESS;
-
-			}  catch (RobinhoodNotLoggedInException e) {
-				System.out.println(
-				        "[Error] User is not logged in. You should never see " +
-                                "this error. File a bug report if you do!"
-                );
-			}
+		//TODO: Implement multifactor authorization
+		ApiMethod method = null;
+		try {
+			method = new AuthorizeWithoutMultifactor(username, password);
+		} catch (UnirestException e) {
+			e.printStackTrace();
 			return RequestStatus.FAILURE;
+		}
+		try {
+			Token token = requestManager.makeApiRequest(method);
+
+			//Save the token into the configuration manager to be used with
+			// other methods
+			this.config.setAuthToken(token.getToken());
+
+			//Save the account number into the configuraiton manager to be
+			// used with other methods
+			ApiMethod accountMethod = new GetAccounts(this.config);
+			accountMethod.addAuthTokenParameter();
+			//TODO: Clean up the following line, it should not have to use
+			//the array wrapper. Tuck that code elsewhere
+			AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
+			AccountElement data = requestData.getResults();
+
+			//If there is no account number, something went wrong. Throw an exception
+			//TODO: Make this more graceful
+			if(data.getAccountNumber() == null)
+				throw new RobinhoodApiException("Failed to get account Number.");
+
+			this.config.setAccountNumber(data.getAccountNumber());
+
+			return RequestStatus.SUCCESS;
+
+		} catch (RobinhoodNotLoggedInException e) {
+			System.out.println(
+					"[Error] User is not logged in. You should never see "
+							+ "this error. File a bug report if you do!");
+		}
+		return RequestStatus.FAILURE;
 	}
 
 	/**
@@ -274,7 +277,7 @@ public class RobinhoodApi {
         method.addAuthTokenParameter();
         //Return the current account positions
         PositionElementList response = requestManager.makeApiRequest(method);
-        return response.getPositionList();
+        return response.getResults();
 
     }
 
@@ -311,14 +314,14 @@ public class RobinhoodApi {
      */
     public List<SecurityOrderElement> getOrders()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
-        SecurityOrderListElement orders;
+        SecurityOrderElementList orders;
         //Setup the web method call
         ApiMethod method = new GetOrderMethod(this.config);
         method.addAuthTokenParameter();
         //Attempt to GET from Robinhood API
         orders = requestManager.makeApiRequest(method);
         //Return the list from the paginated object from the call
-        return orders.getSecurtiyOrders();
+        return orders.getResults();
     }
 
     /**
@@ -496,13 +499,16 @@ public class RobinhoodApi {
         throw new TickerNotFoundException().with(ticker);
     }
 
-    public PaginatedIterable<InstrumentElement> getInstrumentsByKeyword(String word)
+    public List<InstrumentElement> getInstrumentsByKeyword(String word)
     throws RobinhoodApiException {
         ApiMethod method = new SearchInstrumentsByKeyword(word);
         InstrumentElementList list = requestManager.makeApiRequest(method);
-        return list;
+        return list.getResults();
     }
 
+	//public PaginatedIterable<> buildIterable(ApiElement element) {
+    //	return new PaginatedIterable<>(this.config);
+	//}
 
 	/**
 	 * A method which attempts to throw a {@link RobinhoodNotLoggedInException} to see if there is currently a user logged

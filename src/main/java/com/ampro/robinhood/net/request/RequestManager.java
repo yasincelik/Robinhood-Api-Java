@@ -1,23 +1,23 @@
 package com.ampro.robinhood.net.request;
 
-import com.ampro.robinhood.ApiMethod;
-import com.ampro.robinhood.net.parameters.HttpHeaderParameter;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.GetRequest;
-import com.mashape.unirest.request.HttpRequestWithBody;
+import com.mashape.unirest.request.HttpRequest;
 
-import static com.ampro.robinhood.net.request.RequestMethod.*;
+import static java.lang.Void.*;
 
 /**
- * Manage HTTP(S) requests.
+ * Singleton for making HTTP(S) requests with {@link ApiMethod}
  * @author Conrad Weise, modified by Jonathan Augustine
  */
 public class RequestManager {
+
+    private static Gson gson = new Gson();
 
 	/**
 	 * Singleton instance of this class.
@@ -30,12 +30,11 @@ public class RequestManager {
 	 * If one does not exist, it creates one
 	 */
 	public static RequestManager getInstance() {
-
 		if(RequestManager.instance == null) {
-
+            //All methods get json responses
+		    Unirest.setDefaultHeader("Accept", "appliation/json");
 			RequestManager.instance = new RequestManager();
 		}
-
 		return RequestManager.instance;
 	}
 
@@ -44,7 +43,7 @@ public class RequestManager {
 		T response = null;
 
 		//Which request type are we using? Delegate it to the proper method
-		switch(method.getMethod()) {
+		switch(method.getMethodType()) {
 		case DELETE:
 			break;
 		case GET: response = this.makeGetRequest(method);
@@ -75,40 +74,15 @@ public class RequestManager {
 	private <T> T makePostRequest(ApiMethod method)
             throws RobinhoodApiException {
 
-		HttpRequestWithBody request = Unirest.post(method.getBaseUrl());
 
-		//Append each of the headers for the method
-        for (HttpHeaderParameter currentHeader : method.getHttpHeaderParameters()) {
-            request.header(currentHeader.getKey(), currentHeader.getValue());
-        }
+        HttpRequest request = Unirest.post(method.getBaseUrl())
+                                         .headers(method.getHeaderParameters())
+                                         .queryString(method.getQueryParameters())
+                                         .fields(method.getFieldParameters())
+                                         .getHttpRequest();
+        method.getRouteParameters().forEach(request::routeParam);
 
-		try {
-            //Append the request body
-            request.body(method.getUrlParametersAsPostBody());
-
-            //Make the request
-            HttpResponse<JsonNode> jsonResponse = request.asJson();
-
-            //Parse the response with Gson
-            Gson gson = new Gson();
-            String responseJsonString = jsonResponse.getBody().toString();
-
-            //If the response type for this is VOID (Meaning we are not expecting a response) do not
-            //try to use Gson
-            if(method.getReturnType() == Void.TYPE)
-                return (T) Void.TYPE;
-
-            return gson.fromJson(responseJsonString, method.getReturnType());
-
-        } catch (UnirestException ex) {
-            System.err.println(
-                    "[RobinhoodApi] Failed to communicate with endpoint"
-            );
-            ex.printStackTrace();
-        }
-
-        throw new RobinhoodApiException("Failed to communicate with endpoint");
-
+        return makeRequest(request, method);
     }
 
 	/**
@@ -118,31 +92,38 @@ public class RequestManager {
 	 */
 	private <T> T makeGetRequest(ApiMethod method) throws RobinhoodApiException {
 
-		GetRequest request = Unirest.get(method.getBaseUrl());
+        HttpRequest request =
+                Unirest.get(method.getBaseUrl())
+                       .headers(method.getHeaderParameters())
+                       .queryString(method.getQueryParameters())
+                       .getHttpRequest();
+        method.getRouteParameters().forEach(request::routeParam);
 
-		//Append each of the headers for the method
-        for (HttpHeaderParameter currentHeader : method.getHttpHeaderParameters()) {
-            request.header(currentHeader.getKey(), currentHeader.getValue());
-        }
-
-		try {
-			//Make the request
-			HttpResponse<JsonNode> jsonResponse = request.asJson();
-			//Parse the response with Gson
-			Gson gson = new Gson();
-			String responseJsonString = jsonResponse.getBody().toString();
-
-			return gson.fromJson(responseJsonString, method.getReturnType());
-
-		} catch (UnirestException ex) {
-			System.err.println(
-			        "[RobinhoodApi] Failed to communicate with endpoint"
-            );
-			ex.printStackTrace();
-		}
-
-       throw new RobinhoodApiException("Failed to communicate with endpoint");
-
+        return makeRequest(request, method);
 	}
+
+	private <T> T makeRequest(HttpRequest request, ApiMethod method)
+    throws RobinhoodApiException {
+        try {
+            //Make the request
+            String responseJson = request.asJson().getBody().toString();
+
+            //If the response type for this is VOID (
+            //Meaning we are not expecting a response) do not
+            //try to use Gson
+            if(method.getReturnType() == TYPE) {
+                return (T) TYPE;
+            }
+
+            return gson.fromJson(responseJson, method.getReturnType());
+
+        } catch (UnirestException ex) {
+            System.err.println(
+                    "[RobinhoodApi] Failed to communicate with endpoint"
+            );
+            ex.printStackTrace();
+        }
+        throw new RobinhoodApiException("Failed to communicate with endpoint");
+    }
 
 }

@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.instrument.methods;
 
-import com.ampro.robinhood.ApiMethod;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.net.request.RequestMethod;
 
@@ -10,9 +10,8 @@ import com.ampro.robinhood.net.request.RequestMethod;
  * @author Jonathan Augustine
  */
 public abstract class GetInstrument extends ApiMethod {
-
     protected GetInstrument() {
         super("instrument", Configuration.getDefault());
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
     }
 }

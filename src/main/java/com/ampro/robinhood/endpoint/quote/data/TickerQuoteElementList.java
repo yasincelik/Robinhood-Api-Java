@@ -2,20 +2,27 @@ package com.ampro.robinhood.endpoint.quote.data;
 
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A list of {@link TickerQuoteElement TickerQuoteElements} that Robinhood
- * returns from {@link GetTickerQuoteList GetTickerQuoteList}.
+ * returns from {@link GetTickerQuoteList GetTickerQuoteList}. <br>
+ * This ElementList can contain a a maximum of 1,630 quotes and is
+ * Semi-Paginated (meaning there is no next/previous like other ElemenetLists)
+ * which is why it an {@link ApiElement} and not an {@link ApiElementList}
  * @author Jonathan Augustine
  */
-public class TickerQuoteElementList implements ApiElement {
+public class TickerQuoteElementList
+implements ApiElement, Iterable<TickerQuoteElement> {
 
     @SerializedName("results")
     @Expose
@@ -30,5 +37,15 @@ public class TickerQuoteElementList implements ApiElement {
 
     @Override
     public boolean requiresAuth() { return false; }
+
+    @Override
+    public Iterator<TickerQuoteElement> iterator() {
+        return this.results.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super TickerQuoteElement> consumer) {
+        this.results.forEach(consumer);
+    }
 
 }

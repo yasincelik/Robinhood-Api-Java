@@ -17,7 +17,7 @@ public class GetInstrumentFundamental extends GetFundamental {
         this.setUrlBase(instrumentUrl);
 
         //This method is run as GET
-        this.setMethod(RequestMethod.GET);
+        this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
         this.setReturnType(InstrumentFundamentalElement.class);

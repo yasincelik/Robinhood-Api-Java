@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
-import com.ampro.robinhood.ApiMethod;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
@@ -26,10 +26,10 @@ public class OrderMethod extends ApiMethod {
 
 		this.setUrlBase("https://api.robinhood.com/orders/");
 
-		this.addHttpHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
+		this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 
 		//This method should be ran as POST
-		this.setMethod(RequestMethod.POST);
+		this.setMethodType(RequestMethod.POST);
 
 		this.setReturnType(SecurityOrderElement.class);
 	}

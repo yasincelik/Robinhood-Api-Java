@@ -7,9 +7,10 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
  * Get all instruments listed by the Robinhood API
  * @author Jonathan Augustine
  */
-public class GetAllInstruments extends GetInstrument{
-    GetAllInstruments() {
+public class GetAllInstruments extends GetInstrument {
+    public GetAllInstruments() {
         super();
+        this.setUrlBase("https://api.robinhood.com/instruments/");
         this.setReturnType(InstrumentElementList.class);
     }
 

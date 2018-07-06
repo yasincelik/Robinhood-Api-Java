@@ -11,7 +11,7 @@ public class GetTickerFundamental extends GetFundamental {
 		this.setUrlBase("https://api.robinhood.com/fundamentals/" + ticker +"/");
 
 		//This method is ran as GET
-		this.setMethod(RequestMethod.GET);
+		this.setMethodType(RequestMethod.GET);
 
 		//Declare what the response should look like
 		this.setReturnType(TickerFundamentalElement.class);

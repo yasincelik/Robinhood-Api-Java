@@ -76,13 +76,13 @@ var activeTableTab = "activeTableTab";
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methodType.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li><a href="#methodType.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -162,7 +162,7 @@ extends java.lang.Object</pre>
 </ul>
 <!-- ========== METHOD SUMMARY =========== -->
 <ul class="blockList">
-<li class="blockList"><a name="method.summary">
+<li class="blockList"><a name="methodType.summary">
 <!--   -->
 </a>
 <h3>Method Summary</h3>
@@ -181,19 +181,19 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#addHttpHeaderParameter-HttpHeaderParameter-">addHttpHeaderParameter</a></span>(<a href="../../robinhood/api/parameters/HttpHeaderParameter.html" title="class in robinhood.api.parameters">HttpHeaderParameter</a>&nbsp;param)</code>
-<div class="block">A method which adds a HttpHeaderParameter to the API request header</div>
+<div class="block">A methodType which adds a HttpHeaderParameter to the API request header</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#addUrlParameter-UrlParameter-">addUrlParameter</a></span>(<a href="../../robinhood/api/parameters/UrlParameter.html" title="class in robinhood.api.parameters">UrlParameter</a>&nbsp;param)</code>
-<div class="block">A method which adds a HttpUrlParameter to the API URL</div>
+<div class="block">A methodType which adds a HttpUrlParameter to the API URL</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#doesRequireToken--">doesRequireToken</a></span>()</code>
-<div class="block">Method which returns if the User Token is required for this method or not</div>
+<div class="block">Method which returns if the User Token is required for this methodType or not</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -211,13 +211,13 @@ extends java.lang.Object</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../robinhood/api/parameters/HttpHeaderParameter.html" title="class in robinhood.api.parameters">HttpHeaderParameter</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#getHttpHeaderParameters--">getHttpHeaderParameters</a></span>()</code>
-<div class="block">Method to retrieve all of the HttpHeaderParameters currently loaded into the method</div>
+<div class="block">Method to retrieve all of the HttpHeaderParameters currently loaded into the methodType</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#getMethod--">getMethod</a></span>()</code>
-<div class="block">Method to return what the request method is for this method</div>
+<div class="block">Method to return what the request methodType is for this methodType</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -229,7 +229,7 @@ extends java.lang.Object</pre>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.net.URL</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#getUrl--">getUrl</a></span>()</code>
-<div class="block">Method which gets the loaded URL with all of the parameters included in 
+<div class="block">Method which gets the loaded URL with all of the parameters included in
  the GET url parameters</div>
 </td>
 </tr>
@@ -249,14 +249,14 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#setMethod-RequestMethod-">setMethod</a></span>(<a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a>&nbsp;method)</code>
-<div class="block">Method to set the request method</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#setMethod-RequestMethod-">setMethod</a></span>(<a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a>&nbsp;methodType)</code>
+<div class="block">Method to set the request methodType</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#setReturnType-java.lang.reflect.Type-">setReturnType</a></span>(java.lang.reflect.Type&nbsp;returnType)</code>
-<div class="block">Method to set what return type this method requires</div>
+<div class="block">Method to set what return type this methodType requires</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
@@ -268,7 +268,7 @@ extends java.lang.Object</pre>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../robinhood/api/ApiMethod.html#toString--">toString</a></span>()</code>
-<div class="block">As this is an abstract method, this override gets the name of the implementing class</div>
+<div class="block">As this is an abstract methodType, this override gets the name of the implementing class</div>
 </td>
 </tr>
 </table>
@@ -324,7 +324,7 @@ extends java.lang.Object</pre>
 </ul>
 <!-- ============ METHOD DETAIL ========== -->
 <ul class="blockList">
-<li class="blockList"><a name="method.detail">
+<li class="blockList"><a name="methodType.detail">
 <!--   -->
 </a>
 <h3>Method Detail</h3>
@@ -335,7 +335,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>addHttpHeaderParameter</h4>
 <pre>protected&nbsp;void&nbsp;addHttpHeaderParameter(<a href="../../robinhood/api/parameters/HttpHeaderParameter.html" title="class in robinhood.api.parameters">HttpHeaderParameter</a>&nbsp;param)</pre>
-<div class="block">A method which adds a HttpHeaderParameter to the API request header</div>
+<div class="block">A methodType which adds a HttpHeaderParameter to the API request header</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>The</code> - parameter which should be added into the ApiRequest</dd>
@@ -349,7 +349,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>addUrlParameter</h4>
 <pre>protected&nbsp;void&nbsp;addUrlParameter(<a href="../../robinhood/api/parameters/UrlParameter.html" title="class in robinhood.api.parameters">UrlParameter</a>&nbsp;param)</pre>
-<div class="block">A method which adds a HttpUrlParameter to the API URL</div>
+<div class="block">A methodType which adds a HttpUrlParameter to the API URL</div>
 </li>
 </ul>
 <a name="addAuthTokenParameter--">
@@ -374,7 +374,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>doesRequireToken</h4>
 <pre>public&nbsp;boolean&nbsp;doesRequireToken()</pre>
-<div class="block">Method which returns if the User Token is required for this method or not</div>
+<div class="block">Method which returns if the User Token is required for this methodType or not</div>
 </li>
 </ul>
 <a name="getBody--">
@@ -404,7 +404,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getHttpHeaderParameters</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../robinhood/api/parameters/HttpHeaderParameter.html" title="class in robinhood.api.parameters">HttpHeaderParameter</a>&gt;&nbsp;getHttpHeaderParameters()</pre>
-<div class="block">Method to retrieve all of the HttpHeaderParameters currently loaded into the method</div>
+<div class="block">Method to retrieve all of the HttpHeaderParameters currently loaded into the methodType</div>
 </li>
 </ul>
 <a name="getMethod--">
@@ -414,7 +414,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getMethod</h4>
 <pre>public&nbsp;<a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a>&nbsp;getMethod()</pre>
-<div class="block">Method to return what the request method is for this method</div>
+<div class="block">Method to return what the request methodType is for this methodType</div>
 </li>
 </ul>
 <a name="getUrl--">
@@ -425,7 +425,7 @@ extends java.lang.Object</pre>
 <h4>getUrl</h4>
 <pre>public&nbsp;java.net.URL&nbsp;getUrl()
                     throws java.net.MalformedURLException</pre>
-<div class="block">Method which gets the loaded URL with all of the parameters included in 
+<div class="block">Method which gets the loaded URL with all of the parameters included in
  the GET url parameters</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -471,8 +471,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setMethod</h4>
-<pre>protected&nbsp;void&nbsp;setMethod(<a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a>&nbsp;method)</pre>
-<div class="block">Method to set the request method</div>
+<pre>protected&nbsp;void&nbsp;setMethod(<a href="../../robinhood/api/request/RequestMethod.html" title="enum in robinhood.api.request">RequestMethod</a>&nbsp;methodType)</pre>
+<div class="block">Method to set the request methodType</div>
 </li>
 </ul>
 <a name="setReturnType-java.lang.reflect.Type-">
@@ -482,7 +482,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setReturnType</h4>
 <pre>protected&nbsp;void&nbsp;setReturnType(java.lang.reflect.Type&nbsp;returnType)</pre>
-<div class="block">Method to set what return type this method requires</div>
+<div class="block">Method to set what return type this methodType requires</div>
 </li>
 </ul>
 <a name="setUrlBase-java.lang.String-">
@@ -504,7 +504,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
-<div class="block">As this is an abstract method, this override gets the name of the implementing class</div>
+<div class="block">As this is an abstract methodType, this override gets the name of the implementing class</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -568,13 +568,13 @@ extends java.lang.Object</pre>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methodType.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li><a href="#methodType.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">

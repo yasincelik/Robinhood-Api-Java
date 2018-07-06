@@ -12,7 +12,7 @@ public class LogoutFromRobinhood extends Authorize {
 		this.setUrlBase("https://api.robinhood.com/api-token-logout/");
 
 		//This needs to be ran as POST
-		this.setMethod(RequestMethod.POST);
+		this.setMethodType(RequestMethod.POST);
 
 		//We are not expecting a response back.
 		this.setReturnType(Void.TYPE);

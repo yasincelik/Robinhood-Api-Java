@@ -76,13 +76,13 @@ var activeTableTab = "activeTableTab";
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methodType.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li><a href="#methodType.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -164,7 +164,7 @@ extends java.lang.Object</pre>
 </ul>
 <!-- ========== METHOD SUMMARY =========== -->
 <ul class="blockList">
-<li class="blockList"><a name="method.summary">
+<li class="blockList"><a name="methodType.summary">
 <!--   -->
 </a>
 <h3>Method Summary</h3>
@@ -243,7 +243,7 @@ extends java.lang.Object</pre>
               float&nbsp;limitPrice,
               int&nbsp;quantity,
               <a href="../../robinhood/api/endpoint/orders/enums/OrderTransactionType.html" title="enum in robinhood.api.endpoint.orders.enums">OrderTransactionType</a>&nbsp;orderType)</code>
-<div class="block">Method which returns a <a href="../../robinhood/api/endpoint/orders/data/SecurityOrderElement.html" title="class in robinhood.api.endpoint.orders.data"><code>SecurityOrderElement</code></a> after running a LIMIT order 
+<div class="block">Method which returns a <a href="../../robinhood/api/endpoint/orders/data/SecurityOrderElement.html" title="class in robinhood.api.endpoint.orders.data"><code>SecurityOrderElement</code></a> after running a LIMIT order
  given the supplied parameters.</div>
 </td>
 </tr>
@@ -324,7 +324,7 @@ extends java.lang.Object</pre>
              throws <a href="../../robinhood/api/throwables/RobinhoodApiException.html" title="class in robinhood.api.throwables">RobinhoodApiException</a></pre>
 <div class="block">Constructor which creates all of the access points to use the API.
  This constructor requires both a Username and Password and attempts to authorize
- the user. On success, the Authorization Token will be stored in the 
+ the user. On success, the Authorization Token will be stored in the
  ConfigurationManager instance to be retrieved elsewhere.
  On failure, an error will be thrown.</div>
 <dl>
@@ -337,7 +337,7 @@ extends java.lang.Object</pre>
 </ul>
 <!-- ============ METHOD DETAIL ========== -->
 <ul class="blockList">
-<li class="blockList"><a name="method.detail">
+<li class="blockList"><a name="methodType.detail">
 <!--   -->
 </a>
 <h3>Method Detail</h3>
@@ -379,10 +379,10 @@ public&nbsp;void&nbsp;setAuthToken(java.lang.String&nbsp;token)</pre>
                                java.lang.String&nbsp;password)
                         throws <a href="../../robinhood/api/throwables/RobinhoodApiException.html" title="class in robinhood.api.throwables">RobinhoodApiException</a></pre>
 <div class="block">Method which logs a user in given a username and password.
- this method automatically stores the authorization token in with the instance,
- allowing any method which requires the token to have immediate access to it.
- 
- This method is ran if you created the RobinhoodApi class using the constructor with 
+ this methodType automatically stores the authorization token in with the instance,
+ allowing any methodType which requires the token to have immediate access to it.
+
+ This methodType is ran if you created the RobinhoodApi class using the constructor with
  both a username and password, but is available if you wish to get the authorization token again.
  Usually ran after the user is logged out to refresh the otken</div>
 <dl>
@@ -521,7 +521,7 @@ public&nbsp;void&nbsp;setAuthToken(java.lang.String&nbsp;token)</pre>
                                            <a href="../../robinhood/api/endpoint/orders/enums/OrderTransactionType.html" title="enum in robinhood.api.endpoint.orders.enums">OrderTransactionType</a>&nbsp;orderType)
                                     throws <a href="../../robinhood/api/endpoint/orders/throwables/InvalidTickerException.html" title="class in robinhood.api.endpoint.orders.throwables">InvalidTickerException</a>,
                                            <a href="../../robinhood/api/throwables/RobinhoodNotLoggedInException.html" title="class in robinhood.api.throwables">RobinhoodNotLoggedInException</a></pre>
-<div class="block">Method which returns a <a href="../../robinhood/api/endpoint/orders/data/SecurityOrderElement.html" title="class in robinhood.api.endpoint.orders.data"><code>SecurityOrderElement</code></a> after running a LIMIT order 
+<div class="block">Method which returns a <a href="../../robinhood/api/endpoint/orders/data/SecurityOrderElement.html" title="class in robinhood.api.endpoint.orders.data"><code>SecurityOrderElement</code></a> after running a LIMIT order
  given the supplied parameters.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -531,8 +531,8 @@ public&nbsp;void&nbsp;setAuthToken(java.lang.String&nbsp;token)</pre>
 <dd><code>quantity</code> - The number of shares you would like to buy or sell</dd>
 <dd><code>orderType</code> - Which type of order is being made. A buy, or sell.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../robinhood/api/endpoint/orders/throwables/InvalidTickerException.html" title="class in robinhood.api.endpoint.orders.throwables">InvalidTickerException</a></code> - Thrown when the ticker supplied to the method is invalid.</dd>
-<dd><code><a href="../../robinhood/api/throwables/RobinhoodNotLoggedInException.html" title="class in robinhood.api.throwables">RobinhoodNotLoggedInException</a></code> - Thrown when this Robinhood Api instance is not logged into an account. Run the login method first.</dd>
+<dd><code><a href="../../robinhood/api/endpoint/orders/throwables/InvalidTickerException.html" title="class in robinhood.api.endpoint.orders.throwables">InvalidTickerException</a></code> - Thrown when the ticker supplied to the methodType is invalid.</dd>
+<dd><code><a href="../../robinhood/api/throwables/RobinhoodNotLoggedInException.html" title="class in robinhood.api.throwables">RobinhoodNotLoggedInException</a></code> - Thrown when this Robinhood Api instance is not logged into an account. Run the login methodType first.</dd>
 </dl>
 </li>
 </ul>
@@ -617,13 +617,13 @@ public&nbsp;void&nbsp;setAuthToken(java.lang.String&nbsp;token)</pre>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methodType.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li><a href="#methodType.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">
