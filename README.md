@@ -11,14 +11,13 @@ Thanks to [Conrad Weiser](https://github.com/ConradWeiser) for making
 - [Usage](#USAGE)
 - [RoadMap](#RDMP)
 - [Contributing](#CONTR)
-- [Log](#LOG)
 
 <a name='INSTALL'></a>
 ## Installation
 To install & use the Robinhood API, you can either install the latest
 [release](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/releases)
 , download the latest source code & build the project yourself,
-or use [JitPack](https://jitpack.io/) to add the repository to your 
+or use [JitPack](https://jitpack.io/) to add the repository to your
 gradle, maven, sbt, or leiningen.
 You can download the latest stable build here:
 
@@ -29,11 +28,6 @@ You can download the latest stable build here:
 
 <a name='RDMP'></a>
 ## Roadmap
-#### TOP: The structure of the ConfigManager needs to be restructured
-from static/global management to instance-based authorization. The top
-option right now is to change ConfigManager to just a "local" config
-for each API instance (this is to allow for multiple APIs logged in to
-different accounts)
 
 -  ~~Logging users in and out~~
 - ~~Get account information~~
@@ -45,9 +39,16 @@ different accounts)
         - Get full history (live and closed orders)
     - Post
         - ~~Make &~~ cancel orders (limit, stop, etc)
-- ...
-- Include a more comprehensive guide on what data you are getting from
-each method.
+- ~~The structure of the ConfigManager needs to be restructured
+  from static/global management to instance-based authorization. The top
+  option right now is to change ConfigManager to just a "local" config
+  for each API instance (this is to allow for multiple APIs logged in to
+  different accounts)~~
+- Clean up & add more JavaDocs
+    - Include a more comprehensive guide on what data you are getting from
+        each method.
+- Better Walkthroughs & guides
+- more...so much...more
 
 ### Things that will likely *never* happen here
 - Transfering funds from bank accounts to Robinhood & visa versa.
@@ -99,9 +100,11 @@ thisThing.superCoolMethod(
 ## Usage (From Conrad)
 
 [Javadocs available - Click me!](https://conradweiser.github.io/Unofficial-Robinhood-Api/)
-This library is built with the intention of making extracting information from the Robinhood API as easy as possible.
+This library is built with the intention of making extracting information
+ from the Robinhood API as easy as possible.
 
-Say for the following example, we want to get our account number, and how much buying power we have available
+Say for the following example, we want to get our account number, and
+ how much buying power we have available
 
 ```java
 //Providing a username and password automatically logs the instance into our account!
@@ -134,18 +137,6 @@ If you have any questions feel free to email AMPro at
 aquaticmasteryproductions@gmail.com
 
 -- Jono
-
-<a name='LOG'><a/>
-## Log
-- 6/19/18
-    - Geting multiple quotes by their tickers.
-    - 1st Reddit post
-- 6/15/18
-    - Work on understanding the API basis from
-    [conrad's repo](https://github.com/ConradWeiser/Unofficial-Robinhood-Api)
-    - Get live & closed orders from API & SecurityOrderListElement cerated to
-    hold the paginated return.
-- 6/14/18 ***The Journey Begins***
 
 
 

@@ -70,7 +70,7 @@ public abstract class ApiMethod {
 
     /**
      * A methodType which adds HttpHeaderParameters to the API request header
-     * @param paramMap A String -> String map of Key -> Val pairs
+     * @param paramMap A String-String map of Key-Val pairs
      * @author Jonathan Augustine
      */
     protected void addHeaderParameters(Map<String, String> paramMap) {

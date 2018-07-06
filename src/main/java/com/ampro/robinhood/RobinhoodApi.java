@@ -73,6 +73,8 @@ public class RobinhoodApi {
 	 * the user. On success, the Authorization Token will be stored in the
 	 * ConfigurationManager instance to be retrieved elsewhere.
 	 * On failure, an error will be thrown.
+	 * @param username
+	 * @param password
 	 * @throws RobinhoodApiException
 	 */
 	public RobinhoodApi(String username, String password)
@@ -115,7 +117,8 @@ public class RobinhoodApi {
 	 * both a username and password, but is available if you wish to get the authorization token again.
 	 * Usually ran after the user is logged out to refresh the otken
 	 *
-	 * @throws Exception if the API could not retrieve an account number for your account. You should never see this,
+	 * @throws RobinhoodApiException if the API could not retrieve an account number
+	 *                      for your account. You should never see this,
 	 *
 	 */
 	public RequestStatus logUserIn(String username, String password)
@@ -339,6 +342,8 @@ public class RobinhoodApi {
      *                                  method is invalid.
      * @throws RobinhoodNotLoggedInException  Thrown when this Robinhood Api
      *      instance is not logged into an account. Run the login method first.
+     * @throws RobinhoodApiException
+     * @return The {@link SecurityOrderElement} that was made
      */
     public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
                                                float limitPrice, int quantity,
@@ -392,6 +397,7 @@ public class RobinhoodApi {
      * @throws TickerNotFoundException if the ticker supplied was invalid
      * @throws RobinhoodNotLoggedInException if you are not logged into
      *              Robinhood on this API object
+     * @throws RobinhoodApiException
      */
     public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
                                                 OrderTransactionType orderType,
@@ -427,13 +433,14 @@ public class RobinhoodApi {
                                                    stopPrice, this.config);
         method.addAuthTokenParameter();
         return requestManager.makeApiRequest(method);
-
     }
 
     /**
-     * Cancel an order. The order must be open & not completed.
+     * Cancel an order. The order must be open and not completed.
      * @param order The order to cancel
      * @return The cancelled order
+     * @throws RobinhoodApiException
+     * @throws RobinhoodNotLoggedInException
      */
     public SecurityOrderElement cancelOrder(SecurityOrderElement order)
     throws RobinhoodApiException, RobinhoodNotLoggedInException {
@@ -446,15 +453,14 @@ public class RobinhoodApi {
 
 	/**
 	 * Method returning a {@link TickerFundamentalElement} for the supplied ticker name
+	 * @param ticker The Stock's ticker
+	 * @throws RobinhoodApiException
 	 */
 	public TickerFundamentalElement getTickerFundamental(String ticker)
     throws RobinhoodApiException {
-
-
 		//Create the API method
 		ApiMethod method = new GetTickerFundamental(ticker);
 		return requestManager.makeApiRequest(method);
-
 	}
 
 	/**
@@ -493,6 +499,8 @@ public class RobinhoodApi {
      * @return
      * @throws RobinhoodApiException
      * @author Jonathan Augustine
+     * @throws RobinhoodApiException
+     * @throws TickerNotFoundException
      */
     public InstrumentElement getInstrumentByTicker(String ticker)
     throws RobinhoodApiException, TickerNotFoundException {
