@@ -11,7 +11,7 @@ import com.ampro.robinhood.net.request.RequestMethod;
  */
 public abstract class GetInstrument extends ApiMethod {
     protected GetInstrument() {
-        super("instrument", Configuration.getDefault());
+        super(Configuration.getDefault());
         this.setMethodType(RequestMethod.GET);
     }
 }

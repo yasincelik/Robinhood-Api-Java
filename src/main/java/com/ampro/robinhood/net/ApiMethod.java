@@ -53,7 +53,7 @@ public abstract class ApiMethod {
     /**
      * Constructor which stores the service which is being used
      */
-    protected ApiMethod(String service, Configuration config) {
+    protected ApiMethod(Configuration config) {
         addHeaderParameter("Accept", "application/json");
         this.config = config;
     }

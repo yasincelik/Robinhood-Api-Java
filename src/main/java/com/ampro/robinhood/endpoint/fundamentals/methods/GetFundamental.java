@@ -9,7 +9,7 @@ import com.ampro.robinhood.Configuration;
 public class GetFundamental extends ApiMethod {
 
     protected GetFundamental() {
-        super("fundamentals", Configuration.getDefault());
+        super(Configuration.getDefault());
     }
 
 }

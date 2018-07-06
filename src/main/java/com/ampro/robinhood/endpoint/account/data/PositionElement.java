@@ -1,99 +1,122 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 
-import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.endpoint.ApiElement;
-import com.ampro.robinhood.endpoint.fundamentals.data.InstrumentFundamentalElement;
-import com.ampro.robinhood.endpoint.fundamentals.methods.GetInstrumentFundamental;
+import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 
 /**
  * Element containing information of a given position which exists on a users watchlist.
  */
 public class PositionElement implements ApiElement {
 
+    @SerializedName("account")
+    @Expose
+    public String accountUrl;
 
-    private float shares_held_for_stock_grants;
-    private float intraday_quantity;
-    private float intraday_average_buy_price;
+    @SerializedName("instrument")
+    @Expose
+    public String instrumentUrl;
 
-    //TODO: created_at and updated_at
+    @SerializedName("url")
+    @Expose
+    public String url;
 
-    private float shares_held_for_buys;
-    private float average_buy_price;
-    private float shares_held_for_sells;
-    private float quantity;
+    @SerializedName("created_at")
+    @Expose
+    public String createdAt;
 
-    private String instrument;
+    @SerializedName("updated_at")
+    @Expose
+    public String updatedAt;
+
+    @SerializedName("shares_held_for_stock_grants")
+    @Expose
+    public float sharesHeldForStockGrants;
+
+    @SerializedName("intraday_quantity")
+    @Expose
+    public float intradayQuantity;
+
+    @SerializedName("intraday_average_buy_price")
+    @Expose
+    public float intradayAverageBuyPrice;
+
+    @SerializedName("shares_held_for_buys")
+    @Expose
+    public float sharesHeldForBuys;
+
+    @SerializedName("average_buy_price")
+    @Expose
+    public float averageBuyPrice;
+
+    @SerializedName("shares_held_for_sells")
+    @Expose
+    public float sharesHeldForSells;
+
+    @SerializedName("quantity")
+    @Expose
+    public float quantity;
 
     @Override
     public boolean requiresAuth() { return true; }
 
-
-    public float getShares_held_for_stock_grants() {
-        return shares_held_for_stock_grants;
+    public InstrumentElement getInstrumentElement() throws RobinhoodApiException {
+        return RequestManager.getInstance().makeApiRequest(
+                new GetInstrumentByUrl(this.instrumentUrl)
+        );
     }
 
-    public float getIntraday_quantity() {
-        return intraday_quantity;
+    public float getSharesHeldForStockGrants() {
+        return sharesHeldForStockGrants;
     }
 
-    public float getIntraday_average_buy_price() {
-        return intraday_average_buy_price;
+    public String getAccount() {
+        return accountUrl;
     }
 
-    public float getShares_held_for_buys() {
-        return shares_held_for_buys;
+    public float getIntradayQuantity() {
+        return intradayQuantity;
     }
 
-    public float getAverage_buy_price() {
-        return average_buy_price;
+    public float getIntradayAverageBuyPrice() {
+        return intradayAverageBuyPrice;
     }
 
-    public float getShares_held_for_sells() {
-        return shares_held_for_sells;
+    public String getUrl() {
+        return url;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public float getSharesHeldForBuys() {
+        return sharesHeldForBuys;
+    }
+
+    public float getAverageBuyPrice() {
+        return averageBuyPrice;
+    }
+
+    public float getSharesHeldForSells() {
+        return sharesHeldForSells;
     }
 
     public float getQuantity() {
         return quantity;
     }
 
-    public String getStockName() {
-
-        ApiMethod method = new GetInstrumentFundamental(this.instrument);
-        InstrumentFundamentalElement element;
-
-        try {
-
-            element = RequestManager.getInstance().makeApiRequest(method);
-            return element.getStockName();
-
-        } catch (RobinhoodApiException e) {
-
-            return "";
-
-        }
-
-    }
-
-    public String getStockTicker() {
-
-        ApiMethod method = new GetInstrumentFundamental(this.instrument);
-        InstrumentFundamentalElement element;
-
-        try {
-
-            element = RequestManager.getInstance().makeApiRequest(method);
-            return element.getSymbol();
-
-        } catch (RobinhoodApiException e) {
-
-            return "";
-
-        }
-
-    }
-
+    public String getInstrumentUrl() { return this.instrumentUrl; }
 
 }

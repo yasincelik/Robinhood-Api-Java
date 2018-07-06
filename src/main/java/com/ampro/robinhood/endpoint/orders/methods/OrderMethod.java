@@ -15,7 +15,7 @@ import com.ampro.robinhood.throwables.TickerNotFoundException;
 public class OrderMethod extends ApiMethod {
 
 	protected OrderMethod(Configuration config) {
-		super("orders", config);
+		super(config);
 	}
 
 	/**

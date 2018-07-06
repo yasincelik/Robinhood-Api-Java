@@ -6,9 +6,9 @@ import com.ampro.robinhood.Configuration;
 public class Account extends ApiMethod {
 
 	protected Account(Configuration config) {
-		super("account", config);
-
-		//We do require a token for these methods. Thus we require it for all methods using this service
+		super(config);
+		//We do require a token for these methods. Thus we require it for
+		//all methods using this service
 		this.requireToken();
 	}
 

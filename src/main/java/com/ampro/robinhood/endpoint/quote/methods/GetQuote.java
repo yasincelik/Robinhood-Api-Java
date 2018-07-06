@@ -12,7 +12,7 @@ import com.ampro.robinhood.net.request.RequestMethod;
 public class GetQuote extends ApiMethod {
 
     protected GetQuote() {
-        super("GetQuote", Configuration.getDefault());
+        super(Configuration.getDefault());
         //This method is ran as GET
         this.setMethodType(RequestMethod.GET);
     }
