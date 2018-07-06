@@ -12,22 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * A paginated list of {@link SecurityOrderElement Order elements}.
  * @author Jonathan Augustine
  */
-public class SecurityOrderElementList extends ApiElementList<SecurityOrderElement>
-implements Serializable {
-
-    /**
-     * @return The list of results. If the list is paginated it may not
-     * contain all the results.
-     */
-    @Override
-    public List<SecurityOrderElement> getResults() { return results; }
-
+public class SecurityOrderElementList extends ApiElementList<SecurityOrderElement> {
     @Override
     public boolean requiresAuth() { return true; }
-
-    @Override
-    public String  getPrevious() { return previous; }
-
-    @Override
-    public String getNext() { return next; }
 }

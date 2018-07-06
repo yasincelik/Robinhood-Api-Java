@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public abstract class ApiElementList<E extends ApiElement> implements ApiElement {
+public abstract class ApiElementList<E extends ApiElement>
+        implements ApiElement {
 
     @SerializedName("previous")
     @Expose

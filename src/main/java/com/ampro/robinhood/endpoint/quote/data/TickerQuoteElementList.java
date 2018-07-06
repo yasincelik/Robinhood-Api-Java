@@ -43,9 +43,4 @@ implements ApiElement, Iterable<TickerQuoteElement> {
         return this.results.iterator();
     }
 
-    @Override
-    public void forEach(Consumer<? super TickerQuoteElement> consumer) {
-        this.results.forEach(consumer);
-    }
-
 }

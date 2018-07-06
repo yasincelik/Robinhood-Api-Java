@@ -1,5 +1,7 @@
 package com.ampro.robinhood;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
@@ -21,6 +23,7 @@ import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.ampro.robinhood.net.ApiMethod;
+import com.ampro.robinhood.net.pagination.PaginatedIterator;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestStatus;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
@@ -506,9 +509,15 @@ public class RobinhoodApi {
         return list.getResults();
     }
 
-	//public PaginatedIterable<> buildIterable(ApiElement element) {
-    //	return new PaginatedIterable<>(this.config);
-	//}
+    /**
+     * Build an {@link Iterable} based off a {@link PaginatedIterator}.
+     * @param elementList The {@link ApiElementList} build from
+     * @param <E> The ApiElement of the List
+     * @return a "Paginated" Iterable
+     */
+    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList elementList) {
+    	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
+	}
 
 	/**
 	 * A method which attempts to throw a {@link RobinhoodNotLoggedInException} to see if there is currently a user logged
