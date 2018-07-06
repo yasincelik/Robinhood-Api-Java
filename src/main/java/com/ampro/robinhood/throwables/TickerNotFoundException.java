@@ -26,4 +26,8 @@ public class TickerNotFoundException extends Exception {
         this.ticker = ticker;
         return this;
     }
+
+    public String getTicker() {
+        return ticker;
+    }
 }
