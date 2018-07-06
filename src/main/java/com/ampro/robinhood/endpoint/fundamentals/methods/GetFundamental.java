@@ -12,8 +12,4 @@ public class GetFundamental extends ApiMethod {
         super("fundamentals", Configuration.getDefault());
     }
 
-	protected GetFundamental(Configuration configuration) {
-		super("fundamentals", configuration);
-	}
-
 }

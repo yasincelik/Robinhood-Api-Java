@@ -525,15 +525,11 @@ public class RobinhoodApi {
 	 * @return If there is a user logged into the Robinhood Instance or not.
 	 */
 	public boolean isLoggedIn() {
-
-		try {
-
-			String token = getAccountAuthToken();
-
-		} catch (RobinhoodNotLoggedInException e) {
-			return false;
-		}
-		return true;
-	}
+        try {
+            return this.config.getToken() != null;
+        } catch (RobinhoodNotLoggedInException e) {
+            return false;
+        }
+    }
 
 }

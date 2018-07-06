@@ -8,7 +8,9 @@ public class GetTickerFundamental extends GetFundamental {
 	public GetTickerFundamental(String ticker) {
 		super();
 
-		this.setUrlBase("https://api.robinhood.com/fundamentals/" + ticker +"/");
+		this.setUrlBase("https://api.robinhood.com/fundamentals/{ticker}/");
+
+		this.addRouteParameter("ticker", ticker);
 
 		//This method is ran as GET
 		this.setMethodType(RequestMethod.GET);
