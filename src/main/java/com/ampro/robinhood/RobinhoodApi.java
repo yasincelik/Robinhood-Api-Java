@@ -141,7 +141,13 @@ public class RobinhoodApi {
 			//Save the account number into the configuraiton manager to be
 			// used with other methods
 			ApiMethod accountMethod = new GetAccounts(this.config);
-			accountMethod.addAuthTokenParameter();
+			try {
+				accountMethod.addAuthTokenParameter();
+			} catch (RobinhoodNotLoggedInException nle) {
+				RobinhoodApi.log.throwing(RobinhoodApi.class.getSimpleName(),
+				                          "logUserIn", nle);
+				return RequestStatus.FAILURE;
+			}
 			//TODO: Clean up the following line, it should not have to use
 			//the array wrapper. Tuck that code elsewhere
 			AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
@@ -156,12 +162,11 @@ public class RobinhoodApi {
 
 			return RequestStatus.SUCCESS;
 
-		} catch (RobinhoodNotLoggedInException e) {
-			System.out.println(
-					"[Error] User is not logged in. You should never see "
-							+ "this error. File a bug report if you do!");
+		} catch (RobinhoodApiException e) {
+			RobinhoodApi.log.throwing(RobinhoodApi.class.getSimpleName(),
+			                          "logUserIn", e);
+			return RequestStatus.FAILURE;
 		}
-		return RequestStatus.FAILURE;
 	}
 
 	/**
