@@ -118,6 +118,7 @@ For Maven:
 <a name='USAGE'></a>
 ## Usage
 [We Have Javadocs!](https://aquaticmasteryproductions.github.io/Robinhood-Api-Java/)
+
 This library is built with the intention of making extracting information
  from the Robinhood API as easy as possible.
 
