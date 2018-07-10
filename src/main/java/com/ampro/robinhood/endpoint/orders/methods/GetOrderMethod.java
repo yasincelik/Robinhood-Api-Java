@@ -11,7 +11,8 @@ import com.ampro.robinhood.net.request.RequestMethod;
 public class GetOrderMethod extends OrderMethod {
 
     /**
-     * Set api URL to GET from & return type ({@link SecurityOrderElementList}).
+     * Set api URL to GET from and return type
+     * ({@link SecurityOrderElementList}).
      */
     public GetOrderMethod(Configuration config) {
         super(config);
