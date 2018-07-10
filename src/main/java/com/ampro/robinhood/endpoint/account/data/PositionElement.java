@@ -12,7 +12,10 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
 /**
- * Element containing information of a given position which exists on a users watchlist.
+ * Element containing information of a given position which exists on a users
+ * watchlist.
+ *
+ * @author Jonathan Augustine
  */
 public class PositionElement implements ApiElement {
 

@@ -1,14 +1,16 @@
 package com.ampro.robinhood.endpoint.account.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 /**
- * This element should not exist for very long hopefully as Robinhood updates their API
- * Currently the getAccounts command returns the data inside of an array after a "next" and "previous"
- * field which are never filled out. This class should never be accessed directly, as it merely is filtered
- * out pulling the only account from the results.
- * Gson needs this in order to work, though.
- *
+ * This element should not exist for very long hopefully as Robinhood updates
+ * their API. Currently the getAccounts command returns the data inside of an
+ * array after a "next" and "previous" field which are never filled out. This
+ * class should never be accessed directly, as it merely is filtered out
+ * pulling the only account from the results. Gson needs this in order to
+ * work, though.
  */
-public class AccountArrayWrapper {
+public class AccountArrayWrapper implements ApiElement {
 
 	private String next;
 	private String previous;
@@ -22,13 +24,13 @@ public class AccountArrayWrapper {
 	 * this, we only return the existing data.
 	 * @return The {@link AccountElement} within the result.
 	 */
-	public AccountElement getResults() {
+	public AccountElement getResult() {
 		return results[0];
 	}
 
     /**
      * Does nothing
-     * @return
+     * @return Nothing
      */
     @Deprecated
     public String getNext() {
@@ -36,11 +38,19 @@ public class AccountArrayWrapper {
     }
     /**
      * Does nothing
-     * @return
+     * @return Nothing
      */
     @Deprecated
     public String getPrevious() {
         return previous;
     }
 
+    /**
+     * @return If the element requires an authorized API (i.e. Is user-specific
+     * data)
+     */
+    @Override
+    public boolean requiresAuth() {
+        return true;
+    }
 }

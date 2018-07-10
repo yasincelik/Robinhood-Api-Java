@@ -4,6 +4,13 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 import java.net.URL;
 
+/**
+ * An {@link ApiElement} containing information (or the URL location of
+ * information) about a user account. To get this element, the
+ * {@link com.ampro.robinhood.RobinhoodApi} instance must be logged in.
+ *
+ * @author Jonathan Augustine
+ */
 public class AccountElement implements ApiElement {
 
 	/**
@@ -36,6 +43,8 @@ public class AccountElement implements ApiElement {
 	private String account_number;
 	private float uncleared_deposits;
 	private float unsettled_funds;
+
+
 
 	@Override
 	public boolean requiresAuth() { return true; }

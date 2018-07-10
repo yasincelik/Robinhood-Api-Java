@@ -30,13 +30,26 @@ import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import io.github.openunirest.http.exceptions.UnirestException;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+/**
+ * <p><h2>
+ * A {@link RobinhoodApi} instance is used as an intermediary between the
+ * Robinhood servers and your java/kotlin/whatever application.
+ * </h2>
+ * <p>
+ *     <h3>{@link Configuration}</h3>
+ *     Each API instance contains it's own {@link Configuration} which contains
+ *     information about account tokens and urls (if the API has been logged
+ *     in).
+ *
+ * @author Conrad Weisse, Jonathan Augustine
+ */
 public class RobinhoodApi {
 
 	/**
@@ -151,7 +164,7 @@ public class RobinhoodApi {
 			//TODO: Clean up the following line, it should not have to use
 			//the array wrapper. Tuck that code elsewhere
 			AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
-			AccountElement data = requestData.getResults();
+			AccountElement data = requestData.getResult();
 
 			//If there is no account number, something went wrong. Throw an exception
 			//TODO: Make this more graceful
@@ -208,12 +221,13 @@ public class RobinhoodApi {
 		//TODO: This is a temporary fix, as the Robinhood API seems
 		//to have some features implemented, but are not used yet
 		AccountArrayWrapper data = requestManager.makeApiRequest(method);
-		return data.getResults();
+		return data.getResult();
 	}
 
 	/**
 	 * Method returning a {@link BasicUserInfoElement} for the currently logged in user
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
+	 * @throws RobinhoodApiException
 	 */
 	public BasicUserInfoElement getBasicUserInfo()
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
@@ -515,9 +529,18 @@ public class RobinhoodApi {
         throw new TickerNotFoundException().with(ticker);
     }
 
-    public List<InstrumentElement> getInstrumentsByKeyword(String word)
+    /**
+     * Gets a list of instruments by searching with the given keyword.
+     * As of July 2018, it seems as this will not return a list greater than 10
+     * elements.
+     * @param keyword The keyword to search with
+     * @return A {@link List} of {@link InstrumentElement InstrumentElements}
+     *                  returned by Robinhood's search
+     * @throws RobinhoodApiException
+     */
+    public List<InstrumentElement> getInstrumentsByKeyword(String keyword)
     throws RobinhoodApiException {
-        ApiMethod method = new SearchInstrumentsByKeyword(word);
+        ApiMethod method = new SearchInstrumentsByKeyword(keyword);
         InstrumentElementList list = requestManager.makeApiRequest(method);
         return list.getResults();
     }

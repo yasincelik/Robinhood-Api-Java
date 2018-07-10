@@ -3,13 +3,11 @@ package com.ampro.robinhood.net.request;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
+import io.github.openunirest.http.Unirest;
+import io.github.openunirest.http.exceptions.UnirestException;
+import io.github.openunirest.request.HttpRequest;
 
-import static java.lang.Void.*;
+import static java.lang.Void.TYPE;
 
 /**
  * Singleton for making HTTP(S) requests with {@link ApiMethod}
@@ -74,12 +72,11 @@ public class RequestManager {
 	private <T> T makePostRequest(ApiMethod method)
             throws RobinhoodApiException {
 
-
         HttpRequest request = Unirest.post(method.getBaseUrl())
-                                         .headers(method.getHeaderParameters())
-                                         .queryString(method.getQueryParameters())
-                                         .fields(method.getFieldParameters())
-                                         .getHttpRequest();
+                                     .headers(method.getHeaderParameters())
+                                     .queryString(method.getQueryParameters())
+                                     .fields(method.getFieldParameters())
+                                     .getHttpRequest();
         method.getRouteParameters().forEach(request::routeParam);
 
         return makeRequest(request, method);

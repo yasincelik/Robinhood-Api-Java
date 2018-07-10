@@ -1,16 +1,17 @@
 package com.ampro.robinhood.net;
 
-import java.lang.reflect.Type;
-import java.util.*;
-
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
-import com.mashape.unirest.http.exceptions.UnirestException;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * A Wrapper object for making REST requests through
- * {@link com.mashape.unirest.http.Unirest}
+ * {@link io.github.openunirest.http.Unirest}
  * @author Conrad Weisse, Modified by Jonathan Augustine
  */
 public abstract class ApiMethod {

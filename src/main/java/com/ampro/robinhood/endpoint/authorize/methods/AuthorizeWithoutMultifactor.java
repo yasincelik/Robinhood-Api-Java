@@ -3,28 +3,40 @@ package com.ampro.robinhood.endpoint.authorize.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.net.request.RequestMethod;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import io.github.openunirest.http.exceptions.UnirestException;
 
+/**
+ * An {@link com.ampro.robinhood.net.ApiMethod} to log the user in. This sends
+ * the username and password, and returns the token needed to authorize any more
+ * account-specific requests.
+ *
+ * @author Jonathan Augustine
+ */
 public class AuthorizeWithoutMultifactor extends Authorize {
 
-	public AuthorizeWithoutMultifactor(String username, String password)
+    /**
+     * An {@link com.ampro.robinhood.net.ApiMethod} to log the user in. This
+     * sends the username and password, and returns the token needed to
+     * authorize any more account-specific requests.
+     *
+     * @author Jonathan Augustine
+     */
+    public AuthorizeWithoutMultifactor(String username, String password)
     throws UnirestException {
-		super(Configuration.getDefault());
+        super(Configuration.getDefault());
 
-		setUrlBase("https://api.robinhood.com/api-token-auth/");
+        setUrlBase("https://api.robinhood.com/api-token-auth/");
+        //Add the parameters into the request
+        this.addFieldParameter("username", username);
+        this.addFieldParameter("password", password);
 
-		//Add the parameters into the request
-		this.addFieldParameter("username", username);
-		this.addFieldParameter("password", password);
+        this.addHeaderParameter("Content-Type",
+                                "application/x-www-form-urlencoded");
 
-		this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
+        //This needs to be ran as POST
+        this.setMethodType(RequestMethod.POST);
+        //Declare what the response should look like
+        this.setReturnType(Token.class);
 
-		//This needs to be ran as POST
-		this.setMethodType(RequestMethod.POST);
-
-		//Declare what the response should look like
-		this.setReturnType(Token.class);
-
-	}
-
+    }
 }
