@@ -141,7 +141,7 @@ Float buyingPower = accountData.getBuyingPower();
 System.out.println(accountNumber + " : " + buyingPower);
 ```
 
-### [More detailed instructions on usage](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki/Usage)
+### [More detailed instructions on usage](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki)
 
 <a name='CONTR'></a>
 ## Contributing
