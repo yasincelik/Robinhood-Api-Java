@@ -52,7 +52,4 @@ public class MakeMarketOrder extends OrderMethod {
         this.addFieldParameter("side", getOrderSideString(orderType));
     }
 
-
-
-
 }

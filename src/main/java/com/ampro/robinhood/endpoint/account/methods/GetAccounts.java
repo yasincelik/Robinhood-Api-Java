@@ -17,6 +17,7 @@ public class GetAccounts extends Account {
 	/**
 	 * Get a list of a user's accounts. <br>
 	 * <b>(ONLY CONTAINS 1 ACCOUNT ELEMENT AS OF 3/7/2018)</b>
+	 * @param config The {@link Configuration}
 	 */
 	public GetAccounts(Configuration config)  {
 	    super(config);

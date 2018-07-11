@@ -1,6 +1,5 @@
 package com.ampro.robinhood.endpoint.authorize.methods;
 
-
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.net.request.RequestMethod;
 

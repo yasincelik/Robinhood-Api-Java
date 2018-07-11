@@ -16,18 +16,21 @@ public class AuthorizeWithoutMultifactor extends Authorize {
 
     /**
      * An {@link com.ampro.robinhood.net.ApiMethod} to log the user in. This
-     * sends the username and password, and returns the token needed to
+     * sends the email and password, and returns the token needed to
      * authorize any more account-specific requests.
+     *
+     * @param email The email used to log into Robinhood
+     * @param password The password
      *
      * @author Jonathan Augustine
      */
-    public AuthorizeWithoutMultifactor(String username, String password)
+    public AuthorizeWithoutMultifactor(String email, String password)
     throws UnirestException {
         super(Configuration.getDefault());
 
         setUrlBase("https://api.robinhood.com/api-token-auth/");
         //Add the parameters into the request
-        this.addFieldParameter("username", username);
+        this.addFieldParameter("email", email);
         this.addFieldParameter("password", password);
 
         this.addHeaderParameter("Content-Type",

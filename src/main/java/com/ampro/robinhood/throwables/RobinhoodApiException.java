@@ -3,25 +3,21 @@ package com.ampro.robinhood.throwables;
 @SuppressWarnings("serial")
 public class RobinhoodApiException extends Exception {
 
-	private String error = "A problem has occured within the Robinhood API library";
+	private final String error;
 
 	public RobinhoodApiException() {
-
-		//Do nothing. Merely allow the object to be created using the default message
+	    this.error = null;
 	}
 
 	public RobinhoodApiException(String errorMessage) {
-
 		this.error = errorMessage;
-
 	}
 
-	@Override public String getMessage() {
-
-		return this.error;
-
+	@Override
+	public String getMessage() {
+		return this.error == null
+                ? "A problem has occured within the Robinhood API library"
+                : this.error;
 	}
-
-
 
 }

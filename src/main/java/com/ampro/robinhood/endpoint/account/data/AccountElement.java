@@ -44,8 +44,6 @@ public class AccountElement implements ApiElement {
 	private float uncleared_deposits;
 	private float unsettled_funds;
 
-
-
 	@Override
 	public boolean requiresAuth() { return true; }
 

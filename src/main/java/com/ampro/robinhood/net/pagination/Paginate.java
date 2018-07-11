@@ -13,6 +13,7 @@ public class Paginate extends ApiMethod {
 
     /**
      * Build a Paginator without Authorization token
+     * @param type The return type of each page
      */
     protected Paginate(Class type) {
         super(Configuration.getDefault());
@@ -21,7 +22,10 @@ public class Paginate extends ApiMethod {
 
     /**
      * Build a Paginator with authorization token
-     * @param config
+     * @param config A logged in {@link Configuration}
+     * @param type The return type
+     * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
+     *              not logged in
      */
     protected Paginate(Class type, Configuration config)
     throws RobinhoodNotLoggedInException {

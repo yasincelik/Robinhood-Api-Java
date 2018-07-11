@@ -5,6 +5,7 @@ import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
+import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 public class MakeLimitOrder extends OrderMethod {
 
@@ -39,8 +40,11 @@ public class MakeLimitOrder extends OrderMethod {
     }
 
 	/**
-	 * Method which sets the URLParameters for correctly so the order is ran as a
-	 * Limit Buy order, given the settings from the constructor
+	 * Method which sets the URLParameters for correctly so the order is ran as
+	 * a Limit Buy order, given the settings from the constructor
+	 * @throws RobinhoodApiException
+	 * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
+	 *              not logged in
 	 */
 	protected void setOrderParameters() throws RobinhoodApiException {
 		//Add the account URL for the currently logged in account

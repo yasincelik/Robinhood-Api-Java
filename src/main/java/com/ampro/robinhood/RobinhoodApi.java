@@ -11,6 +11,7 @@ import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
+import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
@@ -32,6 +33,7 @@ import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -191,6 +193,7 @@ public class RobinhoodApi {
 	 * currently logged in.
 	 * You should never see a "FAILURE" response from this. If so, file a bug report on github
 	 * @return an enum containing either "SUCCESS", "FAILURE" or "NOT_LOGGED_IN"
+     * @throws RobinhoodApiException
 	 */
 	public RequestStatus logUserOut() throws RobinhoodApiException {
 		try {
@@ -212,11 +215,13 @@ public class RobinhoodApi {
 	//ACCOUNT DATA
 
 	/**
-	 * Method returning a {@link AccountElement} using the currently logged in user
+	 * Method returning a {@link AccountElement} using the currently logged in
+     * user
+     * @return The requested {@link AccountElement}
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
 	public AccountElement getAccountData()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 
 		//Create the API method for this request
 		ApiMethod method = new GetAccounts(this.config);
@@ -246,7 +251,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
 	public BasicAccountHolderInfoElement getAccountHolderInfo()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetBasicAccountHolderInfo(this.config);
 		method.addAuthTokenParameter();
@@ -258,7 +263,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderAffiliationElement getAccountHolderAffiliation()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetAccountHolderAffiliationInfo(this.config);
 		method.addAuthTokenParameter();
@@ -270,7 +275,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderEmploymentElement getAccountHolderEmployment()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetAccountHolderEmploymentInfo(this.config);
 		method.addAuthTokenParameter();
@@ -278,11 +283,13 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderInvestmentElement} for the currently logged in user
+	 * Method returning a {@link AccountHolderInvestmentElement} for the
+     * currently logged in user
+     * @return AccountHolderInvestmentElement
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderInvestmentElement getAccountHolderInvestment()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetAccountHolderInvestmentInfo(this.config);
 		method.addAuthTokenParameter();
@@ -326,11 +333,11 @@ public class RobinhoodApi {
         // >= 1 and return it
         Vector<PositionElement> accountPositions = new Vector<>();
 
-        for(PositionElement currentWatchlistEntity : accountWatchlist) {
-            if(currentWatchlistEntity.getQuantity() >= 1) {
-                accountPositions.add(currentWatchlistEntity);
+        accountWatchlist.forEach( position -> {
+            if(position.getQuantity() >= 1) {
+                accountPositions.add(position);
             }
-        }
+        });
         return accountPositions;
     }
 
@@ -492,6 +499,7 @@ public class RobinhoodApi {
      * last trading price. Does not require the API to be logged on.
 	 * @param ticker Which symbol you are retrieving a quote for
 	 * @return TickerQuoteElement
+     * @throws RobinhoodApiException
 	 */
 	public TickerQuoteElement getQuoteByTicker(String ticker)
     throws RobinhoodApiException {
@@ -501,8 +509,8 @@ public class RobinhoodApi {
 	}
 
     /**
-     * Get a list of security quotes by their tickers.
-     * Does not require the API to be logged on.
+     * Get a list of security quotes by their tickers. The result is
+     * SemiPaginated, which is why this can return a normal List
      * @param tickers The tickers to get quotes of (e.g. MSFT, FIT)
      * @return A list of {@link TickerQuoteElement TickerQuoteElements}.
      *          A value in the list may be null if the ticker was not found
@@ -517,13 +525,13 @@ public class RobinhoodApi {
    }
 
     /**
-     * TODO DOCS
-     * @param ticker
-     * @return
-     * @throws RobinhoodApiException
+     * @param ticker The stock ticker
+     * @return The {@link InstrumentElement} requested
+     *
+     * @throws RobinhoodApiException Generic exception from {@link RequestManager}
+     * @throws TickerNotFoundException If the ticker is not tracked by Robinhood
+     *
      * @author Jonathan Augustine
-     * @throws RobinhoodApiException
-     * @throws TickerNotFoundException
      */
     public InstrumentElement getInstrumentByTicker(String ticker)
     throws RobinhoodApiException, TickerNotFoundException {
@@ -547,6 +555,25 @@ public class RobinhoodApi {
         ApiMethod method = new SearchInstrumentsByKeyword(keyword);
         InstrumentElementList list = requestManager.makeApiRequest(method);
         return list.getResults();
+    }
+
+    /**
+     * Get's every {@link InstrumentElement} tracked by Robinhood.
+     * This method performs several calls to the Robinhood servers and is
+     * therefore rather expensive to use. Try to use it sparingly (it's not
+     * like it's going to be changing all the time)
+     * @return Every {@link InstrumentElement} tracked by Robinhood
+     * @throws RobinhoodApiException Generic exception from the
+     *                                  {@link RequestManager}
+     */
+    public List<InstrumentElement> getAllInstruments()
+    throws RobinhoodApiException {
+        ApiMethod method = GetAllInstruments.getDefault();
+        InstrumentElementList list = requestManager.makeApiRequest(method);
+        ArrayList<InstrumentElement> normalList = new ArrayList<>();
+        PaginatedIterator<InstrumentElement> iterator = new PaginatedIterator(list, config);
+        iterator.forEachRemaining(instrument -> normalList.add(instrument));
+        return normalList;
     }
 
     /**

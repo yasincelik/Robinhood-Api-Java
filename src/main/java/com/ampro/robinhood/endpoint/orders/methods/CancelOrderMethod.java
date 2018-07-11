@@ -15,6 +15,7 @@ public class CancelOrderMethod extends OrderMethod {
     /**
      * Build a cancel order method.
      * @param order The order to cancel
+     * @param config A logged in {@link Configuration}
      * @throws RobinhoodApiException If the order cannot be cancelled
      */
     public CancelOrderMethod(SecurityOrderElement order, Configuration config)

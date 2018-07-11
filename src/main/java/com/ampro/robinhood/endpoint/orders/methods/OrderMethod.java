@@ -34,10 +34,10 @@ public class OrderMethod extends ApiMethod {
 		this.setReturnType(SecurityOrderElement.class);
 	}
 
-
 	/**
-	 * Method which parses the Time of Day enum variable and returns the simplified version which the API
-	 * requires in order to make a request
+	 * Parses the Time of Day enum variable and returns the simplified
+	 * version which the API requires in order to make a request
+	 * @param time
 	 */
 	protected String getTimeInForceString(TimeInForce time)
     throws RobinhoodApiException {
@@ -79,10 +79,11 @@ public class OrderMethod extends ApiMethod {
     }
 
 	/**
-	 * Method which verifies that the ticker is a valid one. If not, throw an error.
-	 * This method also supplies additional information of the Ticker symbol that the order class
-	 * is required to use.
-	 *
+	 * Verifies that the ticker is a valid one. If not, throw an error. This
+	 * method also supplies additional information of the Ticker symbol that
+	 * the order class is required to use.
+	 * @return InstrumentURL to the class to be used in the request
+	 * @throws RobinhoodApiException
 	 * @throws TickerNotFoundException
 	 */
 	protected String verifyTickerData(String ticker)

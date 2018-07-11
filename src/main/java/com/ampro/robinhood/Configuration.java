@@ -60,7 +60,8 @@ public class Configuration {
 
 	/**
 	 * @return The account number
-	 * @throws RobinhoodNotLoggedInException
+	 * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
+     * not logged in
 	 */
 	public String getAccountNumber() throws RobinhoodNotLoggedInException {
 		if (this.accountNumber == null)
@@ -73,9 +74,12 @@ public class Configuration {
 	}
 
 	/**
-	 * Method returning the Account URL for the logged in user. This is created by appending the account number
-	 * to a base URL. This is valid in most order requests
+	 * Method returning the Account URL for the logged in user. This is created
+     * by appending the account number to a base URL. This is valid in most
+     * order requests
 	 * @return the account URL
+     * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
+     *                                          not logged in
 	 */
 	public String getAccountUrl() throws RobinhoodNotLoggedInException {
 		if (this.accountNumber == null)

@@ -26,6 +26,7 @@ public class GetTickerQuoteList extends GetQuote {
      *     be returned as null in the element list.
      *
      * @param tickers The tickers to request quotes of.
+     * @throws RequestTooLargeException if the parameter is larger than 1,630
      */
     public GetTickerQuoteList(Collection<String> tickers)
     throws RequestTooLargeException {

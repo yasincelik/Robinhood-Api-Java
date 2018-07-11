@@ -3,12 +3,28 @@ package com.ampro.robinhood.endpoint.instrument.methods;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 
 /**
- * TODO THIS CLASS IS NOT EVEN CLOSE TO DONE !! DO NOT USE !!
  * Get all instruments listed by the Robinhood API
+ * The result is Paginated
  * @author Jonathan Augustine
  */
 public class GetAllInstruments extends GetInstrument {
-    public GetAllInstruments() {
+
+    private static final GetAllInstruments defaultMethod = new GetAllInstruments();
+
+    /**
+     * Since this API method cannot be modified, just return a static one
+     * @return the default {@link GetAllInstruments} object
+     */
+    public static synchronized GetAllInstruments getDefault() {
+        return defaultMethod;
+    }
+
+    /**
+     * Get all instruments listed by the Robinhood API
+     * The result is Paginated.
+     * @author Jonathan Augustine
+     */
+    private GetAllInstruments() {
         super();
         this.setUrlBase("https://api.robinhood.com/instruments/");
         this.setReturnType(InstrumentElementList.class);

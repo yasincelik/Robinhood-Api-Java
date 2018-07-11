@@ -28,8 +28,9 @@ public class RequestManager {
 	private static RequestManager instance;
 
 	/**
-	 * Method to get the active instance of the RequestManager.
+	 * The active instance of the RequestManager.
 	 * If one does not exist, it creates one
+     * @return active instance of the RequestManager
 	 */
 	public static RequestManager getInstance() {
 		if(RequestManager.instance == null) {

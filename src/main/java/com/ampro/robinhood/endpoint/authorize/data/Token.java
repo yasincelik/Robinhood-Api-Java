@@ -11,8 +11,6 @@ public class Token {
 	public String getToken() { return this.token; }
 
 	@Override
-	public String toString() { return getToken();
-
-	}
+	public String toString() { return this.token; }
 
 }

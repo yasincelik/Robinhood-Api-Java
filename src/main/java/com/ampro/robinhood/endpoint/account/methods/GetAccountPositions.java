@@ -1,6 +1,5 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
-
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.PositionElementList;
 import com.ampro.robinhood.net.request.RequestMethod;

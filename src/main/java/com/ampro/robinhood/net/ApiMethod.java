@@ -53,6 +53,7 @@ public abstract class ApiMethod {
 
     /**
      * Constructor which stores the service which is being used
+     * @param config A {@link Configuration}
      */
     protected ApiMethod(Configuration config) {
         addHeaderParameter("Accept", "application/json");
@@ -81,8 +82,8 @@ public abstract class ApiMethod {
     /**
      * Add a route parameter.
      * (written in the {@link ApiMethod#urlBase} as http://url.com/{routeKey}
-     * @param key
-     * @param value
+     * @param key The key to map to
+     * @param value The value to map
      */
     protected void addRouteParameter(String key, String value) {
         this.routeParameters.put(key, value);
@@ -91,7 +92,7 @@ public abstract class ApiMethod {
     /**
      * Add multiple Route parameters from a {@link Map}
      * (written in the {@link ApiMethod#urlBase} as http://url.com/{routeKey}
-     * @param paramMap
+     * @param paramMap A String-String map of Key-Val pairs
      */
     protected void addRoutParameters(Map<String, String> paramMap) {
         this.routeParameters.putAll(paramMap);
@@ -99,8 +100,8 @@ public abstract class ApiMethod {
 
     /**
      * Add a Query key-value pair
-     * @param key
-     * @param value
+     * @param key The key to map to
+     * @param value The value to map
      */
     protected void addQueryParameter(String key, Object value) {
         this.queryParameters.put(key, value);
@@ -108,7 +109,7 @@ public abstract class ApiMethod {
 
     /**
      * Add predefined query key-val pairs
-     * @param paramMap
+     * @param paramMap A {@link Map} of String keys and Object values
      */
     protected void addQueryParameters(Map<String, Object> paramMap) {
         this.queryParameters.putAll(paramMap);
@@ -116,8 +117,8 @@ public abstract class ApiMethod {
 
     /**
      * Add a field key-val pair
-     * @param key
-     * @param val
+     * @param key The key to map to
+     * @param val The value to map
      */
     protected void addFieldParameter(String key, Object val) {
         this.fieldParameters.put(key, val);
@@ -125,7 +126,7 @@ public abstract class ApiMethod {
 
     /**
      * Add predefined field key-val pairs
-     * @param paramMap
+     * @param paramMap A String-Object map of Key-Val pairs
      */
     protected void addFieldParameters(Map<String, Object> paramMap) {
         this.fieldParameters.putAll(paramMap);
@@ -141,45 +142,42 @@ public abstract class ApiMethod {
 	}
 
 	/**
-	 * Method which returns if the User Token is required for this methodType or not
+	 * @return {@code true} if this {@link ApiMethod} requires an
+	 *                  authorization token (i.e. logged in instance)
 	 */
 	public boolean requiresToken() {
 		return this.requireToken;
 	}
 
-    /**
-     * Method to retrieve all of the HttpHeaderParameters currently loaded into
-     * the methodType
-     */
+    /** @return the header parameters of the method */
     public HashMap<String, String> getHeaderParameters() {
         return this.headerParameters;
     }
 
-    public HashMap<String, String> getRouteParameters() {
+	/** @return The route parameters of the method */
+	public HashMap<String, String> getRouteParameters() {
         return routeParameters;
     }
 
+    /** @return The query parameters of the method */
     public Map<String, Object> getQueryParameters() {
         return queryParameters;
     }
 
+    /** @return The field parameters of the method */
     public Map<String, Object> getFieldParameters() {
         return fieldParameters;
     }
 
-	/** Method to return what the ReturnType is */
+	/** @return {@link Type ReturnType} */
 	public Type getReturnType() {
 		return this.returnType;
 	}
 
-	/**
-	 * Method to return what the request methodType is for this methodType
-	 */
+	/** @return The request {@link RequestMethod} of this ApiMethod */
 	public RequestMethod getMethodType() { return this.methodType; }
 
-	/**
-	 * Method which returns the base URL without any of the parameters
-	 */
+	/** @return The base URL with any route parameter keys */
 	public String getBaseUrl() {
 		return this.urlBase;
 	}
@@ -192,15 +190,14 @@ public abstract class ApiMethod {
 	}
 
 	/**
-	 * Method to set the request methodType
+	 * Set the request method type
+	 * @param methodType The {@link RequestMethod} to set to
 	 */
 	protected void setMethodType(RequestMethod methodType) {
 		this.methodType = methodType;
 	}
 
-	/**
-	 * Method to set what return type this methodType requires
-	 */
+	/** @param returnType The return type of the {@link ApiMethod} */
 	protected void setReturnType(Type returnType) {
 		this.returnType = returnType;
 	}
@@ -209,6 +206,7 @@ public abstract class ApiMethod {
 	 * Method which sets the URL base.
 	 * For example, it will probably always be "api.robinhood.com/"
 	 * This exists however for flexibility
+	 * @param urlBase The base URL, including any route parameters
 	 */
 	protected void setUrlBase(String urlBase) {
 		this.urlBase = urlBase;

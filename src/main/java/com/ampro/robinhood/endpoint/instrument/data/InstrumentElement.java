@@ -97,7 +97,7 @@ public class InstrumentElement implements ApiElement {
 
     @SerializedName("simple_name")
     @Expose
-    public String simpleName;
+    private String simpleName;
 
     public String getTradableChainId() {
         return tradableChainId;

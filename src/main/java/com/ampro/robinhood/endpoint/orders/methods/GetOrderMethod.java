@@ -13,6 +13,7 @@ public class GetOrderMethod extends OrderMethod {
     /**
      * Set api URL to GET from and return type
      * ({@link SecurityOrderElementList}).
+     * @param config a logged in {@link Configuration}
      */
     public GetOrderMethod(Configuration config) {
         super(config);
