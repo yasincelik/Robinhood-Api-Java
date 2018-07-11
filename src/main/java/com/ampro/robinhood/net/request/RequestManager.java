@@ -3,9 +3,13 @@ package com.ampro.robinhood.net.request;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
+import io.github.openunirest.http.HttpResponse;
+import io.github.openunirest.http.JsonNode;
 import io.github.openunirest.http.Unirest;
 import io.github.openunirest.http.exceptions.UnirestException;
 import io.github.openunirest.request.HttpRequest;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import static java.lang.Void.TYPE;
 
@@ -21,7 +25,7 @@ public class RequestManager {
 	 * Singleton instance of this class.
 	 * Only one instance is used for future ratelimiting support
 	 */
-	private static RequestManager instance = null;
+	private static RequestManager instance;
 
 	/**
 	 * Method to get the active instance of the RequestManager.
@@ -30,6 +34,7 @@ public class RequestManager {
 	public static RequestManager getInstance() {
 		if(RequestManager.instance == null) {
             //All methods get json responses
+            Unirest.setHttpClient(HttpClients.createDefault());
 		    Unirest.setDefaultHeader("Accept", "appliation/json");
 			RequestManager.instance = new RequestManager();
 		}
@@ -103,7 +108,8 @@ public class RequestManager {
     throws RobinhoodApiException {
         try {
             //Make the request
-            String responseJson = request.asJson().getBody().toString();
+	        HttpResponse<JsonNode> json = request.asJson();
+	        String responseJson = json.getBody().toString();
 
             //If the response type for this is VOID (
             //Meaning we are not expecting a response) do not
