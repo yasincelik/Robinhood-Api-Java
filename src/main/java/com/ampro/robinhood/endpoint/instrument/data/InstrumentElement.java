@@ -95,6 +95,10 @@ public class InstrumentElement implements ApiElement {
     @Expose
     private String market;
 
+    @SerializedName("simple_name")
+    @Expose
+    public String simpleName;
+
     public String getTradableChainId() {
         return tradableChainId;
     }
@@ -178,11 +182,5 @@ public class InstrumentElement implements ApiElement {
     public String getSimpleName() {
         return simpleName;
     }
-
-    @SerializedName("simple_name")
-    @Expose
-    public String simpleName;
-
-
 
 }

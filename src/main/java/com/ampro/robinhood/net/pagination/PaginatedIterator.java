@@ -50,7 +50,7 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
                 //This loads the next list, replaces the current ones, & resets
                 //the current index
                 loadNextList();
-            } catch (RobinhoodApiException | RobinhoodNotLoggedInException e) {
+            } catch (RobinhoodApiException e) {
                 e.printStackTrace();
                 return null;
             }
@@ -79,7 +79,7 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
      * @return The next Page in the Paginated list
      */
     private ApiElementList loadNextList()
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws RobinhoodApiException {
         if (apiElementList.getNext() == null)
             throw new RobinhoodApiException("ElementList has no next page.");
         GetNextPage method = this.apiElementList.requiresAuth()

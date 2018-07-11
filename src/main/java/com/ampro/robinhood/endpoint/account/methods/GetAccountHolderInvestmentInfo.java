@@ -4,10 +4,12 @@ package com.ampro.robinhood.endpoint.account.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentElement;
 import com.ampro.robinhood.net.request.RequestMethod;
+import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 public class GetAccountHolderInvestmentInfo extends Account {
 
-	public GetAccountHolderInvestmentInfo(Configuration config) {
+	public GetAccountHolderInvestmentInfo(Configuration config)
+	throws RobinhoodNotLoggedInException {
 		super(config);
 		this.setUrlBase("https://api.robinhood.com/accounts"
 				+ config.getAccountNumber() + "/positions/");

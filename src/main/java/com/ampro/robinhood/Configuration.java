@@ -3,15 +3,21 @@ package com.ampro.robinhood;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
- * Method which stores the current configuration for the library.
- * The authentication key used for most of the other functions is stored here.
+ * The Configuration stores authorization information about an instance of the
+ * {@link RobinhoodApi}.
+ * <p>
+ * Many things (mostly {@link com.ampro.robinhood.net.ApiMethod ApiMethods})
+ * require a Configuration to function
  *
  * @author Jonathan Augustine
  */
 public class Configuration {
 
 	/** How long should the system wait between requests? (milisec)*/
-	private static long rateLimitValue = 2000;
+	private static long rateLimit = 2000;
+
+	/** The default Config (to reduce repeated allocations for non-auth methods) */
+	private static Configuration defaultConfig;
 
 	/** The authentication token for the logged in user, if one exists */
 	private String authToken;
@@ -28,9 +34,6 @@ public class Configuration {
 	 */
 	private String accountUrl;
 
-	/** The default Config (to reduce repeated allocations for non-auth methods) */
-	private static final Configuration defaultConfig = new Configuration();
-
 	/**
 	 * Method which gets the saved authorization token if the user is logged in.
 	 * If one does not exist, it throws an error reminding the user to run the
@@ -43,7 +46,6 @@ public class Configuration {
 	public String getToken() throws RobinhoodNotLoggedInException {
 		if(authToken == null)
 			throw new RobinhoodNotLoggedInException();
-
 		return this.authToken;
 	}
 
@@ -57,21 +59,12 @@ public class Configuration {
 	}
 
 	/**
-	 * Method returning the current ratelimit.
-	 * By default, this is 500 milliseconds (.5 seconds)
+	 * @return The account number
+	 * @throws RobinhoodNotLoggedInException
 	 */
-	public long getRatelimit() {
-		return this.rateLimitValue;
-	}
-
-	/**
-	 * Set a new ratelimit (in milliseconds)
-	 */
-	public void setRatelimit(int newRateLimitValue) {
-		this.rateLimitValue = newRateLimitValue;
-	}
-
-	public String getAccountNumber() {
+	public String getAccountNumber() throws RobinhoodNotLoggedInException {
+		if (this.accountNumber == null)
+			throw new RobinhoodNotLoggedInException();
 		return accountNumber;
 	}
 
@@ -84,10 +77,34 @@ public class Configuration {
 	 * to a base URL. This is valid in most order requests
 	 * @return the account URL
 	 */
-	public String getAccountUrl() {
+	public String getAccountUrl() throws RobinhoodNotLoggedInException {
+		if (this.accountNumber == null)
+			throw new RobinhoodNotLoggedInException();
 		return "https://api.robinhood.com/accounts/" + this.accountNumber + "/";
 	}
 
-	public static Configuration getDefault() { return defaultConfig; }
+	/** @return The default Configuration (i.e. with no account data) */
+	public static Configuration getDefault() {
+	    if (defaultConfig == null) {
+	        defaultConfig = new Configuration();
+        }
+		return defaultConfig;
+	}
+
+	/**
+	 * @return the current ratelimit. By default, this is 500 milliseconds
+     * (.5 seconds)
+	 */
+	public static long getRatelimit() {
+		return Configuration.rateLimit;
+	}
+
+	/**
+	 * Set a new ratelimit (in milliseconds)
+     * @param newRateLimitValue The new RateLimit in milliseconds
+	 */
+	public static void setRatelimit(int newRateLimitValue) {
+		Configuration.rateLimit = newRateLimitValue;
+	}
 
 }

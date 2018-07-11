@@ -92,21 +92,22 @@ For Maven:
 - ~~Get account information~~
 [(JSON Response contents)](https://github.com/sanko/Robinhood/blob/master/Account.md#gather-list-of-accounts)
 - ~~Getting information about tickers~~
-- Improve & clarify many vague exceptions
 - Orders
     - Get
         - Get full history (live and closed orders)
     - Post
         - ~~Make &~~ cancel orders (limit, stop, etc)
+- Asynchronous requests & RateLimiting
+- Clean up & add more JavaDocs
+    - Include a more comprehensive guide on what data you are getting from
+        each method.
+- Improved Wiki & Walkthroughs
+- Improve & clarify many vague exceptions
 - ~~The structure of the ConfigManager needs to be restructured
   from static/global management to instance-based authorization. The top
   option right now is to change ConfigManager to just a "local" config
   for each API instance (this is to allow for multiple APIs logged in to
   different accounts)~~
-- Clean up & add more JavaDocs
-    - Include a more comprehensive guide on what data you are getting from
-        each method.
-- Better Walkthroughs & guides
 - more...so much...more
 
 ### Things that will likely *never* happen here

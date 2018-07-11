@@ -86,19 +86,20 @@ public class RobinhoodApi {
 	 * the user. On success, the Authorization Token will be stored in the
 	 * ConfigurationManager instance to be retrieved elsewhere.
 	 * On failure, an error will be thrown.
-	 * @param username
-	 * @param password
-	 * @throws RobinhoodApiException
+	 * @param username The user's email (that they use with robinhood)
+	 * @param password The user's password
+	 * @throws RobinhoodNotLoggedInException If the login failed
 	 */
 	public RobinhoodApi(String username, String password)
-    throws RobinhoodApiException {
+    throws RobinhoodNotLoggedInException {
 
 		//Construct the manager
 		RobinhoodApi.requestManager = RequestManager.getInstance();
         this.config = new Configuration();
 
 		//Log the user in and store the auth token
-		this.logUserIn(username, password);
+		if (logUserIn(username, password) == RequestStatus.FAILURE)
+		    throw new RobinhoodNotLoggedInException("Failed to log user in.");
 
 	}
 
@@ -122,24 +123,27 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method which logs a user in given a username and password.
-	 * this method automatically stores the authorization token in with the instance,
-	 * allowing any method which requires the token to have immediate access to it.
+	 * Method which logs a user in given a email and password. This method
+	 * automatically stores the authorization token in with the instance,
+	 * allowing any method which requires the token to have immediate access to
+	 * it.
 	 *
-	 * This method is ran if you created the RobinhoodApi class using the constructor with
-	 * both a username and password, but is available if you wish to get the authorization token again.
-	 * Usually ran after the user is logged out to refresh the otken
+	 * This method is ran if you created the RobinhoodApi class using the
+	 * constructor with both a email and password, but is available if you
+	 * wish to get the authorization token again. Usually ran after the user
+	 * is logged out to refresh the token
 	 *
-	 * @throws RobinhoodApiException if the API could not retrieve an account number
-	 *                      for your account. You should never see this,
+	 * @param email The user's email
+	 * @param password The user's password
+	 * @return {@link RequestStatus#FAILURE} if the user could not be logged in.
+	 *                  {@link RequestStatus#SUCCESS} otherwise
 	 *
 	 */
-	public RequestStatus logUserIn(String username, String password)
-    throws RobinhoodApiException {
+	public RequestStatus logUserIn(String email, String password) {
 		//TODO: Implement multifactor authorization
-		ApiMethod method = null;
+		ApiMethod method;
 		try {
-			method = new AuthorizeWithoutMultifactor(username, password);
+			method = new AuthorizeWithoutMultifactor(email, password);
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			return RequestStatus.FAILURE;
