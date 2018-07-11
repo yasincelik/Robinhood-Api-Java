@@ -4,7 +4,7 @@ package com.ampro.robinhood.throwables;
  * An exception to be thrown when a ticker is not found after polling Robinhood
  * @author Jonathan Augustine
  */
-public class TickerNotFoundException extends Exception {
+public class TickerNotFoundException extends RobinhoodApiException {
     private String ticker;
 
     public TickerNotFoundException() {
