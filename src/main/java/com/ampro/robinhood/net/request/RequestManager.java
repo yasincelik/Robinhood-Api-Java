@@ -8,7 +8,6 @@ import io.github.openunirest.http.JsonNode;
 import io.github.openunirest.http.Unirest;
 import io.github.openunirest.http.exceptions.UnirestException;
 import io.github.openunirest.request.HttpRequest;
-import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import static java.lang.Void.TYPE;

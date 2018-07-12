@@ -8,7 +8,11 @@ import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
+import com.ampro.robinhood.endpoint.fundamentals.data
+		.TickerFundimentalElementList;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
+import com.ampro.robinhood.endpoint.fundamentals.methods
+		.GetTickerFundimentalList;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
@@ -33,10 +37,7 @@ import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -189,9 +190,9 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method which forces the authorization token to expire, logging the user out if the user is
-	 * currently logged in.
-	 * You should never see a "FAILURE" response from this. If so, file a bug report on github
+	 * Method which forces the authorization token to expire, logging the user
+	 * out if the user is currently logged in. You should never see a
+	 * "FAILURE" response from this. If so, file a bug report on github
 	 * @return an enum containing either "SUCCESS", "FAILURE" or "NOT_LOGGED_IN"
      * @throws RobinhoodApiException
 	 */
@@ -206,7 +207,8 @@ public class RobinhoodApi {
 			return RequestStatus.SUCCESS;
 
 		} catch (RobinhoodNotLoggedInException ex) {
-			//If there was no token in the configManager, the user was never logged in
+			//If there was no token in the configManager, the user was never
+			//logged in
 			return RequestStatus.NOT_LOGGED_IN;
 		}
 
@@ -486,11 +488,34 @@ public class RobinhoodApi {
 	 * @param ticker The Stock's ticker
 	 * @throws RobinhoodApiException
 	 */
-	public TickerFundamentalElement getTickerFundamental(String ticker)
+	public TickerFundamentalElement getFundamental(String ticker)
     throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetTickerFundamental(ticker);
 		return requestManager.makeApiRequest(method);
+	}
+
+	/**
+	 * Get a {@link List} of {@link TickerFundamentalElement}.
+	 * @param tickers A collection of stock tickers
+	 * @return a {@link List} of {@link TickerFundamentalElement}.
+	 * @throws RobinhoodApiException If an error occurs when making the request
+	 * @throws RequestTooLargeException If the Collection is longer than 10
+	 * @author Jonathan Augustine
+	 */
+	public List<TickerFundamentalElement>
+	getFundimentalList(Collection<String> tickers)
+	throws RobinhoodApiException {
+		TickerFundimentalElementList list = requestManager.makeApiRequest(
+				new GetTickerFundimentalList(tickers)
+		);
+		PaginatedIterator<TickerFundamentalElement> it
+				= new PaginatedIterator<>(list);
+		List<TickerFundamentalElement> out = new ArrayList<>();
+		while (it.hasNext()) {
+			out.add(it.next());
+		}
+		return out;
 	}
 
 	/**
@@ -500,12 +525,16 @@ public class RobinhoodApi {
 	 * @param ticker Which symbol you are retrieving a quote for
 	 * @return TickerQuoteElement
      * @throws RobinhoodApiException
+     * @throws TickerNotFoundException If the quote is not found
 	 */
 	public TickerQuoteElement getQuoteByTicker(String ticker)
     throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetTickerQuote(ticker);
-		return requestManager.makeApiRequest(method);
+        TickerQuoteElement quote = requestManager.makeApiRequest(method);
+        if (quote.getSymbol() == null)
+            throw new TickerNotFoundException();
+		return quote;
 	}
 
     /**
@@ -516,12 +545,13 @@ public class RobinhoodApi {
      *          A value in the list may be null if the ticker was not found
      *          on Robinhood.
      * @throws RobinhoodApiException
+     * @throws RequestTooLargeException if the collection is longer than 1,630
      */
 	public List<TickerQuoteElement> getQuoteListByTickers(Collection<String> tickers)
-    throws RobinhoodApiException, RequestTooLargeException {
+    throws RobinhoodApiException {
         ApiMethod method = new GetTickerQuoteList(tickers);
-        return ((TickerQuoteElementList) requestManager.makeApiRequest(method))
-                                                       .getQuotes();
+        TickerQuoteElementList list = requestManager.makeApiRequest(method);
+        return list.getQuotes();
    }
 
     /**
