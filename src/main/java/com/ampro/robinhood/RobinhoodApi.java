@@ -568,7 +568,7 @@ public class RobinhoodApi {
         ApiMethod method = new GetInstrumentByTicker(ticker);
         InstrumentElementList list = requestManager.makeApiRequest(method);
         if (!list.isEmpty()) return list.getResults().get(0);
-        throw new TickerNotFoundException().with(ticker);
+        throw new TickerNotFoundException(ticker);
     }
 
     /**

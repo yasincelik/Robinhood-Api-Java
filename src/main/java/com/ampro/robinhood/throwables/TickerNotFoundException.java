@@ -5,6 +5,7 @@ package com.ampro.robinhood.throwables;
  * @author Jonathan Augustine
  */
 public class TickerNotFoundException extends RobinhoodApiException {
+
     private String ticker;
 
     public TickerNotFoundException() {
@@ -12,22 +13,17 @@ public class TickerNotFoundException extends RobinhoodApiException {
         this.ticker = "";
     }
 
-    public TickerNotFoundException(String message) {
-        super(message);
-        this.ticker = "";
-    }
-
-    public TickerNotFoundException(String ticker, String message) {
-        super(message);
+    public TickerNotFoundException(String ticker) {
+        super(ticker);
         this.ticker = ticker;
-    }
-
-    public TickerNotFoundException with(String ticker) {
-        this.ticker = ticker;
-        return this;
     }
 
     public String getTicker() {
         return ticker;
+    }
+
+    @Override
+    public String getMessage() {
+        return "The Stock Symbol " + ticker +" was not found.";
     }
 }
