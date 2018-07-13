@@ -16,8 +16,6 @@ public class MakeLimitStopOrder extends OrderMethod {
     private float limitPrice;
     private int quantity;
     private OrderTransactionType orderType;
-    private float stopPrice;
-
     private String tickerInstrumentUrl;
 
     public MakeLimitStopOrder(String ticker, TimeInForce time, float limitPrice,
@@ -31,7 +29,6 @@ public class MakeLimitStopOrder extends OrderMethod {
         this.limitPrice = limitPrice;
         this.quantity = quantity;
         this.orderType = orderType;
-        this.stopPrice = stopPrice;
 
         //Set the normal parameters for this endpoint
         setEndpointParameters();

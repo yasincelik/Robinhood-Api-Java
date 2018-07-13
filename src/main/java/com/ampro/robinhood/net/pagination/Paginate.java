@@ -1,8 +1,7 @@
 package com.ampro.robinhood.net.pagination;
 
-import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.ApiElementList;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
@@ -15,7 +14,7 @@ public class Paginate extends ApiMethod {
      * Build a Paginator without Authorization token
      * @param type The return type of each page
      */
-    protected Paginate(Class type) {
+    protected Paginate(Class<?> type) {
         super(Configuration.getDefault());
         setReturnType(type);
     }
@@ -27,7 +26,7 @@ public class Paginate extends ApiMethod {
      * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
      *              not logged in
      */
-    protected Paginate(Class type, Configuration config)
+    protected Paginate(Class<?> type, Configuration config)
     throws RobinhoodNotLoggedInException {
         super(config);
         addAuthTokenParameter();

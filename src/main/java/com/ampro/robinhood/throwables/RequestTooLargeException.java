@@ -5,7 +5,10 @@ package com.ampro.robinhood.throwables;
  * @author Jonathan Augustine
  */
 public class RequestTooLargeException extends RobinhoodApiException {
-    public RequestTooLargeException() {
+    
+	private static final long serialVersionUID = -6815804388399433737L;
+
+	public RequestTooLargeException() {
         super();
     }
 

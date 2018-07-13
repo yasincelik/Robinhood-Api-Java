@@ -1,16 +1,13 @@
 package com.ampro.robinhood.net.pagination;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
-import com.ampro.robinhood.net.pagination.GetNextPage;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
 
 public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
 
@@ -18,7 +15,7 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
 
     private final RequestManager requestManager = RequestManager.getInstance();
 
-    private ApiElementList apiElementList;
+    private ApiElementList<?> apiElementList;
 
     private List<T> currentList;
 
@@ -70,15 +67,10 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
     }
 
     /**
-     * @return
-     */
-    private boolean hasNextPage() { return apiElementList.getNext() != null; }
-
-    /**
      * Loads the next page in the paginated list & REPLACES THE CURRENT LIST
      * @return The next Page in the Paginated list
      */
-    private ApiElementList loadNextList()
+    private ApiElementList<?> loadNextList()
     throws RobinhoodApiException {
         if (apiElementList.getNext() == null)
             throw new RobinhoodApiException("ElementList has no next page.");

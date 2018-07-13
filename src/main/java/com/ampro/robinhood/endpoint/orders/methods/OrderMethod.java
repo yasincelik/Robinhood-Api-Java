@@ -1,12 +1,12 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
-import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
+import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;

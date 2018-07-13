@@ -24,9 +24,6 @@ public abstract class ApiMethod {
 	/** Default request methodType is GET*/
 	private RequestMethod methodType = RequestMethod.GET;
 
-	/** The body for the request */
-	private String body = null;
-
 	/** The return type for the request */
 	private Type returnType = null;
 

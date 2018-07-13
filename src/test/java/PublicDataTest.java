@@ -60,7 +60,7 @@ public class PublicDataTest {
     @Test(expected = RequestTooLargeException.class)
     public void tickerListTooLarge() throws RobinhoodApiException {
         tenTickers.add("GE");
-        List<TickerFundamentalElement> list = api.getFundimentalList(tenTickers);
+        api.getFundimentalList(tenTickers);
     }
 
     //Instruments
@@ -72,7 +72,7 @@ public class PublicDataTest {
 
     @Test(expected = TickerNotFoundException.class)
     public void getFakeTickerInstrument() throws RobinhoodApiException {
-        InstrumentElement instrument = api.getInstrumentByTicker(FAKE);
+        api.getInstrumentByTicker(FAKE);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class PublicDataTest {
 
         list.forEach( element -> tickers.add(element.getSymbol()) );
 
-        List<TickerQuoteElement> elementList = api.getQuoteListByTickers(tickers);
+        api.getQuoteListByTickers(tickers);
 
     }
 
@@ -131,7 +131,7 @@ public class PublicDataTest {
         List<String> tickers = new ArrayList<>();
         List<InstrumentElement> list = getAllInst().subList(0, 1631);
         list.forEach( element -> tickers.add(element.getSymbol()));
-        List<TickerQuoteElement> elementList = api.getQuoteListByTickers(tickers);
+        api.getQuoteListByTickers(tickers);
     }
 
     //Pagination

@@ -1,9 +1,29 @@
 package com.ampro.robinhood;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Logger;
+
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
-import com.ampro.robinhood.endpoint.account.data.*;
-import com.ampro.robinhood.endpoint.account.methods.*;
+import com.ampro.robinhood.endpoint.account.data.AccountArrayWrapper;
+import com.ampro.robinhood.endpoint.account.data.AccountElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderAffiliationElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderEmploymentElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentElement;
+import com.ampro.robinhood.endpoint.account.data.BasicAccountHolderInfoElement;
+import com.ampro.robinhood.endpoint.account.data.BasicUserInfoElement;
+import com.ampro.robinhood.endpoint.account.data.PositionElement;
+import com.ampro.robinhood.endpoint.account.data.PositionElementList;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderAffiliationInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderEmploymentInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderInvestmentInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountPositions;
+import com.ampro.robinhood.endpoint.account.methods.GetAccounts;
+import com.ampro.robinhood.endpoint.account.methods.GetBasicAccountHolderInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetBasicUserInfo;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
@@ -18,11 +38,19 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
+import com.ampro.robinhood.endpoint.option.data.Option;
+import com.ampro.robinhood.endpoint.option.data.Options;
+import com.ampro.robinhood.endpoint.option.methods.GetOptionsMethod;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
-import com.ampro.robinhood.endpoint.orders.methods.*;
+import com.ampro.robinhood.endpoint.orders.methods.CancelOrderMethod;
+import com.ampro.robinhood.endpoint.orders.methods.GetOrderMethod;
+import com.ampro.robinhood.endpoint.orders.methods.MakeLimitOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeLimitStopOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeMarketOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeMarketStopOrder;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
@@ -35,10 +63,8 @@ import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
-import io.github.openunirest.http.exceptions.UnirestException;
 
-import java.util.*;
-import java.util.logging.Logger;
+import io.github.openunirest.http.exceptions.UnirestException;
 
 /**
  * <p><h2>
@@ -601,7 +627,7 @@ public class RobinhoodApi {
         ApiMethod method = GetAllInstruments.getDefault();
         InstrumentElementList list = requestManager.makeApiRequest(method);
         ArrayList<InstrumentElement> normalList = new ArrayList<>();
-        PaginatedIterator<InstrumentElement> iterator = new PaginatedIterator(list, config);
+        PaginatedIterator<InstrumentElement> iterator = new PaginatedIterator<>(list, config);
         iterator.forEachRemaining(instrument -> normalList.add(instrument));
         return normalList;
     }
@@ -612,7 +638,7 @@ public class RobinhoodApi {
      * @param <E> The ApiElement of the List
      * @return a "Paginated" Iterable
      */
-    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList elementList) {
+    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
     	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
 	}
 
@@ -629,4 +655,10 @@ public class RobinhoodApi {
         }
     }
 
+	public List<Option> getOptions() throws RobinhoodApiException {
+		ApiMethod method = new GetOptionsMethod(this.config);
+		method.addAuthTokenParameter();
+        Options options = requestManager.makeApiRequest(method);
+        return options.getResults();
+	}
 }

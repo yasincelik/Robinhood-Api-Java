@@ -5,7 +5,9 @@ package com.ampro.robinhood.throwables;
  * @author Jonathan Augustine
  */
 public class TickerNotFoundException extends RobinhoodApiException {
-    private String ticker;
+    
+	private static final long serialVersionUID = -4401894268654476314L;
+	private String ticker;
 
     public TickerNotFoundException() {
         super();

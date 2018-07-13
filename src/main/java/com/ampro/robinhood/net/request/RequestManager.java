@@ -73,7 +73,6 @@ public class RequestManager {
 	 * within the APIMethod class
 	 * @throws UnirestException
 	 */
-	@SuppressWarnings("unchecked")
 	private <T> T makePostRequest(ApiMethod method)
             throws RobinhoodApiException {
 
@@ -104,6 +103,7 @@ public class RequestManager {
         return makeRequest(request, method);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> T makeRequest(HttpRequest request, ApiMethod method)
     throws RobinhoodApiException {
         try {

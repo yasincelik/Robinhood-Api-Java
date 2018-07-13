@@ -1,17 +1,16 @@
 package com.ampro.robinhood.endpoint.quote.data;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * A list of {@link TickerQuoteElement TickerQuoteElements} that Robinhood
@@ -27,7 +26,6 @@ implements ApiElement, Iterable<TickerQuoteElement> {
     @SerializedName("results")
     @Expose
     private List<TickerQuoteElement> results;
-    private final static long serialVersionUID = 1097478353426776156L;
 
     /** @return An unmodifieable list of {@link TickerQuoteElement quotes} */
     public List<TickerQuoteElement> getQuotes() {
