@@ -71,7 +71,7 @@ public class LogHandler extends Handler {
 		//Severity
 		builder.append("[").append(record.getLevel()).append("] ");
 		//Message
-		builder.append(record.getMessage() + "\n");
+		builder.append(record.getMessage()).append("\n");
 		//Stack Trace - Error debugging is important
 		Throwable trace = record.getThrown();
 

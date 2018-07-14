@@ -4,8 +4,6 @@ import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
-import java.lang.reflect.ParameterizedType;
-
 public class GetNextPage extends Paginate {
 
     public GetNextPage(ApiElementList elementList, Configuration config)

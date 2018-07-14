@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 public class PublicDataTest {
     static RobinhoodApi api;
@@ -48,13 +49,13 @@ public class PublicDataTest {
     @Test
     public void getTickerFundimental() throws RobinhoodApiException {
         TickerFundamentalElement msft = api.getFundamental(MSFT);
-        assertEquals(false, msft == null);
+        assertFalse(msft == null);
     }
 
     @Test
     public void getTickerFundimentalList() throws RobinhoodApiException {
         List<TickerFundamentalElement> list = api.getFundimentalList(tenTickers);
-        list.forEach( element -> assertEquals(false, element == null));
+        list.forEach( element -> assertNotNull(element));
     }
 
     @Test(expected = RequestTooLargeException.class)
@@ -67,7 +68,7 @@ public class PublicDataTest {
     @Test
     public void getInstrumentByTicker() throws RobinhoodApiException {
         InstrumentElement instrument = api.getInstrumentByTicker(MSFT);
-        assertEquals(false, instrument == null);
+        assertFalse(instrument == null);
     }
 
     @Test(expected = TickerNotFoundException.class)
@@ -79,14 +80,14 @@ public class PublicDataTest {
     public void getInstrumentByUrl() throws RobinhoodApiException {
         ApiMethod method = new GetInstrumentByUrl(MSFT_URL);
         InstrumentElement instrument = requestManager.makeApiRequest(method);
-        assertEquals(false, instrument == null);
+        assertFalse(instrument == null);
     }
 
     @Test
     public void getAllInstruments()
     throws RobinhoodApiException {
         allInstruments = api.getAllInstruments();
-        allInstruments.forEach(element -> assertEquals(false, element == null));
+        allInstruments.forEach(element -> assertFalse(element == null));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class PublicDataTest {
     @Test
     public void getQuote() throws RobinhoodApiException {
         TickerQuoteElement quote = api.getQuoteByTicker(MSFT);
-        assertEquals(false, quote == null);
+        assertFalse(quote == null);
     }
 
     @Test(expected = TickerNotFoundException.class)

@@ -3,14 +3,11 @@ package com.ampro.robinhood.net.pagination;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
-import com.ampro.robinhood.net.pagination.GetNextPage;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
 

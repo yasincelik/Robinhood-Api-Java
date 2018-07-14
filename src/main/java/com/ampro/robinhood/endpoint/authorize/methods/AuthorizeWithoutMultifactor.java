@@ -30,7 +30,7 @@ public class AuthorizeWithoutMultifactor extends Authorize {
 
         setUrlBase("https://api.robinhood.com/api-token-auth/");
         //Add the parameters into the request
-        this.addFieldParameter("email", email);
+        this.addFieldParameter("username", email);
         this.addFieldParameter("password", password);
 
         this.addHeaderParameter("Content-Type",

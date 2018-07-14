@@ -7,9 +7,7 @@ import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 
 /**
  * Element containing information of a given position which exists on a users

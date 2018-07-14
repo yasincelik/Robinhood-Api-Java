@@ -5,7 +5,8 @@ import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
-import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
+import com.ampro.robinhood.endpoint.authorize.methods
+		.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.data
@@ -17,7 +18,8 @@ import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
-import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
+import com.ampro.robinhood.endpoint.instrument.methods
+		.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
@@ -37,7 +39,10 @@ import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
@@ -601,8 +606,9 @@ public class RobinhoodApi {
         ApiMethod method = GetAllInstruments.getDefault();
         InstrumentElementList list = requestManager.makeApiRequest(method);
         ArrayList<InstrumentElement> normalList = new ArrayList<>();
-        PaginatedIterator<InstrumentElement> iterator = new PaginatedIterator(list, config);
-        iterator.forEachRemaining(instrument -> normalList.add(instrument));
+        PaginatedIterator<InstrumentElement> iterator
+                = new PaginatedIterator<>(list, config);
+        iterator.forEachRemaining(normalList::add);
         return normalList;
     }
 
@@ -612,7 +618,8 @@ public class RobinhoodApi {
      * @param <E> The ApiElement of the List
      * @return a "Paginated" Iterable
      */
-    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList elementList) {
+    public <E extends ApiElement> Iterable<E>
+    buildIterable(ApiElementList<E> elementList) {
     	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
 	}
 

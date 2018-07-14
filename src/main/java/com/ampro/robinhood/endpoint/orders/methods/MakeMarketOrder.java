@@ -17,9 +17,19 @@ public class MakeMarketOrder extends OrderMethod {
     private String tickerInstrumentUrl;
     private TimeInForce time;
 
+    /**
+     * TODO
+     * @param ticker
+     * @param quantity
+     * @param orderType
+     * @param time
+     * @param config
+     * @throws RobinhoodApiException
+     * @throws TickerNotFoundException
+     */
     public MakeMarketOrder(String ticker, int quantity, OrderTransactionType orderType,
                            TimeInForce time, Configuration config)
-    throws RobinhoodApiException, TickerNotFoundException {
+    throws RobinhoodApiException {
         super(config);
         this.ticker = ticker;
         this.quantity = quantity;

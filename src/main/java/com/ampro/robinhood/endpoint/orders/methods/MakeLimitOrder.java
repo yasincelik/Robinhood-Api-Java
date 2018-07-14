@@ -17,10 +17,21 @@ public class MakeLimitOrder extends OrderMethod {
 
 	private String tickerInstrumentUrl;
 
+	/**
+	 * TODO
+	 * @param ticker
+	 * @param time
+	 * @param limitPrice
+	 * @param quantity
+	 * @param orderType
+	 * @param config
+	 * @throws RobinhoodApiException
+	 * @throws TickerNotFoundException
+	 */
 	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice,
 	                      int quantity, OrderTransactionType orderType,
 	                      Configuration config)
-    throws RobinhoodApiException, TickerNotFoundException {
+    throws RobinhoodApiException {
         super(config);
         this.ticker = ticker;
         this.time = time;
