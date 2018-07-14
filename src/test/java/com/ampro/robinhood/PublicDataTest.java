@@ -1,3 +1,4 @@
+package com.ampro.robinhood;
 import com.ampro.robinhood.RobinhoodApi;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;

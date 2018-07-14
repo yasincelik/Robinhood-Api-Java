@@ -1,8 +1,19 @@
-package com.ampro.robinhood.endpoint.option.data;
+package com.ampro.robinhood.endpoint.derivative.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Abstraction representing a leg for single Robinhood investment derivative.
+ * <p>
+ * For further domain knowledge on options, see the
+ * <a href="https://www.investopedia.com/terms/l/leg.asp">Leg
+ * Investopedia article</a>.
+ * 
+ * @author <a href="https://github.com/albanoj2">Justin Albano</a>
+ * 
+ * @since 0.8.2
+ */
 public class Leg {
 
 	private String id;

@@ -1,9 +1,27 @@
 package com.ampro.robinhood.endpoint.option.data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.ampro.robinhood.endpoint.derivative.data.Leg;
+import com.ampro.robinhood.util.ChronoFormatter;
+
+/**
+ * Abstraction representing a single Robinhood investment option. This option
+ * mirrors the options domain object returned from the
+ * {@code /options/...} Robinhood Representational State
+ * Transfer (REST) endpoints. Note that this option representation includes
+ * support for multi-leg options.
+ * <p>
+ * For further domain knowledge on options, see the
+ * <a href="https://www.investopedia.com/terms/o/option.asp">Options
+ * Investopedia article</a>.
+ * 
+ * @author <a href="https://github.com/albanoj2">Justin Albano</a>
+ * 
+ * @since 0.8.2
+ */
 public class Option {
 
 	private String id;
@@ -20,60 +38,60 @@ public class Option {
 	private String symbol;
 	private String trade_value_multiplier;
 	private String updated_at;
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public BigDecimal getAverageOpenPrice() {
 		return new BigDecimal(average_open_price);
 	}
-	
+
 	public String getChainUrl() {
 		return chain;
 	}
-	
-	public LocalDateTime getCreatedAt() {
-		return LocalDateTime.parse(created_at);
+
+	public ZonedDateTime getCreatedAt() {
+		return ZonedDateTime.parse(created_at, ChronoFormatter.getFormat());
 	}
-	
+
 	public String getDirection() {
 		return direction;
 	}
-	
+
 	public BigDecimal getIntradayAverageOpenPrice() {
 		return new BigDecimal(intraday_average_open_price);
 	}
-	
+
 	public String getIntradayDirection() {
 		return intraday_direction;
 	}
-	
+
 	public BigDecimal getIntradayQuantity() {
 		return new BigDecimal(intraday_quantity);
 	}
-	
+
 	public List<Leg> getLegs() {
 		return legs;
 	}
-	
+
 	public BigDecimal getQuantity() {
 		return new BigDecimal(quantity);
 	}
-	
+
 	public String getStrategy() {
 		return strategy;
 	}
-	
+
 	public String getSymbol() {
 		return symbol;
 	}
-	
+
 	public BigDecimal getTradeValueMultiplier() {
 		return new BigDecimal(trade_value_multiplier);
 	}
-	
-	public LocalDateTime getUpdatedAt() {
-		return LocalDateTime.parse(updated_at);
+
+	public ZonedDateTime getUpdatedAt() {
+		return ZonedDateTime.parse(updated_at);
 	}
 }
