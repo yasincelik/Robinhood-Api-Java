@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.ampro.robinhood.endpoint.derivative.data.Leg;
 import com.ampro.robinhood.util.ChronoFormatter;
 
 /**
@@ -93,5 +92,84 @@ public class Option {
 
 	public ZonedDateTime getUpdatedAt() {
 		return ZonedDateTime.parse(updated_at);
+	}
+
+	void setId(String id) {
+		this.id = id;
+	}
+
+	void setAverageOpenPrice(String average_open_price) {
+		this.average_open_price = average_open_price;
+	}
+
+	void setChain(String chain) {
+		this.chain = chain;
+	}
+
+	void setCreatedAt(String created_at) {
+		this.created_at = created_at;
+	}
+
+	void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	void setIntradayAverageOpenPrice(String intraday_average_open_price) {
+		this.intraday_average_open_price = intraday_average_open_price;
+	}
+
+	void setIntradayDirection(String intraday_direction) {
+		this.intraday_direction = intraday_direction;
+	}
+
+	void setIntradayQuantity(String intraday_quantity) {
+		this.intraday_quantity = intraday_quantity;
+	}
+
+	void setLegs(List<Leg> legs) {
+		this.legs = legs;
+	}
+
+	void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
+
+	void setStrategy(String strategy) {
+		this.strategy = strategy;
+	}
+
+	void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	void setTradeValueMultiplier(String trade_value_multiplier) {
+		this.trade_value_multiplier = trade_value_multiplier;
+	}
+
+	void setUpdatedAt(String updated_at) {
+		this.updated_at = updated_at;
+	}
+
+	public boolean isSimpleOption() {
+		return legs != null && legs.size() == 1;
+	}
+	
+	public SimpleOption asSimpleOption() {
+		
+		if (isSimpleOption()) {
+			Leg firstLeg = legs.get(0);
+			return new SimpleOption(
+				symbol, 
+				firstLeg.getOptionType(), 
+				getQuantity(), 
+				getAverageOpenPrice(), 
+				firstLeg.getStrikePrice(), 
+				firstLeg.getExpirationDate(),
+				getTradeValueMultiplier()
+			);
+		}
+		else {
+			throw new NonSimpleOptionException();
+		}
 	}
 }
