@@ -427,12 +427,11 @@ public class RobinhoodApi {
      * @param collectionName the collection name
      * @return the collection data as a list of {@link InstrumentFundamentalElement].
      * @throws RobinhoodApiException the robinhood api exception
-     * @throws RobinhoodNotLoggedInException the robinhood not logged in exception
      * 
      * @author MainStringArgs
      */
     public List<InstrumentFundamentalElement> getCollectionData(String collectionName)
-        throws RobinhoodApiException, RobinhoodNotLoggedInException {
+        throws RobinhoodApiException {
   
       // Create the API method
       ApiMethod method = new GetCollectionData(collectionName);
