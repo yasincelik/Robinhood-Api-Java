@@ -5,6 +5,10 @@ Thanks to [Conrad Weiser](https://github.com/ConradWeiser) for making
 [the orginal wrapper project](https://github.com/ConradWeiser/Unofficial-Robinhood-Api)
 . Without them, this fork would literally be impossible!
 
+__We have a [Discord](https://discordapp.com) server for the [Robninhood API
+community. Feel free to join and ask questions or chat about coding or
+whatever.](https://discord.gg/VF7FctD)__
+
 ## Contents
 - [Installation](#INSTALL)
     - [Dependencies](#DEPEN)
