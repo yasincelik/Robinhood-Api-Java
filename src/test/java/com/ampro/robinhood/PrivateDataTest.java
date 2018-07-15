@@ -1,8 +1,6 @@
-import com.ampro.robinhood.RobinhoodApi;
+package com.ampro.robinhood;
+
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
-import com.ampro.robinhood.endpoint.orders.methods.GetOrdersMethod;
-import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import org.junit.Assert;

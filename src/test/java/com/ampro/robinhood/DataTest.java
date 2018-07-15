@@ -1,3 +1,5 @@
+package com.ampro.robinhood;
+
 import com.ampro.robinhood.RobinhoodApi;
 import com.ampro.robinhood.net.request.RequestManager;
 import org.junit.Before;
