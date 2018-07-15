@@ -1,11 +1,6 @@
 package com.ampro.robinhood;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +15,6 @@ public class LogHandler extends Handler {
 	private final PrintWriter fileWriter;
 
 	public LogHandler() {
-
 		//Force it to run the constructor without the write flag once created
 		this(false);
 
@@ -30,7 +24,6 @@ public class LogHandler extends Handler {
 		PrintWriter out = null;
 
 		try {
-
 			File log = new File("robinhood-api.log");
 			if(!log.exists()) {
 				log.createNewFile();

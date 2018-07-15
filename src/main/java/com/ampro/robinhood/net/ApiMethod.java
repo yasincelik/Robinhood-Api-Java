@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public abstract class ApiMethod {
 
+	public static final String RH_URL = "https://api.robinhood.com";
+
 	public static int MAX_TICKERS = 1630;
 
 	protected final Configuration config;

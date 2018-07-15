@@ -23,7 +23,7 @@ public class GetOptionsMethod extends ApiMethod {
 	 *            The configuration associated with this method.
 	 */
 	public GetOptionsMethod(Configuration config) {
-		this(config, "https://api.robinhood.com");
+		this(config, RH_URL);
 	}
 
 	/**
@@ -39,7 +39,6 @@ public class GetOptionsMethod extends ApiMethod {
 	 */
 	protected GetOptionsMethod(Configuration config, String host) {
 		super(config);
-
 		this.setMethodType(RequestMethod.GET);
 		this.setUrlBase(host + "/options/aggregate_positions/");
 		this.setReturnType(OptionElementList.class);

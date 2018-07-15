@@ -549,8 +549,7 @@ public class RobinhoodApi {
 		//Create the API method
 		ApiMethod method = new GetTickerQuote(ticker);
         TickerQuoteElement quote = requestManager.makeApiRequest(method);
-        if (quote.getSymbol() == null)
-            throw new TickerNotFoundException();
+        if (quote == null) throw new TickerNotFoundException();
 		return quote;
 	}
 

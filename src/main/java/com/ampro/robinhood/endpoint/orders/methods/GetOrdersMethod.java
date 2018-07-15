@@ -17,7 +17,7 @@ public class GetOrdersMethod extends OrderMethod {
      */
     public GetOrdersMethod(Configuration config) {
         super(config);
-        this.setUrlBase("https://api.robinhood.com/orders/");
+        this.setUrlBase(RH_URL + "/orders/");
 
         this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 
