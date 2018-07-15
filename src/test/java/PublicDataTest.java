@@ -11,6 +11,7 @@ import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,41 +22,19 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-public class PublicDataTest {
-    static RobinhoodApi api;
-    static RequestManager requestManager;
-    static List<String> tenTickers;
-    static String MSFT;
-    static String MSFT_URL;
-    static String FAKE;
-    static String KEYWORD;
-
-    @Before
-    public void init() {
-        api = new RobinhoodApi();
-        requestManager = RequestManager.getInstance();
-        tenTickers = new ArrayList<>(Arrays.asList(
-                "MSFT", "VT", "VTI", "BAC", "DIS",
-                "FB", "TSLA", "AAPL", "INTC", "BABA"
-        ));
-        MSFT = "MSFT";
-        MSFT_URL = "https://api.robinhood" +
-                ".com/instruments/50810c35-d215-4866-9758-0ada4ac79ffa/";
-        FAKE = "KOKOBOKO";
-        KEYWORD = "INC";
-    }
+public class PublicDataTest extends DataTest {
 
     //Fundimentals
     @Test
     public void getTickerFundimental() throws RobinhoodApiException {
         TickerFundamentalElement msft = api.getFundamental(MSFT);
-        assertFalse(msft == null);
+        assertNotNull(msft);
     }
 
     @Test
     public void getTickerFundimentalList() throws RobinhoodApiException {
         List<TickerFundamentalElement> list = api.getFundimentalList(tenTickers);
-        list.forEach( element -> assertNotNull(element));
+        list.forEach(Assert::assertNotNull);
     }
 
     @Test(expected = RequestTooLargeException.class)
@@ -68,7 +47,7 @@ public class PublicDataTest {
     @Test
     public void getInstrumentByTicker() throws RobinhoodApiException {
         InstrumentElement instrument = api.getInstrumentByTicker(MSFT);
-        assertFalse(instrument == null);
+        assertNotNull(instrument);
     }
 
     @Test(expected = TickerNotFoundException.class)
@@ -80,14 +59,14 @@ public class PublicDataTest {
     public void getInstrumentByUrl() throws RobinhoodApiException {
         ApiMethod method = new GetInstrumentByUrl(MSFT_URL);
         InstrumentElement instrument = requestManager.makeApiRequest(method);
-        assertFalse(instrument == null);
+        assertNotNull(instrument);
     }
 
     @Test
     public void getAllInstruments()
     throws RobinhoodApiException {
         allInstruments = api.getAllInstruments();
-        allInstruments.forEach(element -> assertFalse(element == null));
+        allInstruments.forEach(Assert::assertNotNull);
     }
 
     @Test

@@ -8,14 +8,14 @@ import com.ampro.robinhood.net.request.RequestMethod;
  * REST GET method to retrieve a user's orders.
  * @author Jonathan Augustine
  */
-public class GetOrderMethod extends OrderMethod {
+public class GetOrdersMethod extends OrderMethod {
 
     /**
      * Set api URL to GET from and return type
      * ({@link SecurityOrderElementList}).
      * @param config a logged in {@link Configuration}
      */
-    public GetOrderMethod(Configuration config) {
+    public GetOrdersMethod(Configuration config) {
         super(config);
         this.setUrlBase("https://api.robinhood.com/orders/");
 

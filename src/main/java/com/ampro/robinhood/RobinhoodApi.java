@@ -359,7 +359,7 @@ public class RobinhoodApi {
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
         SecurityOrderElementList orders;
         //Setup the web method call
-        ApiMethod method = new GetOrderMethod(this.config);
+        ApiMethod method = new GetOrdersMethod(this.config);
         method.addAuthTokenParameter();
         //Attempt to GET from Robinhood API
         orders = requestManager.makeApiRequest(method);
@@ -623,11 +623,7 @@ public class RobinhoodApi {
     	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
 	}
 
-	/**
-	 * A method which attempts to throw a {@link RobinhoodNotLoggedInException} to see if there is currently a user logged
-	 * in or not.
-	 * @return If there is a user logged into the Robinhood Instance or not.
-	 */
+	/** @return {@code true} if the API has been logged in */
 	public boolean isLoggedIn() {
         try {
             return this.config.getToken() != null;
@@ -636,4 +632,7 @@ public class RobinhoodApi {
         }
     }
 
+	public Configuration getConfig() {
+		return config;
+	}
 }
