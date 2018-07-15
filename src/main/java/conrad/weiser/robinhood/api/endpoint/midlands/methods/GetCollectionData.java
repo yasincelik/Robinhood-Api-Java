@@ -14,17 +14,15 @@ import conrad.weiser.robinhood.api.request.RequestMethod;
 public class GetCollectionData extends Midlands {
 
 	/**
-	 * Instantiates the GetCollectionData class
+	 * Instantiates the GetCollectionData class. Examples of collections include
+	 * 'manufacturing', 'consumer-product', & '100-most-popular'
 	 * 
-	 * Examples of collections include 'manufacturing', 'consumer-product', &
-	 * '100-most-popular'
-	 *
 	 * @param collectionName
 	 *            the collection name to query for.
 	 */
 	public GetCollectionData(final String collectionName) {
 		super();
-		
+
 		this.setUrlBase("https://api.robinhood.com/midlands/tags/tag/" + collectionName + "/");
 
 		// Add the headers into the request

@@ -18,11 +18,16 @@ public class InstrumentFundamentalListElement {
 	/** The list of instruments that the request returned */
 	private transient String[] instruments;
 
+	/** The request manager. */
+	private transient RequestManager requestManager;
+
 	/**
 	 * Instantiates a new instrument fundamental list element.
 	 */
 	public InstrumentFundamentalListElement() {
 		super();
+
+		requestManager = RequestManager.getInstance();
 	}
 
 	/**
@@ -39,13 +44,13 @@ public class InstrumentFundamentalListElement {
 			// Return the array as a list for ease-of-use
 			final List<InstrumentFundamentalElement> elementList = new ArrayList<InstrumentFundamentalElement>();
 
-			for (String result : instruments) {
+			for (final String result : instruments) {
 				final ApiMethod method = new GetInstrumentFundamental(result);
 				InstrumentFundamentalElement element = null;
 
 				try {
 
-					element = RequestManager.getInstance().makeApiRequest(method);
+					element = requestManager.makeApiRequest(method);
 
 				} catch (RobinhoodApiException e) {
 					e.printStackTrace();
