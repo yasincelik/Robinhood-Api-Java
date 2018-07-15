@@ -147,66 +147,7 @@ Float buyingPower = accountData.getBuyingPower();
 System.out.println(accountNumber + " : " + buyingPower);
 ```
 
-### Options
-The options associated with a Robinhood account can be obtained by calling the `getOptions` method on a `RobinhoodApi` object. For example:
-
-```java
-RobinhoodApi api = new RobinhoodApi("username", "password");
-List<Option> options = api.getOptions();
-
-for (Option option: options) {
-    // ...Access each option...
-}
-```
-
-The `Option` class includes all basic option information supported by the Robinhood API. For example, assuming the following option exists for a given Robinhood account:
-
-> 2  Aug 17, 2018 calls of ABC with a strike price of $100 at a premium of $1.10/share (100 underlying shares)
-
-The data associated with an `Option` object named `option` can be obtained as follows:
-
-| Data          | Method Call | Example Result |
-| ------------- | ------| ------ |
-| Symbol | `option.getSymbol()` | `ABC` |
-| Average Open Price | `option.getAverageOpenPrice()` | `110.0000` |
-| Quantity | `option.getQuantity()` | `2.0000` |
-| Type | `option.getLegs().get(0).getOptionType()` | `call` |
-| Strike price | `option.getLegs().get(0).getStrikePrice()` | `100.0000` |
-| Expiration Date | `option.getLegs().get(0).getExpirationDate()` | `2018-08-17` |
-| Underlying Shares | `option.getTradeValueMultiplier()` | `100.0000` |
-
-The `Option` class supports multiple legs (see [Multi-Leg Options Order](https://www.investopedia.com/terms/m/multilegorder.asp)), but in many cases, options contain only a single leg (as in the example above). In this case, the type, strike price, and expiration date of this simplified option is the type, strike price, and expiration, respectively, of its first (and only) leg. 
-
-To remove tediousness of extracting this simplified date, a `SimpleOption` object can be obtained from an `Option` object using the `asSimpleOption()` method. In order to determine if an `Option` object is a simple option (has exactly one leg), the `isSimpleOption()` method can be used:
-
-```java
-Option option = // ...
-
-if (option.isSimpleOption()) {
-    SimpleOption simpleOption = option.asSimpleOption();
-    System.out.println(simpleOption);
-}
-```
-
-Assuming the `option` object contains the data from the above example, executing this snippet results in the following output:
-
-```
-2 Aug 17, 2018 calls of ABC with a strike price $100 purchased for an average price of $110 (100 underlying shares)
-```
-
-To obtain the individual option information from a `SimpleOption` object named `simpleOption`, the following method calls can be used:
-
-| Data          | Method Call |
-| ------------- | ------| 
-| Symbol | `simpleOption.getSymbol()` |
-| Average Open Price | `simpleOption.getAverageOpenPrice()`
-| Quantity | `simpleOption.getQuantity()` |
-| Type | `simpleOption.getType()` |
-| Strike price | `simpleOption.getStrikePrice()` |
-| Expiration Date | `simpleOption.getExpirationDate()` |
-| Underlying Shares | `simpleOption.getTradeValueMultiplier()` |
-
-### [More detailed instructions on usage](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki)
+### [More detailed instructions on usage and Endpoint Data](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki)
 
 <a name='CONTR'></a>
 ## Contributing
@@ -228,6 +169,10 @@ a few guidlines:
     still reserve the right to deny any pull requests that add too many and/or
      unreliable dependencies.
 - Prettyness
+    - Since the codebase is constantly being updated, we won't blame you
+    if your contribution is a few commits behind (unless it's a big
+    change). Whenever possible, we will update the needed parts, just
+    don't make it too much work...
     - We're pretty open to coding styles here, everyone has their prefered way
     to code, but at some point...*ya gotta look consistant*.
     1. ``for``, ``if``, ``while``, etc should have curly braces. We know it
