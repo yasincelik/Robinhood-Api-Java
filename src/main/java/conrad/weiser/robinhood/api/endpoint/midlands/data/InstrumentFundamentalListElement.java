@@ -15,8 +15,11 @@ import conrad.weiser.robinhood.api.throwables.RobinhoodApiException;
  */
 public class InstrumentFundamentalListElement {
 
-	/** The list of instruments that the request returned */
-	private transient String[] instruments;
+	/**
+	 * The list of instruments that the request returned. This cannot be marked
+	 * transient because it is set by GSON.
+	 */
+	private String[] instruments;
 
 	/** The request manager. */
 	private transient RequestManager requestManager;
