@@ -29,6 +29,15 @@ public class Configuration {
 	private String accountNumber;
 
 	/**
+	 * Whether or not an authToken exists.
+	 * If an authToken does not exist than there is no current logged in user.
+	 * @return {@code true} if an authToken exists
+	 */
+	public boolean hasToken() {
+		return this.authToken != null;
+	}
+
+	/**
 	 * Method which gets the saved authorization token if the user is logged in.
 	 * If one does not exist, it throws an error reminding the user to run the
      * login functions
@@ -41,15 +50,6 @@ public class Configuration {
 		if(authToken == null)
 			throw new RobinhoodNotLoggedInException();
 		return this.authToken;
-	}
-	
-	/**
-	 * Method that returns whether or not an authToken exists. If an authToken does not exist than there is no current logged in user.
-	 * @return if an authToken exists
-	 */
-	public boolean hasToken()
-	{
-		return this.authToken != null;
 	}
 
 	/**

@@ -5,17 +5,18 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
-sourceCompatibility = '1.8'
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
 repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
 }
 
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 group = 'com.ampro'
 version = '0.8.2'
+rootProject.description = 'A Java wrapper for the Robinhood investing service\'s API'
 
 dependencies {
     //Running
@@ -38,6 +39,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+/*Publishing under construction
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -57,7 +59,63 @@ publishing {
                         email = 'Aqua@jhu.edu'
                     }
                 }
+                organization {
+                    name = 'Aquatic Mastery Productions'
+                    url = 'https://aquaticmasteryproductions.com'
+                }
+                scm {
+                    url =  'https://github.com/AquaticMasteryProductions/Robinhood-Api-Java'
+                    connection = 'scm:git:git://github.com/AquaticMasteryProductions/Robinhood-Api-Java'
+                    developerConnection = 'scm:git:ssh://git@github.com/AquaticMasteryProductions/Robinhood-Api-Java'
+                }
+                issueManagement {
+                    system  = 'GitHub'
+                    url  = 'https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/issues'
+                }
+            }
+
+            /* create the sign pom artifact
+            pom.withXml {
+                def pomFile = file("${project.buildDir}/generated-pom.xml")
+                writeTo(pomFile)
+                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                artifact(pomAscFile) {
+                    classifier = null
+                    extension = 'pom.asc'
+                }
+            }
+            // create the signed artifacts
+            project.tasks.signArchives.signatureFiles.each {
+                artifact(it) {
+                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                    if (matcher.find()) {
+                        classifier = matcher.group(1)
+                    } else {
+                        classifier = null
+                    }
+                    extension = 'jar.asc'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username = ossrhUser
+                password = ossrhPassword
             }
         }
     }
 }
+
+signing {
+    sign configurations.archives
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+}
+*/
