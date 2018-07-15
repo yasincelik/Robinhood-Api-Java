@@ -42,6 +42,15 @@ public class Configuration {
 			throw new RobinhoodNotLoggedInException();
 		return this.authToken;
 	}
+	
+	/**
+	 * Method that returns whether or not an authToken exists. If an authToken does not exist than there is no current logged in user.
+	 * @return if an authToken exists
+	 */
+	public boolean hasToken()
+	{
+		return this.authToken != null;
+	}
 
 	/**
 	 * Method which registers the authToken for the user into the Configuration Manager

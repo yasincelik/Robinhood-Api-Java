@@ -8,6 +8,7 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
 
@@ -73,7 +74,7 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
     private ApiElementList<?> loadNextList()
     throws RobinhoodApiException {
         if (apiElementList.getNext() == null)
-            throw new RobinhoodApiException("ElementList has no next page.");
+            throw new NoSuchElementException();
         GetNextPage method = this.apiElementList.requiresAuth()
                 ? new GetNextPage(this.apiElementList, config)
                 : new GetNextPage(this.apiElementList);

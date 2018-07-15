@@ -635,11 +635,7 @@ public class RobinhoodApi {
 
 	/** @return {@code true} if the API has been logged in */
 	public boolean isLoggedIn() {
-        try {
-            return this.config.getToken() != null;
-        } catch (RobinhoodNotLoggedInException e) {
-            return false;
-        }
+            return this.config.hasToken();
     }
 
     /** @return The API instance's {@link Configuration} */
