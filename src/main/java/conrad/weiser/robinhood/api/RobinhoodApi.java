@@ -419,12 +419,17 @@ public class RobinhoodApi {
 	}
 	
     /**
-     * Gets the collection data.
+     * Gets the collection data from Robinhood based on the given Collection Name.
+     * This method does not require a security token.
+     * 
+     * Examples of collections include 'manufacturing', 'consumer-product', & '100-most-popular'
      *
      * @param collectionName the collection name
-     * @return the collection data
+     * @return the collection data as a list of {@link InstrumentFundamentalElement].
      * @throws RobinhoodApiException the robinhood api exception
      * @throws RobinhoodNotLoggedInException the robinhood not logged in exception
+     * 
+     * @author MainStringArgs
      */
     public List<InstrumentFundamentalElement> getCollectionData(String collectionName)
         throws RobinhoodApiException, RobinhoodNotLoggedInException {

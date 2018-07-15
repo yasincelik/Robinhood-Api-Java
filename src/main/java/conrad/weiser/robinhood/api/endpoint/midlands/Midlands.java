@@ -2,14 +2,22 @@ package conrad.weiser.robinhood.api.endpoint.midlands;
 
 import conrad.weiser.robinhood.api.ApiMethod;
 
+/**
+ * The Class reprsenting the midlands API endpoint.
+ * 
+ * @author MainStringArgs
+ */
 public class Midlands extends ApiMethod {
-  
-  protected Midlands() {
-      
-      super("midlands");
-      
-//      //We do require a token for these methods. Thus we require it for all methods using this service
-//      this.requireToken();
-  }
+
+	/**
+	 * Instantiates a new midlands.
+	 */
+	protected Midlands() {
+
+		super("midlands");
+
+		// //We do require a token for these methods.
+		// this.requireToken();
+	}
 
 }

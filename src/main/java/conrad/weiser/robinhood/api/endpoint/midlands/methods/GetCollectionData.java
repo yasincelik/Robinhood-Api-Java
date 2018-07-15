@@ -6,26 +6,33 @@ import conrad.weiser.robinhood.api.parameters.HttpHeaderParameter;
 import conrad.weiser.robinhood.api.request.RequestMethod;
 
 /**
- * The Class GetCollectionData.
+ * The Class GetCollectionData that allows querying for stocks based on
+ * collection name.
+ * 
+ * @author MainStringArgs
  */
 public class GetCollectionData extends Midlands {
 
-  /**
-   * Instantiates gets the collection data.
-   *
-   * @param collectionName the collection
-   */
-  public GetCollectionData(String collectionName) {
+	/**
+	 * Instantiates the GetCollectionData class
+	 * 
+	 * Examples of collections include 'manufacturing', 'consumer-product', &
+	 * '100-most-popular'
+	 *
+	 * @param collectionName
+	 *            the collection name to query for.
+	 */
+	public GetCollectionData(String collectionName) {
 
-    this.setUrlBase("https://api.robinhood.com/midlands/tags/tag/" + collectionName + "/");
+		this.setUrlBase("https://api.robinhood.com/midlands/tags/tag/" + collectionName + "/");
 
-    // Add the headers into the request
-    this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
+		// Add the headers into the request
+		this.addHttpHeaderParameter(new HttpHeaderParameter("Accept", "application/json"));
 
-    // This method is ran as GET
-    this.setMethod(RequestMethod.GET);
+		// This method is ran as GET
+		this.setMethod(RequestMethod.GET);
 
-    // Declare what the response should look like
-    this.setReturnType(InstrumentFundamentalListElement.class);
-  }
+		// Declare what the response should look like
+		this.setReturnType(InstrumentFundamentalListElement.class);
+	}
 }
