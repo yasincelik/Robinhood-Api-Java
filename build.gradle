@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'java-library'
+    id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
@@ -24,4 +26,38 @@ dependencies {
     //Testing
     testCompile 'junit:junit:4.12'
     testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.18.0'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'robinhood-api'
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'Robinhood API'
+                description = 'A Java wrapper for the Robinhood investing service\'s API'
+                url = 'https://github.com/AquaticMasteryProductions/Robinhood-Api-Java'
+                licenses { license { name = 'MIT License' } }
+                developers {
+                    developer {
+                        id = 'JonoAugustine'
+                        name = 'Jonathan Augustine'
+                        email = 'Aqua@jhu.edu'
+                    }
+                }
+            }
+        }
+    }
 }
