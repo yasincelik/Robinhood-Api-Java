@@ -29,12 +29,6 @@ public class Configuration {
 	private String accountNumber;
 
 	/**
-	 * The Account URL for the account logged in. This variable is required to
-     * run a lot of the order requests.
-	 */
-	private String accountUrl;
-
-	/**
 	 * Method which gets the saved authorization token if the user is logged in.
 	 * If one does not exist, it throws an error reminding the user to run the
      * login functions

@@ -4,8 +4,8 @@ import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
-import com.ampro.robinhood.throwables.TickerNotFoundException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
+import com.ampro.robinhood.throwables.TickerNotFoundException;
 
 public class MakeLimitOrder extends OrderMethod {
 

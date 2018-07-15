@@ -5,20 +5,22 @@ import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
-import com.ampro.robinhood.endpoint.authorize.methods
-		.AuthorizeWithoutMultifactor;
+import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.data
 		.TickerFundimentalElementList;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
-import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamentalList;
+import com.ampro.robinhood.endpoint.fundamentals.methods
+		.GetTickerFundimentalList;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
-import com.ampro.robinhood.endpoint.instrument.methods
-		.SearchInstrumentsByKeyword;
+import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
+import com.ampro.robinhood.endpoint.option.data.Option;
+import com.ampro.robinhood.endpoint.option.data.Options;
+import com.ampro.robinhood.endpoint.option.methods.GetOptionsMethod;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
@@ -358,7 +360,7 @@ public class RobinhoodApi {
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
         SecurityOrderElementList orders;
         //Setup the web method call
-        ApiMethod method = new GetOrdersMethod(this.config);
+        ApiMethod method = new GetOrderMethod(this.config);
         method.addAuthTokenParameter();
         //Attempt to GET from Robinhood API
         orders = requestManager.makeApiRequest(method);
@@ -511,7 +513,7 @@ public class RobinhoodApi {
 	getFundimentalList(Collection<String> tickers)
 	throws RobinhoodApiException {
 		TickerFundimentalElementList list = requestManager.makeApiRequest(
-				new GetTickerFundamentalList(tickers)
+				new GetTickerFundimentalList(tickers)
 		);
 		PaginatedIterator<TickerFundamentalElement> it
 				= new PaginatedIterator<>(list);
@@ -617,8 +619,7 @@ public class RobinhoodApi {
      * @param <E> The ApiElement of the List
      * @return a "Paginated" Iterable
      */
-    public <E extends ApiElement> Iterable<E>
-    buildIterable(ApiElementList<E> elementList) {
+    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
     	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
 	}
 
@@ -631,6 +632,14 @@ public class RobinhoodApi {
         }
     }
 
+	public List<Option> getOptions() throws RobinhoodApiException {
+		ApiMethod method = new GetOptionsMethod(this.config);
+		method.addAuthTokenParameter();
+        Options options = requestManager.makeApiRequest(method);
+        return options.getResults();
+	}
+
+    /** @return The API instance's {@link Configuration} */
 	public Configuration getConfig() {
 		return config;
 	}

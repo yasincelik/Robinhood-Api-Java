@@ -26,7 +26,6 @@ implements ApiElement, Iterable<TickerQuoteElement> {
     @SerializedName("results")
     @Expose
     private List<TickerQuoteElement> results;
-    private final static long serialVersionUID = 1097478353426776156L;
 
     /** @return An unmodifieable list of {@link TickerQuoteElement quotes} */
     public List<TickerQuoteElement> getQuotes() {

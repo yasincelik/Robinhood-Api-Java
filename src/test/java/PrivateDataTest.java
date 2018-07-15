@@ -14,6 +14,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Tests getting private data.
+ *
+ * !! If you use this test, you need a config.txt file with your
+ * login information. This file is ignored. DO NOT UPLOAD YOUR LOGIN
+ * INFORMATION !! you hvae been warned
+ *
+ * @author Jonathan Augustine
+ */
 public class PrivateDataTest extends DataTest {
 
     @Override
