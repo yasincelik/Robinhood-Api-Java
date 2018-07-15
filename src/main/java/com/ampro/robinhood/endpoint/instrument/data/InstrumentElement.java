@@ -12,9 +12,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class InstrumentElement implements ApiElement {
 
-    @Override
-    public boolean requiresAuth() { return false; }
-
     @SerializedName("tradable_chain_id")
     @Expose
     private String tradableChainId;
@@ -99,6 +96,9 @@ public class InstrumentElement implements ApiElement {
     @SerializedName("simple_name")
     @Expose
     private String simpleName;
+
+    @Override
+    public boolean requiresAuth() { return false; }
 
     public String getTradableChainId() {
         return tradableChainId;

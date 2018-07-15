@@ -1,7 +1,6 @@
 package com.ampro.robinhood.endpoint.option.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ampro.robinhood.endpoint.ApiElementList;
 
 /**
  * Abstraction representing a set of options returned from the
@@ -9,21 +8,15 @@ import java.util.List;
  * endpoints. This abstraction is only intended to wrap the results of a
  * Robinhood request and should not be used directly. In order to obtain the
  * {@link Option} objects associated with this response, use the
- * {@link Options#getResults()} method.
- * 
+ * {@link OptionElementList#getResults()} method.
+ *
  * @author <a href="https://github.com/albanoj2">Justin Albano</a>
- * 
+ *
  * @since 0.8.2
  */
-public class Options {
+public class OptionElementList extends ApiElementList<Option> {
 
-	private final List<Option> results;
+	@Override
+	public boolean requiresAuth() { return true; }
 
-	public Options() {
-		results = new ArrayList<>();
-	}
-
-	public List<Option> getResults() {
-		return results;
-	}
 }

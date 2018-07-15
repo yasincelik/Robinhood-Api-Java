@@ -1,5 +1,5 @@
 package com.ampro.robinhood;
-import com.ampro.robinhood.RobinhoodApi;
+
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
@@ -8,16 +8,13 @@ import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
-import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -34,14 +31,14 @@ public class PublicDataTest extends DataTest {
 
     @Test
     public void getTickerFundimentalList() throws RobinhoodApiException {
-        List<TickerFundamentalElement> list = api.getFundimentalList(tenTickers);
+        List<TickerFundamentalElement> list = api.getFundamentalList(tenTickers);
         list.forEach(Assert::assertNotNull);
     }
 
     @Test(expected = RequestTooLargeException.class)
     public void tickerListTooLarge() throws RobinhoodApiException {
         tenTickers.add("GE");
-        api.getFundimentalList(tenTickers);
+        api.getFundamentalList(tenTickers);
     }
 
     //Instruments

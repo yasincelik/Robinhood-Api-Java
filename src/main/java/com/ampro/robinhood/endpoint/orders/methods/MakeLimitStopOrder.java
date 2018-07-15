@@ -17,6 +17,7 @@ public class MakeLimitStopOrder extends OrderMethod {
     private int quantity;
     private OrderTransactionType orderType;
     private String tickerInstrumentUrl;
+    private float stopPrice;
 
     /**
      * TODO
@@ -34,6 +35,7 @@ public class MakeLimitStopOrder extends OrderMethod {
                               int quantity, OrderTransactionType orderType,
                               float stopPrice, Configuration config)
     throws RobinhoodApiException {
+
         super(config);
         this.tickerInstrumentUrl = verifyTickerData(ticker);
         this.ticker = ticker;
@@ -41,6 +43,7 @@ public class MakeLimitStopOrder extends OrderMethod {
         this.limitPrice = limitPrice;
         this.quantity = quantity;
         this.orderType = orderType;
+        this.stopPrice = stopPrice;
 
         //Set the normal parameters for this endpoint
         setEndpointParameters();
@@ -62,7 +65,8 @@ public class MakeLimitStopOrder extends OrderMethod {
         this.addFieldParameter("type", "limit");
         this.addFieldParameter("time_in_force", getTimeInForceString(this.time));
         this.addFieldParameter("price", this.limitPrice);
-        this.addFieldParameter("trigger", "immediate");
+        this.addFieldParameter("stop_price", this.stopPrice);
+        this.addFieldParameter("trigger", "stop");
         this.addFieldParameter("quantity", String.valueOf(this.quantity));
         this.addFieldParameter("side", getOrderSideString(this.orderType));
     }

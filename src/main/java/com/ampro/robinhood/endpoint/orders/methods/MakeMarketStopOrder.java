@@ -18,10 +18,21 @@ public class MakeMarketStopOrder extends OrderMethod {
     private TimeInForce time;
     private float stopPrice;
 
+    /**
+     *
+     * @param ticker
+     * @param quantity
+     * @param orderType
+     * @param time
+     * @param stopPrice
+     * @param config
+     * @throws RobinhoodApiException
+     * @throws com.ampro.robinhood.throwables.RobinhoodNotLoggedInException
+     */
     public MakeMarketStopOrder(String ticker, int quantity,
                                OrderTransactionType orderType, TimeInForce time,
                                float stopPrice, Configuration config)
-    throws RobinhoodApiException, TickerNotFoundException {
+    throws RobinhoodApiException {
         super(config);
         this.ticker = ticker;
         this.quantity = quantity;

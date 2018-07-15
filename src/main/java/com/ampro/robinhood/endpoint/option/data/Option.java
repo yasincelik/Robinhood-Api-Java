@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.throwables.NonSimpleOptionException;
 import com.ampro.robinhood.util.ChronoFormatter;
 
 /**
@@ -14,14 +16,14 @@ import com.ampro.robinhood.util.ChronoFormatter;
  * support for multi-leg options.
  * <p>
  * For further domain knowledge on options, see the
- * <a href="https://www.investopedia.com/terms/o/option.asp">Options
+ * <a href="https://www.investopedia.com/terms/o/option.asp">OptionElementList
  * Investopedia article</a>.
- * 
+ *
  * @author <a href="https://github.com/albanoj2">Justin Albano</a>
- * 
+ *
  * @since 0.8.2
  */
-public class Option {
+public class Option implements ApiElement {
 
 	private String id;
 	private String average_open_price;
@@ -37,6 +39,11 @@ public class Option {
 	private String symbol;
 	private String trade_value_multiplier;
 	private String updated_at;
+
+	@Override
+	public boolean requiresAuth() {
+		return true;
+	}
 
 	public String getId() {
 		return id;
@@ -153,17 +160,22 @@ public class Option {
 	public boolean isSimpleOption() {
 		return legs != null && legs.size() == 1;
 	}
-	
-	public SimpleOption asSimpleOption() {
-		
+
+    /**
+     * Convert this {@link Option} to a {@link SimpleOption}
+     * @return a SimpleOption copied from this Option
+     * @throws NonSimpleOptionException If the option cannot be converted
+     */
+	public SimpleOption asSimpleOption() throws NonSimpleOptionException {
+
 		if (isSimpleOption()) {
 			Leg firstLeg = legs.get(0);
 			return new SimpleOption(
-				symbol, 
-				firstLeg.getOptionType(), 
-				getQuantity(), 
-				getAverageOpenPrice(), 
-				firstLeg.getStrikePrice(), 
+				symbol,
+				firstLeg.getOptionType(),
+				getQuantity(),
+				getAverageOpenPrice(),
+				firstLeg.getStrikePrice(),
 				firstLeg.getExpirationDate(),
 				getTradeValueMultiplier()
 			);

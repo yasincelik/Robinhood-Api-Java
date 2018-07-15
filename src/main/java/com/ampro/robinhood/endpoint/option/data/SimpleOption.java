@@ -1,11 +1,16 @@
 package com.ampro.robinhood.endpoint.option.data;
 
+import com.ampro.robinhood.endpoint.ApiElement;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class SimpleOption {
+/**
+ * TODO DOCS
+ */
+public class SimpleOption implements ApiElement {
 
 	private final String symbol;
 	private final String type;
@@ -29,7 +34,7 @@ public class SimpleOption {
 	public String getSymbol() {
 		return symbol;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
@@ -45,11 +50,11 @@ public class SimpleOption {
 	public BigDecimal getStrikePrice() {
 		return strikePrice;
 	}
-	
+
 	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
-	
+
 	public BigDecimal getTradeMultiplier() {
 		return tradeMultiplier;
 	}
@@ -64,5 +69,10 @@ public class SimpleOption {
 			getAverageOpenPrice(),
 			getTradeMultiplier()
 		);
+	}
+
+	@Override
+	public boolean requiresAuth() {
+		return true;
 	}
 }

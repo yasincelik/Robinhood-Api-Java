@@ -1,22 +1,20 @@
 package com.ampro.robinhood.net.request;
 
-import static java.lang.Void.TYPE;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.impl.client.HttpClients;
-
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
-
 import io.github.openunirest.http.HttpResponse;
 import io.github.openunirest.http.JsonNode;
 import io.github.openunirest.http.Unirest;
 import io.github.openunirest.http.exceptions.UnirestException;
 import io.github.openunirest.request.HttpRequest;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.impl.client.HttpClients;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import static java.lang.Void.TYPE;
 
 /**
  * Singleton for making HTTP(S) requests with {@link ApiMethod}
@@ -127,7 +125,7 @@ public class RequestManager {
             String body = IOUtils.toString(json.getRawBody(), StandardCharsets.UTF_8.name());
             return gson.fromJson(body, method.getReturnType());
 
-        } 
+        }
         catch (UnirestException ex) {
             System.err.println(
                     "[RobinhoodApi] Failed to communicate with endpoint"
