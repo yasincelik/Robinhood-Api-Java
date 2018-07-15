@@ -61,7 +61,8 @@ public class GetOptionElementListMethodIntegrationTest {
 
 	@Test
 	public void correctlyParseCreatedAt() throws Exception {
-		assertDateTimeEquals(2018, 7, 11, 14, 1, 0, 509277000, ZoneOffset.UTC, firstOption.getCreatedAt());
+		assertDateTimeEquals(2018, 7, 11, 14, 1, 0, 509277000, ZoneOffset.UTC,
+		                     firstOption.getCreatedAt());
 	}
 
 	@Test

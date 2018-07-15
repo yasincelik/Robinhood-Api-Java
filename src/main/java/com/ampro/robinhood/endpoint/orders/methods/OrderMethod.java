@@ -37,11 +37,11 @@ public class OrderMethod extends ApiMethod {
 	/**
 	 * Parses the Time of Day enum variable and returns the simplified
 	 * version which the API requires in order to make a request
-	 * @param time
+	 * @param timeInForce Duration of the order
 	 */
-	protected String getTimeInForceString(TimeInForce time)
+	protected String getTimeInForceString(TimeInForce timeInForce)
     throws RobinhoodApiException {
-			switch (time) {
+			switch (timeInForce) {
 				case FILL_OR_KILL: return "fok";
 				case GOOD_FOR_DAY: return "gfd";
 				case GOOD_UNTIL_CANCELED: return "gtc";
@@ -61,11 +61,11 @@ public class OrderMethod extends ApiMethod {
 	 * Method which parses the Order Side enum value.
 	 * This should only return BUY or SELL
 	 *
-	 * @param type
+	 * @param transactionType buy or sell
 	 */
-	protected String getOrderSideString(OrderTransactionType type)
+	protected String getOrderSideString(OrderTransactionType transactionType)
     throws RobinhoodApiException {
-        switch (type) {
+        switch (transactionType) {
             case BUY: return "buy";
             case SELL: return "sell";
             default:

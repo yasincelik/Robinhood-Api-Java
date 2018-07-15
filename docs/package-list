@@ -9,6 +9,8 @@ com.ampro.robinhood.endpoint.fundamentals.data
 com.ampro.robinhood.endpoint.fundamentals.methods
 com.ampro.robinhood.endpoint.instrument.data
 com.ampro.robinhood.endpoint.instrument.methods
+com.ampro.robinhood.endpoint.option.data
+com.ampro.robinhood.endpoint.option.methods
 com.ampro.robinhood.endpoint.orders.data
 com.ampro.robinhood.endpoint.orders.enums
 com.ampro.robinhood.endpoint.orders.methods
@@ -20,3 +22,4 @@ com.ampro.robinhood.net.pagination
 com.ampro.robinhood.net.request
 com.ampro.robinhood.net.request.ratelimiting
 com.ampro.robinhood.throwables
+com.ampro.robinhood.util
