@@ -8,44 +8,57 @@ import conrad.weiser.robinhood.api.endpoint.fundamentals.methods.GetInstrumentFu
 import conrad.weiser.robinhood.api.request.RequestManager;
 import conrad.weiser.robinhood.api.throwables.RobinhoodApiException;
 
+/**
+ * The Class representing an InstrumentFundamentalListElement.
+ * 
+ * @author MainStringArgs
+ */
 public class InstrumentFundamentalListElement {
 
+	/** The list of instruments that the request returned */
+	private transient String[] instruments;
 
+	/**
+	 * Instantiates a new instrument fundamental list element.
+	 */
+	public InstrumentFundamentalListElement() {
+		super();
+	}
 
-  /**
-   * The list of instruments that the user is currently in
-   */
-  private String[] instruments;
+	/**
+	 * Gets the instrument fundamental list.
+	 *
+	 * @return the instrument fundamental list
+	 * @throws RobinhoodApiException
+	 *             the robinhood api exception
+	 */
+	public List<InstrumentFundamentalElement> getInstrumentFundamentalList() throws RobinhoodApiException {
 
+		if (instruments != null) {
 
-  public List<InstrumentFundamentalElement> getInstrumentFundamentalList()
-      throws RobinhoodApiException {
+			// Return the array as a list for ease-of-use
+			final List<InstrumentFundamentalElement> elementList = new ArrayList<InstrumentFundamentalElement>();
 
-    if (instruments != null) {
+			for (String result : instruments) {
+				final ApiMethod method = new GetInstrumentFundamental(result);
+				InstrumentFundamentalElement element = null;
 
-      // Return the array as a list for ease-of-use
-      List<InstrumentFundamentalElement> elementList = new ArrayList();
+				try {
 
-      for (String result : instruments) {
-        ApiMethod method = new GetInstrumentFundamental(result);
-        InstrumentFundamentalElement element = null;
+					element = RequestManager.getInstance().makeApiRequest(method);
 
-        try {
+				} catch (RobinhoodApiException e) {
+					e.printStackTrace();
+				}
 
-          element = RequestManager.getInstance().makeApiRequest(method);
+				elementList.add(element);
+			}
 
+			return elementList;
 
-        } catch (RobinhoodApiException e) {
-          e.printStackTrace();
-        }
-
-        elementList.add(element);
-      }
-
-      return elementList;
-
-    } else
-      throw new RobinhoodApiException("Error retrieving the list of instruments.");
-  }
+		} else {
+			throw new RobinhoodApiException("Error retrieving the list of instruments.");
+		}
+	}
 
 }

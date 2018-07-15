@@ -22,8 +22,9 @@ public class GetCollectionData extends Midlands {
 	 * @param collectionName
 	 *            the collection name to query for.
 	 */
-	public GetCollectionData(String collectionName) {
-
+	public GetCollectionData(final String collectionName) {
+		super();
+		
 		this.setUrlBase("https://api.robinhood.com/midlands/tags/tag/" + collectionName + "/");
 
 		// Add the headers into the request
