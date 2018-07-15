@@ -12,8 +12,7 @@ import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.data
 		.TickerFundimentalElementList;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
-import com.ampro.robinhood.endpoint.fundamentals.methods
-		.GetTickerFundimentalList;
+import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamentalList;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
@@ -512,7 +511,7 @@ public class RobinhoodApi {
 	getFundimentalList(Collection<String> tickers)
 	throws RobinhoodApiException {
 		TickerFundimentalElementList list = requestManager.makeApiRequest(
-				new GetTickerFundimentalList(tickers)
+				new GetTickerFundamentalList(tickers)
 		);
 		PaginatedIterator<TickerFundamentalElement> it
 				= new PaginatedIterator<>(list);

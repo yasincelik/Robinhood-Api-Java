@@ -6,12 +6,12 @@ import com.ampro.robinhood.throwables.RequestTooLargeException;
 
 import java.util.Collection;
 
-public class GetTickerFundimentalList extends GetFundamental {
+public class GetTickerFundamentalList extends GetFundamental {
 
     /** API supports up to ten per request */
     private static int MAX_TICKERS = 10;
 
-    public GetTickerFundimentalList(Collection<String> tickers)
+    public GetTickerFundamentalList(Collection<String> tickers)
     throws RequestTooLargeException {
         super();
         if (tickers.size() > MAX_TICKERS) {
