@@ -10,7 +10,7 @@ import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
- * The Class representing an InstrumentFundamentalListElement.
+ * The Class InstrumentCollectionList.
  * 
  * @author MainStringArgs
  */
@@ -22,12 +22,6 @@ public class InstrumentCollectionList {
 	 */
 	private String[] instruments;
 
-	/**
-	 * Instantiates a new instrument fundamental list element.
-	 */
-	public InstrumentCollectionList() {
-		super();
-	}
 
 	/**
 	 * Gets the instrument list.
