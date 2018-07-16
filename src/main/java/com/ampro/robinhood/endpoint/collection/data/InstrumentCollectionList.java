@@ -3,6 +3,7 @@ package com.ampro.robinhood.endpoint.collection.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.ApiMethod;
@@ -11,52 +12,74 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
  * The Class InstrumentCollectionList.
- * 
+ * Examples of collections include 'manufacturing', 'consumer-product', and
+ * '100-most-popular'
  * @author MainStringArgs
  */
-public class InstrumentCollectionList {
+public class InstrumentCollectionList implements ApiElement {
+
+	private String name;
+    private String description;
+    private String canonical_examples;
+    private String slug;
 
 	/**
-	 * The list of instruments that the request returned. This cannot be marked
-	 * transient because it is set by GSON.
+	 * The list of instrument URLs that the request returned.
+     * This cannot be marked transient because it is set by GSON.
 	 */
-	private String[] instruments;
-
+	private List<String> instruments;
 
 	/**
-	 * Gets the instrument list.
+	 * Gets the instrument list. (Makes API Call)
 	 *
 	 * @return the instrument fundamental list
 	 * @throws RobinhoodApiException
 	 *             the robinhood api exception
 	 */
-	public List<InstrumentElement> getInstrumentElementList() throws RobinhoodApiException {
+	public List<InstrumentElement> getInstruments()
+	throws RobinhoodApiException {
 
-		if (instruments != null) {
+        if (instruments == null) {
+            throw new RobinhoodApiException("Error retrieving the list of instruments.");
+        }
 
-			// Return the array as a list for ease-of-use
-			final List<InstrumentElement> elementList = new ArrayList<InstrumentElement>();
+        // Return the array as a list for ease-of-use
+        List<InstrumentElement> elementList = new ArrayList<>();
 
-			for (final String result : instruments) {
-				final ApiMethod method = new GetInstrumentByUrl(result);
-				InstrumentElement element = null;
+        instruments.forEach(url -> {
+            ApiMethod method = new GetInstrumentByUrl(url);
+            InstrumentElement element = null;
 
-				try {
+            try {
+                element = RequestManager.getInstance().makeApiRequest(method);
+            } catch (RobinhoodApiException e) {
+                e.printStackTrace();
+            }
 
-					element = RequestManager.getInstance().makeApiRequest(method);
+            elementList.add(element);
+        });
 
-				} catch (RobinhoodApiException e) {
-					e.printStackTrace();
-				}
+        return elementList;
+    }
 
-				elementList.add(element);
-			}
+    public String getName() {
+        return name;
+    }
 
-			return elementList;
+    public String getDescription() {
+        return description;
+    }
 
-		} else {
-			throw new RobinhoodApiException("Error retrieving the list of instruments.");
-		}
-	}
+    public String getCanonical_examples() {
+        return canonical_examples;
+    }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    @Override
+    public boolean requiresAuth() {
+        return false;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-public class PublicDataTest extends DataTest {
+public class PublicBaseTest extends BaseTest {
 
     //Fundimentals
     @Test

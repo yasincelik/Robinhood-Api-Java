@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author Jonathan Augustine
  */
-public class PrivateDataTest extends DataTest {
+public class PrivateBaseTest extends BaseTest {
 
     @Override
     public void init() throws Exception {

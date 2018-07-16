@@ -1,6 +1,5 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.RobinhoodApi;
 import com.ampro.robinhood.net.request.RequestManager;
 import org.junit.Before;
 
@@ -8,14 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DataTest {
-    static RobinhoodApi api;
-    static RequestManager requestManager;
-    static List<String> tenTickers;
-    static String MSFT;
-    static String MSFT_URL;
-    static String FAKE;
-    static String KEYWORD;
+public class BaseTest {
+    protected static RobinhoodApi api;
+    protected static RequestManager requestManager;
+    protected static List<String> tenTickers;
+    protected static String MSFT;
+    protected static String MSFT_URL;
+    protected static String FAKE;
+    protected static String KEYWORD;
 
     @Before
     public void init() throws Exception {

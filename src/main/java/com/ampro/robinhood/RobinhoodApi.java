@@ -624,32 +624,30 @@ public class RobinhoodApi {
         iterator.forEachRemaining(normalList::add);
         return normalList;
     }
-    
+
 	/**
 	 * Gets the collection data from Robinhood based on the given Collection
 	 * Name. This method does not require a security token.
-	 * 
-	 * Examples of collections include 'manufacturing', 'consumer-product', &
+	 *
+	 * Examples of collections include 'manufacturing', 'consumer-product', and
 	 * '100-most-popular'
 	 *
 	 * @param collectionName
 	 *            the collection name
-	 * @return the collection data as a list of
-	 *         {@link InstrumentFundamentalElement].
+	 * @return the collection data as a list of {@link InstrumentElement].
 	 * @throws RobinhoodApiException
 	 *             the robinhood api exception
-	 * 
+	 *
 	 * @author MainStringArgs
 	 */
-	public InstrumentCollectionList getCollectionData(String collectionName) throws RobinhoodApiException {
+	public InstrumentCollectionList getCollectionData(String collectionName)
+	throws RobinhoodApiException {
 
 		// Create the API method
 		ApiMethod method = new GetCollectionData(collectionName);
 
-		// Return the current account positions
 		InstrumentCollectionList response = requestManager.makeApiRequest(method);
 		return response;
-
 	}
 
     /**
