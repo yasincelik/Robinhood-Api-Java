@@ -1,10 +1,12 @@
 com.ampro.robinhood
 com.ampro.robinhood.endpoint
 com.ampro.robinhood.endpoint.account.data
-com.ampro.robinhood.endpoint.account.data.enums
+com.ampro.robinhood.endpoint.account.enums
 com.ampro.robinhood.endpoint.account.methods
 com.ampro.robinhood.endpoint.authorize.data
 com.ampro.robinhood.endpoint.authorize.methods
+com.ampro.robinhood.endpoint.collection.data
+com.ampro.robinhood.endpoint.collection.methods
 com.ampro.robinhood.endpoint.fundamentals.data
 com.ampro.robinhood.endpoint.fundamentals.methods
 com.ampro.robinhood.endpoint.instrument.data
@@ -18,6 +20,7 @@ com.ampro.robinhood.endpoint.orders.wrappers
 com.ampro.robinhood.endpoint.quote.data
 com.ampro.robinhood.endpoint.quote.methods
 com.ampro.robinhood.net
+com.ampro.robinhood.net.annotations
 com.ampro.robinhood.net.pagination
 com.ampro.robinhood.net.request
 com.ampro.robinhood.net.request.ratelimiting

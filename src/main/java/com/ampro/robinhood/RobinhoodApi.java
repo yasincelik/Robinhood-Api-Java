@@ -620,7 +620,7 @@ public class RobinhoodApi {
 	 *
 	 * @param collectionName
 	 *            the collection name
-	 * @return the collection data as a list of {@link InstrumentElement].
+	 * @return the collection data as a list of {@link InstrumentElement}.
 	 * @throws RobinhoodApiException
 	 *             the robinhood api exception
 	 *

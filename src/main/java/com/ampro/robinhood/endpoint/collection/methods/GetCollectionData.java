@@ -14,7 +14,7 @@ public class GetCollectionData extends GetFundamental {
 
 	/**
 	 * Instantiates the GetCollectionData class. Examples of collections include
-	 * 'manufacturing', 'consumer-product', & '100-most-popular'
+	 * 'manufacturing', 'consumer-product', and '100-most-popular'
 	 *
 	 * @param collectionName
 	 *            the collection name to query for.
