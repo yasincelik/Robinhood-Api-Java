@@ -18,7 +18,7 @@ public class BaseTest {
     protected static String KEYWORD;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         api = new RobinhoodApi();
         requestManager = RequestManager.getInstance();
         tenTickers = new ArrayList<>(Arrays.asList(

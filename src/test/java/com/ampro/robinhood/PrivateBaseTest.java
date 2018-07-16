@@ -1,17 +1,18 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Level;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
  * Tests getting private data.
@@ -25,13 +26,23 @@ import static org.junit.Assert.assertNotNull;
 public class PrivateBaseTest extends BaseTest {
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         super.init();
         File file = new File("config.txt");
-        if (!file.canRead())
-            throw new RobinhoodNotLoggedInException("Requires a login config.");
-        List<String> lines = Files.readAllLines(file.toPath());
-        api = new RobinhoodApi(lines.get(0), lines.get(1));
+        if (file.canRead())
+        {
+        	try{
+		        List<String> lines = Files.readAllLines(file.toPath());
+		        api = new RobinhoodApi(lines.get(0), lines.get(1));
+        	}catch(Exception e){
+        		e.printStackTrace();
+        	}
+        }
+        else
+        {
+        	RobinhoodApi.log.log(Level.SEVERE, "Could not read the "
+        			+ "config file to get credentials!");
+        }
     }
 
     @Test

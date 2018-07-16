@@ -40,7 +40,6 @@ import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestStatus;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
@@ -48,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -104,7 +104,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodNotLoggedInException If the login failed
 	 */
 	public RobinhoodApi(String username, String password)
-    throws RobinhoodNotLoggedInException {
+    throws RobinhoodApiException {
 
 		//Construct the manager
 		RobinhoodApi.requestManager = RequestManager.getInstance();
@@ -112,7 +112,7 @@ public class RobinhoodApi {
 
 		//Log the user in and store the auth token
 		if (logUserIn(username, password) == RequestStatus.FAILURE)
-		    throw new RobinhoodNotLoggedInException("Failed to log user in.");
+		    throw new RobinhoodApiException("Failed to log user in.");
 
 	}
 
@@ -120,7 +120,7 @@ public class RobinhoodApi {
 	 * Method which returns the authentication for the logged in user, if one exists.
 	 * @throws RobinhoodNotLoggedInException
 	 */
-	public String getAccountAuthToken() throws RobinhoodNotLoggedInException {
+	public String getAccountAuthToken() {
 		return this.config.getToken();
 	}
 
@@ -174,11 +174,12 @@ public class RobinhoodApi {
                     (accountMethod);
             AccountElement data = requestData.getResult();
 
-            //If there is no account number, something went wrong. Throw an exception
-
-            //TODO: Make this more graceful
-            if (data.getAccountNumber() == null)
-                throw new RobinhoodApiException("Failed to get account Number.");
+            //If there is no account number, something went wrong.
+            if (data.getAccountNumber() == null) {
+            	RobinhoodApi.log.log(Level.SEVERE, "Failed to get account Number.");
+            	RobinhoodApi.log.log(Level.SEVERE, "Unable to login!");
+            	return RequestStatus.FAILURE;
+            }
 
             this.config.setAccountNumber(data.getAccountNumber());
 
@@ -198,21 +199,23 @@ public class RobinhoodApi {
 	 * @return an enum containing either "SUCCESS", "FAILURE" or "NOT_LOGGED_IN"
      * @throws RobinhoodApiException
 	 */
-	public RequestStatus logUserOut() throws RobinhoodApiException {
-		try {
-			//Create the APIMethod which attempts to log the user out, and run it
-			ApiMethod method = new LogoutFromRobinhood(this.config);
-			method.addAuthTokenParameter();
-			requestManager.makeApiRequest(method);
-
-			//If we made it to this point without throwing something, it worked!
-			return RequestStatus.SUCCESS;
-
-		} catch (RobinhoodNotLoggedInException ex) {
-			//If there was no token in the configManager, the user was never
-			//logged in
+	public RequestStatus logUserOut() {
+		if(!this.isLoggedIn()) {
 			return RequestStatus.NOT_LOGGED_IN;
 		}
+		
+		//Create the APIMethod which attempts to log the user out, and run it
+		ApiMethod method = new LogoutFromRobinhood(this.config);
+		method.addAuthTokenParameter();
+		try {
+			requestManager.makeApiRequest(method);
+		} catch (RobinhoodApiException e) {
+			return RequestStatus.FAILURE;
+		}
+
+		//If we made it to this point without throwing something, it worked!
+		return RequestStatus.SUCCESS;
+
 
 	}
 
@@ -242,7 +245,7 @@ public class RobinhoodApi {
 	 * @throws RobinhoodApiException
 	 */
 	public BasicUserInfoElement getBasicUserInfo()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
 		//Create the API method for the request
 		ApiMethod method = new GetBasicUserInfo(this.config);
 		return requestManager.makeApiRequest(method);
@@ -305,7 +308,7 @@ public class RobinhoodApi {
      * @throws RobinhoodNotLoggedInException
      */
     public List<PositionElement> getAccountWatchlist()
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws RobinhoodApiException {
         //Create the API method
         ApiMethod method = new GetAccountPositions(this.config);
         method.addAuthTokenParameter();
@@ -322,7 +325,7 @@ public class RobinhoodApi {
      * @throws RobinhoodNotLoggedInException
      */
     public List<PositionElement> getAccountPositions()
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws RobinhoodApiException {
 
         //Get the entire watchlist for the account
         List<PositionElement> accountWatchlist = this.getAccountWatchlist();
@@ -347,7 +350,7 @@ public class RobinhoodApi {
      * @author Jonathan Augustine
      */
     public List<SecurityOrderElement> getOrders()
-    throws RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws RobinhoodApiException {
         SecurityOrderElementList orders;
         //Setup the web method call
         ApiMethod method = new GetOrdersMethod(this.config);
@@ -376,7 +379,7 @@ public class RobinhoodApi {
     public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
                                                float limitPrice, int quantity,
                                                OrderTransactionType orderType)
-    throws TickerNotFoundException, RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws TickerNotFoundException, RobinhoodApiException {
 
         //Create the API method
         ApiMethod method = new MakeLimitOrder(ticker, timeInForce, limitPrice,
@@ -398,14 +401,12 @@ public class RobinhoodApi {
      *                      into a market order
      * @throws TickerNotFoundException The ticker supplied is not valid.
      * @throws RobinhoodApiException There is a general problem with the API.
-     * @throws RobinhoodNotLoggedInException Thrown when the current instance
-     *              is not logged into an account. Run the login method first.
      */
     public SecurityOrderElement makeLimitStopOrder(String ticker, TimeInForce timeInForce,
                                                    float limitPrice, int quantity,
                                                    OrderTransactionType orderType,
                                                    float stopPrice)
-    throws TickerNotFoundException, RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws TickerNotFoundException, RobinhoodApiException {
 
         //Create the API method
         ApiMethod method = new MakeLimitStopOrder(ticker, timeInForce, limitPrice,
@@ -423,14 +424,12 @@ public class RobinhoodApi {
      * @param time The Enum representation of when this order should be made.
      * @return The SecurityOrderElement object with the API response.
      * @throws TickerNotFoundException if the ticker supplied was invalid
-     * @throws RobinhoodNotLoggedInException if you are not logged into
-     *              Robinhood on this API object
      * @throws RobinhoodApiException
      */
     public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
                                                 OrderTransactionType orderType,
                                                 TimeInForce time)
-    throws TickerNotFoundException, RobinhoodNotLoggedInException, RobinhoodApiException {
+    throws TickerNotFoundException, RobinhoodApiException {
 
         //Create the API method
         ApiMethod method = new MakeMarketOrder(ticker, quantity, orderType, time,
@@ -450,12 +449,11 @@ public class RobinhoodApi {
      * @return
      * @throws RobinhoodApiException
      * @throws TickerNotFoundException
-     * @throws RobinhoodNotLoggedInException
      */
     public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
                                                     OrderTransactionType orderType,
                                                     TimeInForce time, float stopPrice)
-    throws RobinhoodApiException, TickerNotFoundException, RobinhoodNotLoggedInException {
+    throws RobinhoodApiException, TickerNotFoundException {
         //Create the API method
         ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time,
                                                    stopPrice, this.config);
@@ -468,10 +466,9 @@ public class RobinhoodApi {
      * @param order The order to cancel
      * @return The cancelled order
      * @throws RobinhoodApiException
-     * @throws RobinhoodNotLoggedInException
      */
     public SecurityOrderElement cancelOrder(SecurityOrderElement order)
-    throws RobinhoodApiException, RobinhoodNotLoggedInException {
+    throws RobinhoodApiException {
         ApiMethod method = new CancelOrderMethod(order, this.config);
         method.addAuthTokenParameter();
         return requestManager.makeApiRequest(method);
