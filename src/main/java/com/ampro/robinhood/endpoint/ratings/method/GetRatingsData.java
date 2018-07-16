@@ -22,7 +22,7 @@ public class GetRatingsData extends GetFundamental {
     this.setUrlBase(RH_URL + "/midlands/ratings/");
 
     // convert the ids to a String a strip off the [ and ].
-    String queryParam = Arrays.toString(ids).replaceAll("\\[|\\]|\\s", "");
+    final String queryParam = Arrays.toString(ids).replaceAll("\\[|\\]|\\s", "");
 
     this.addQueryParameter("ids", queryParam);
   

@@ -166,13 +166,10 @@ public class TickerQuoteElement implements ApiElement {
      * @return the instrument id
      */
     public String getInstrumentId() {
-
-      if (instrument != null) {
-        String idStr = instrument.split("/")[4];
-        return idStr;
-      }
-      
-      return "";
+  
+      final String idStr = instrument == null ? "" : instrument.split("/")[4];
+      return idStr;
+  
     }
 
 }
