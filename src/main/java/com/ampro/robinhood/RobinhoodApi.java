@@ -1,13 +1,35 @@
 package com.ampro.robinhood;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Logger;
+
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
-import com.ampro.robinhood.endpoint.account.data.*;
-import com.ampro.robinhood.endpoint.account.methods.*;
+import com.ampro.robinhood.endpoint.account.data.AccountArrayWrapper;
+import com.ampro.robinhood.endpoint.account.data.AccountElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderAffiliationElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderEmploymentElement;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentElement;
+import com.ampro.robinhood.endpoint.account.data.BasicAccountHolderInfoElement;
+import com.ampro.robinhood.endpoint.account.data.BasicUserInfoElement;
+import com.ampro.robinhood.endpoint.account.data.PositionElement;
+import com.ampro.robinhood.endpoint.account.data.PositionElementList;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderAffiliationInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderEmploymentInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountHolderInvestmentInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetAccountPositions;
+import com.ampro.robinhood.endpoint.account.methods.GetAccounts;
+import com.ampro.robinhood.endpoint.account.methods.GetBasicAccountHolderInfo;
+import com.ampro.robinhood.endpoint.account.methods.GetBasicUserInfo;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.endpoint.authorize.methods
         .AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
+import com.ampro.robinhood.endpoint.collection.data.InstrumentCollectionList;
+import com.ampro.robinhood.endpoint.collection.methods.GetCollectionData;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.data
         .TickerFundimentalElementList;
@@ -27,7 +49,12 @@ import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
-import com.ampro.robinhood.endpoint.orders.methods.*;
+import com.ampro.robinhood.endpoint.orders.methods.CancelOrderMethod;
+import com.ampro.robinhood.endpoint.orders.methods.GetOrdersMethod;
+import com.ampro.robinhood.endpoint.orders.methods.MakeLimitOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeLimitStopOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeMarketOrder;
+import com.ampro.robinhood.endpoint.orders.methods.MakeMarketStopOrder;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
@@ -40,13 +67,8 @@ import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
-import io.github.openunirest.http.exceptions.UnirestException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Logger;
+import io.github.openunirest.http.exceptions.UnirestException;
 
 /**
  * <p><h2>
@@ -622,6 +644,49 @@ public class RobinhoodApi {
         iterator.forEachRemaining(normalList::add);
         return normalList;
     }
+    
+    /**
+     * Gets a list of instruments by searching with the given keyword.
+     * As of July 2018, it seems as this will not return a list greater than 10
+     * elements.
+     * @param keyword The keyword to search with
+     * @return A {@link List} of {@link InstrumentElement InstrumentElements}
+     *                  returned by Robinhood's search
+     * @throws RobinhoodApiException
+     */
+    public List<InstrumentElement> getInstrumentsByKeyword(String keyword)
+    throws RobinhoodApiException {
+        ApiMethod method = new SearchInstrumentsByKeyword(keyword);
+        InstrumentElementList list = requestManager.makeApiRequest(method);
+        return list.getResults();
+    }
+    
+	/**
+	 * Gets the collection data from Robinhood based on the given Collection
+	 * Name. This method does not require a security token.
+	 * 
+	 * Examples of collections include 'manufacturing', 'consumer-product', &
+	 * '100-most-popular'
+	 *
+	 * @param collectionName
+	 *            the collection name
+	 * @return the collection data as a list of
+	 *         {@link InstrumentFundamentalElement].
+	 * @throws RobinhoodApiException
+	 *             the robinhood api exception
+	 * 
+	 * @author MainStringArgs
+	 */
+	public InstrumentCollectionList getCollectionData(String collectionName) throws RobinhoodApiException {
+
+		// Create the API method
+		ApiMethod method = new GetCollectionData(collectionName);
+
+		// Return the current account positions
+		InstrumentCollectionList response = requestManager.makeApiRequest(method);
+		return response;
+
+	}
 
     /**
      * Build an {@link Iterable} based off a {@link PaginatedIterator}.
@@ -642,4 +707,5 @@ public class RobinhoodApi {
 	public Configuration getConfig() {
 		return config;
 	}
+	
 }

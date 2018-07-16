@@ -123,6 +123,7 @@ public class RequestManager {
             }
 
             String body = IOUtils.toString(json.getRawBody(), StandardCharsets.UTF_8.name());
+            System.out.println(body);
             return gson.fromJson(body, method.getReturnType());
 
         }
