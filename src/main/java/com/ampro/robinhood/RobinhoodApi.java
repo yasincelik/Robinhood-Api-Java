@@ -34,6 +34,8 @@ import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
 import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
+import com.ampro.robinhood.endpoint.ratings.data.RatingElementList;
+import com.ampro.robinhood.endpoint.ratings.method.GetRatingsData;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
 import com.ampro.robinhood.net.request.RequestManager;
@@ -645,6 +647,48 @@ public class RobinhoodApi {
     public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
     	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
 	}
+    
+    /**
+     * Gets the ratings by tickers.
+     * 
+     * @author MainStringArgs
+     * @param ticker the ticker
+     * @return the ratings by tickers
+     * @throws RobinhoodApiException the robinhood api exception
+     */
+      public RatingElementList getRatingsByTickers(String... tickers) throws RobinhoodApiException {
+      
+        List<String> instrumentIds = new ArrayList<String>();
+        for(String ticker: tickers) {
+          ApiMethod method = new GetTickerQuote(ticker.toUpperCase());
+          
+          TickerQuoteElement element = requestManager.makeApiRequest(method);
+          
+          if (element != null && element.getInstrumentId() != null) {
+            instrumentIds.add(element.getInstrumentId());
+          }
+        }
+
+        GetRatingsData method = new GetRatingsData(instrumentIds.toArray(new String[0]));
+    
+        return requestManager.makeApiRequest(method);
+        
+      }
+    
+    /**
+     * Gets the ratings by instrument ids.
+     *
+     * @author MainStringArgs
+     * @param instrument ids
+     * @return the ratings by instrument ids
+     * @throws RobinhoodApiException the robinhood api exception
+     */
+    public RatingElementList getRatingsByInstrumentIds(String... ids) throws RobinhoodApiException {
+      GetRatingsData method = new GetRatingsData(ids);
+  
+      return requestManager.makeApiRequest(method);
+    }
+
 
 	/** @return {@code true} if the API has been logged in */
 	public boolean isLoggedIn() {
