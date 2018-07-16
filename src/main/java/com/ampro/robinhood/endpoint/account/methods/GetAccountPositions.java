@@ -3,15 +3,13 @@ package com.ampro.robinhood.endpoint.account.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.PositionElementList;
 import com.ampro.robinhood.net.request.RequestMethod;
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
  * @author SirensBell, Jonathan Augustine
  */
 public class GetAccountPositions extends Account {
 
-    public GetAccountPositions(Configuration config)
-    throws RobinhoodNotLoggedInException {
+    public GetAccountPositions(Configuration config) {
         super(config);
 
         this.setUrlBase(RH_URL + "/accounts/{accountId}/positions/");

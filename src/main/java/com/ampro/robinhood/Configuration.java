@@ -1,7 +1,5 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
-
 /**
  * The Configuration stores authorization information about an instance of the
  * {@link RobinhoodApi}.
@@ -46,9 +44,7 @@ public class Configuration {
 	 * @return the saved Token for the logged in user
 	 * @throws RobinhoodNotLoggedInException if there is no stored Token. This must be populated by the setToken() method first
 	 */
-	public String getToken() throws RobinhoodNotLoggedInException {
-		if(authToken == null)
-			throw new RobinhoodNotLoggedInException();
+	public String getToken() {
 		return this.authToken;
 	}
 
@@ -66,9 +62,7 @@ public class Configuration {
 	 * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
      * not logged in
 	 */
-	public String getAccountNumber() throws RobinhoodNotLoggedInException {
-		if (this.accountNumber == null)
-			throw new RobinhoodNotLoggedInException();
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
@@ -84,9 +78,7 @@ public class Configuration {
      * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
      *                                          not logged in
 	 */
-	public String getAccountUrl() throws RobinhoodNotLoggedInException {
-		if (this.accountNumber == null)
-			throw new RobinhoodNotLoggedInException();
+	public String getAccountUrl() {
 		return "https://api.robinhood.com/accounts/" + this.accountNumber + "/";
 	}
 
