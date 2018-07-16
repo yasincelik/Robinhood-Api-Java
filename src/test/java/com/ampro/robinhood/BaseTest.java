@@ -2,6 +2,7 @@ package com.ampro.robinhood;
 
 import com.ampro.robinhood.net.request.RequestManager;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,11 @@ public class BaseTest {
                 ".com/instruments/50810c35-d215-4866-9758-0ada4ac79ffa/";
         FAKE = "KOKOBOKO";
         KEYWORD = "INC";
+    }
+
+    @Test
+    public void test() {
+
     }
 
 }

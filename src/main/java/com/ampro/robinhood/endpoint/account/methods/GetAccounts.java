@@ -4,6 +4,7 @@ import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.AccountArrayWrapper;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestMethod;
+import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
  * An {@link ApiMethod} used to get a list of a user's
@@ -19,10 +20,10 @@ public class GetAccounts extends Account {
 	 * <b>(ONLY CONTAINS 1 ACCOUNT ELEMENT AS OF 3/7/2018)</b>
 	 * @param config The {@link Configuration}
 	 */
-	public GetAccounts(Configuration config)  {
+	public GetAccounts(Configuration config) throws RobinhoodNotLoggedInException {
 	    super(config);
 
-		this.setUrlBase("https://api.robinhood.com/accounts/");
+		this.setUrlBase(RH_URL + "/accounts/");
 
 		//This method is ran as GET
 		this.setMethodType(RequestMethod.GET);

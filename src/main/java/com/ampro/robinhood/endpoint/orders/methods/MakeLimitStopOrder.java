@@ -11,13 +11,13 @@ import com.ampro.robinhood.throwables.TickerNotFoundException;
  */
 public class MakeLimitStopOrder extends OrderMethod {
 
-    private String ticker;
-    private TimeInForce time;
-    private float limitPrice;
-    private int quantity;
-    private OrderTransactionType orderType;
-    private String tickerInstrumentUrl;
-    private float stopPrice;
+    private final String ticker;
+    private final TimeInForce time;
+    private final float limitPrice;
+    private final int quantity;
+    private final OrderTransactionType orderType;
+    private final String tickerInstrumentUrl;
+    private final float stopPrice;
 
     /**
      * TODO
@@ -63,7 +63,7 @@ public class MakeLimitStopOrder extends OrderMethod {
         this.addFieldParameter("instrument", this.tickerInstrumentUrl);
         this.addFieldParameter("symbol", this.ticker);
         this.addFieldParameter("type", "limit");
-        this.addFieldParameter("time_in_force", getTimeInForceString(this.time));
+        this.addFieldParameter("time_in_force", this.time.toString());
         this.addFieldParameter("price", this.limitPrice);
         this.addFieldParameter("stop_price", this.stopPrice);
         this.addFieldParameter("trigger", "stop");

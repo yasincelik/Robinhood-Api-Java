@@ -1,5 +1,6 @@
 package com.ampro.robinhood;
 
+import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
@@ -38,5 +39,12 @@ public class PrivateBaseTest extends BaseTest {
         List<SecurityOrderElement> orders = api.getOrders();
         assertNotNull(orders);
         orders.forEach(Assert::assertNotNull);
+    }
+
+    @Test
+    public void getAccoutInvestmentProfile() throws RobinhoodApiException {
+        AccountHolderInvestmentProfile profile = api
+                .getAccountInvestmentProfile();
+        Assert.assertNotNull(profile);
     }
 }

@@ -35,29 +35,6 @@ public class OrderMethod extends ApiMethod {
 	}
 
 	/**
-	 * Parses the Time of Day enum variable and returns the simplified
-	 * version which the API requires in order to make a request
-	 * @param timeInForce Duration of the order
-	 */
-	protected String getTimeInForceString(TimeInForce timeInForce)
-    throws RobinhoodApiException {
-			switch (timeInForce) {
-				case FILL_OR_KILL: return "fok";
-				case GOOD_FOR_DAY: return "gfd";
-				case GOOD_UNTIL_CANCELED: return "gtc";
-				case IMMEDIATE_OR_CANCEL: return "ioc";
-				case ON_MARKET_OPEN: return "opg";
-				//You should never see this..
-				default:
-                    throw new RobinhoodApiException(
-                            "[RobinhoodApi] ERROR - Time in Force parsing failed." +
-                                    " You shouldn't see this, please file a bug " +
-                                    "report on github!"
-                    );
-			}
-	}
-
-	/**
 	 * Method which parses the Order Side enum value.
 	 * This should only return BUY or SELL
 	 *

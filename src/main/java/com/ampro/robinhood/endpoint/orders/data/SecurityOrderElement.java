@@ -124,28 +124,13 @@ public class SecurityOrderElement implements ApiElement {
 	 * @return the state as an ENUM value representing each possible response. See {@link OrderState}
 	 */
 	public OrderState getTransactionState() {
-
-		switch(this.state) {
-
-		case "queued": return OrderState.QUEUED;
-		case "unconfirmed": return OrderState.UNCONFIRMED;
-		case "confirmed": return OrderState.CONFIRMED;
-		case "partially_filled": return OrderState.PARTIALLY_FILLED;
-		case "filled": return OrderState.FILLED;
-		case "rejected": return OrderState.REJECTED;
-		case "canceled": return OrderState.CANCELED;
-		case "failed": return OrderState.FAILED;
-		default: return OrderState.API_ERROR;
-
-		}
-
+		return OrderState.parse(this.state);
 	}
 
 	/**
 	 * @return the state of the transaction as a readable string.
 	 */
 	public String getTransactionStateAsString() {
-
 		return this.state;
 	}
 

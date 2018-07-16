@@ -73,7 +73,7 @@ public class RobinhoodApi {
 	/**
 	 * The instance used to make the requests
 	 */
-	private static RequestManager requestManager = null;
+	private static RequestManager requestManager;
 
 	/**
 	 * The active instance of the Configuration Manager.
@@ -153,51 +153,43 @@ public class RobinhoodApi {
 	 *
 	 */
 	public RequestStatus logUserIn(String email, String password) {
-		//TODO: Implement multifactor authorization
-		ApiMethod method;
-		try {
-			method = new AuthorizeWithoutMultifactor(email, password);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			return RequestStatus.FAILURE;
-		}
-		try {
-			Token token = requestManager.makeApiRequest(method);
+        //TODO: Implement multifactor authorization
+        try {
+            ApiMethod method = new AuthorizeWithoutMultifactor(email, password);
+            Token token = requestManager.makeApiRequest(method);
 
-			//Save the token into the configuration manager to be used with
-			// other methods
-			this.config.setAuthToken(token.getToken());
+            //Save the token into the configuration manager to be used with
+            // other methods
+            this.config.setAuthToken(token.getToken());
 
-			//Save the account number into the configuraiton manager to be
-			// used with other methods
-			ApiMethod accountMethod = new GetAccounts(this.config);
-			try {
-				accountMethod.addAuthTokenParameter();
-			} catch (RobinhoodNotLoggedInException nle) {
-				RobinhoodApi.log.throwing(RobinhoodApi.class.getSimpleName(),
-				                          "logUserIn", nle);
-				return RequestStatus.FAILURE;
-			}
-			//TODO: Clean up the following line, it should not have to use
-			//the array wrapper. Tuck that code elsewhere
-			AccountArrayWrapper requestData = requestManager.makeApiRequest(accountMethod);
-			AccountElement data = requestData.getResult();
+            //Save the account number into the configuraiton manager to be
+            // used with other methods
+            ApiMethod accountMethod = new GetAccounts(this.config);
 
-			//If there is no account number, something went wrong. Throw an exception
-			//TODO: Make this more graceful
-			if(data.getAccountNumber() == null)
-				throw new RobinhoodApiException("Failed to get account Number.");
+            accountMethod.addAuthTokenParameter();
 
-			this.config.setAccountNumber(data.getAccountNumber());
+            //TODO: Clean up the following line, it should not have to use
+            //the array wrapper. Tuck that code elsewhere
+            AccountArrayWrapper requestData = requestManager.makeApiRequest
+                    (accountMethod);
+            AccountElement data = requestData.getResult();
 
-			return RequestStatus.SUCCESS;
+            //If there is no account number, something went wrong. Throw an exception
 
-		} catch (RobinhoodApiException e) {
-			RobinhoodApi.log.throwing(RobinhoodApi.class.getSimpleName(),
-			                          "logUserIn", e);
-			return RequestStatus.FAILURE;
-		}
-	}
+            //TODO: Make this more graceful
+            if (data.getAccountNumber() == null)
+                throw new RobinhoodApiException("Failed to get account Number.");
+
+            this.config.setAccountNumber(data.getAccountNumber());
+
+        } catch (UnirestException | RobinhoodApiException ure) {
+            RobinhoodApi.log
+                    .throwing(RobinhoodApi.class.getName(), "logUserIn", ure);
+            return RequestStatus.FAILURE;
+        }
+
+        return RequestStatus.SUCCESS;
+    }
 
 	/**
 	 * Method which forces the authorization token to expire, logging the user
@@ -237,7 +229,6 @@ public class RobinhoodApi {
 
 		//Create the API method for this request
 		ApiMethod method = new GetAccounts(this.config);
-		method.addAuthTokenParameter();
 
 		//TODO: This is a temporary fix, as the Robinhood API seems
 		//to have some features implemented, but are not used yet
@@ -254,7 +245,6 @@ public class RobinhoodApi {
     throws RobinhoodNotLoggedInException, RobinhoodApiException {
 		//Create the API method for the request
 		ApiMethod method = new GetBasicUserInfo(this.config);
-		method.addAuthTokenParameter();
 		return requestManager.makeApiRequest(method);
 	}
 
@@ -266,7 +256,6 @@ public class RobinhoodApi {
     throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetBasicAccountHolderInfo(this.config);
-		method.addAuthTokenParameter();
 		return requestManager.makeApiRequest(method);
 	}
 
@@ -278,7 +267,6 @@ public class RobinhoodApi {
     throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetAccountHolderAffiliationInfo(this.config);
-		method.addAuthTokenParameter();
 		return requestManager.makeApiRequest(method);
 	}
 
@@ -290,21 +278,19 @@ public class RobinhoodApi {
     throws RobinhoodApiException {
 		//Create the API method
 		ApiMethod method = new GetAccountHolderEmploymentInfo(this.config);
-		method.addAuthTokenParameter();
 		return requestManager.makeApiRequest(method);
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderInvestmentElement} for the
+	 * Method returning a {@link AccountHolderInvestmentProfile} for the
      * currently logged in user
-     * @return AccountHolderInvestmentElement
+     * @return AccountHolderInvestmentProfile
 	 * @throws RobinhoodNotLoggedInException if the user is not logged in
 	 */
-	public AccountHolderInvestmentElement getAccountHolderInvestment()
+	public AccountHolderInvestmentProfile getAccountInvestmentProfile()
     throws RobinhoodApiException {
 		//Create the API method
-		ApiMethod method = new GetAccountHolderInvestmentInfo(this.config);
-		method.addAuthTokenParameter();
+		ApiMethod method = new GetAccountHolderInvestmentProfile(this.config);
 		return requestManager.makeApiRequest(method);
 	}
 

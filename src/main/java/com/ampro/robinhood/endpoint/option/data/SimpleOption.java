@@ -20,8 +20,9 @@ public class SimpleOption implements ApiElement {
 	private final LocalDate expirationDate;
 	private final BigDecimal tradeMultiplier;
 
-	public SimpleOption(String symbol, String type, BigDecimal quantity, BigDecimal averageOpenPrice, BigDecimal strikePrice,
-			LocalDate expirationDate, BigDecimal tradeMultiplier) {
+	public SimpleOption(String symbol, String type, BigDecimal quantity,
+	                    BigDecimal averageOpenPrice, BigDecimal strikePrice,
+	                    LocalDate expirationDate, BigDecimal tradeMultiplier) {
 		this.symbol = symbol;
 		this.type = type;
 		this.quantity = quantity;

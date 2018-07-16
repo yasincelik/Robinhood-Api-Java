@@ -59,35 +59,67 @@ public class Leg implements ApiElement {
 		return new BigDecimal(strike_price);
 	}
 
+    /**
+     * ! Should only be used for test purposes !
+     * @param id
+     */
 	void setId(String id) {
 		this.id = id;
 	}
 
-	void setExpirationDate(String expiration_date) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param expiration_date
+	 */
+	public void setExpirationDate(String expiration_date) {
 		this.expiration_date = expiration_date;
 	}
 
-	void setOption(String option) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param option
+	 */
+	public void setOption(String option) {
 		this.option = option;
 	}
 
-	void setOptionType(String option_type) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param option_type
+	 */
+	public void setOptionType(String option_type) {
 		this.option_type = option_type;
 	}
 
-	void setPosition(String position) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param position
+	 */
+	public void setPosition(String position) {
 		this.position = position;
 	}
 
-	void setPositionType(String position_type) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param position_type
+	 */
+	public void setPositionType(String position_type) {
 		this.position_type = position_type;
 	}
 
-	void setRatioQuantity(String ratio_quantity) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param ratio_quantity
+	 */
+	public void setRatioQuantity(String ratio_quantity) {
 		this.ratio_quantity = ratio_quantity;
 	}
 
-	void setStrikePrice(String strike_price) {
+	/**
+	 * ! Should only be used for test purposes !
+	 * @param strike_price
+	 */
+	public void setStrikePrice(String strike_price) {
 		this.strike_price = strike_price;
 	}
 

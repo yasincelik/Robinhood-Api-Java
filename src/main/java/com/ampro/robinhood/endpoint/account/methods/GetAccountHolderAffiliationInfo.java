@@ -3,13 +3,15 @@ package com.ampro.robinhood.endpoint.account.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.account.data.AccountHolderAffiliationElement;
 import com.ampro.robinhood.net.request.RequestMethod;
+import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 public class GetAccountHolderAffiliationInfo extends Account {
 
-	public GetAccountHolderAffiliationInfo(Configuration config) {
+	public GetAccountHolderAffiliationInfo(Configuration config)
+	throws RobinhoodNotLoggedInException {
 		super(config);
 
-		this.setUrlBase("https://api.robinhood.com/user/additional_info/");
+		this.setUrlBase(RH_URL + "/user/additional_info/");
 
 		//This method is ran as GET
 		this.setMethodType(RequestMethod.GET);

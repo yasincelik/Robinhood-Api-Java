@@ -6,7 +6,7 @@ import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodNotLoggedInException;
 
 /**
- * Created by SirensBell on 6/19/2017.
+ * @author SirensBell, Jonathan Augustine
  */
 public class GetAccountPositions extends Account {
 
@@ -14,11 +14,9 @@ public class GetAccountPositions extends Account {
     throws RobinhoodNotLoggedInException {
         super(config);
 
+        this.setUrlBase(RH_URL + "/accounts/{accountId}/positions/");
         //Get the current account ID to be used with the position search
-        String accountId = config.getAccountNumber();
-
-        this.setUrlBase("https://api.robinhood.com/accounts/"
-                + accountId + "/positions/");
+        this.addRouteParameter("accountId", config.getAccountNumber());
 
         //This method is to be ran as GETe
         this.setMethodType(RequestMethod.GET);

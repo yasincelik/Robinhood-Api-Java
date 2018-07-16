@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.account.data;
 
-import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.endpoint.ApiElementList;
 
 /**
  * This element should not exist for very long hopefully as Robinhood updates
@@ -10,28 +10,24 @@ import com.ampro.robinhood.endpoint.ApiElement;
  * pulling the only account from the results. Gson needs this in order to
  * work, though.
  */
-public class AccountArrayWrapper implements ApiElement {
-
-	private String next;
-	private String previous;
-
-	/** The Account element within the JSON response */
-	private AccountElement[] results;
+public class AccountArrayWrapper extends ApiElementList<AccountElement> {
 
 	/**
 	 * Currently, there will NEVER be more than just one of these.
      * To make it easy for the user to use the methods requiring
 	 * this, we only return the existing data.
+     * @since 0.6
 	 * @return The {@link AccountElement} within the result.
 	 */
 	public AccountElement getResult() {
-		return results[0];
+		return results.get(0);
 	}
 
     /**
      * Does nothing
      * @return Nothing
      */
+    @Override
     @Deprecated
     public String getNext() {
         return next;
@@ -40,6 +36,7 @@ public class AccountArrayWrapper implements ApiElement {
      * Does nothing
      * @return Nothing
      */
+    @Override
     @Deprecated
     public String getPrevious() {
         return previous;

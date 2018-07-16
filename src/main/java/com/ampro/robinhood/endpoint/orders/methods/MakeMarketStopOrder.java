@@ -10,12 +10,12 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
  */
 public class MakeMarketStopOrder extends OrderMethod {
 
-    private String ticker;
-    private int quantity;
-    private OrderTransactionType orderType;
-    private String tickerInstrumentUrl;
-    private TimeInForce time;
-    private float stopPrice;
+    private final String ticker;
+    private final int quantity;
+    private final OrderTransactionType orderType;
+    private final String tickerInstrumentUrl;
+    private final TimeInForce time;
+    private final float stopPrice;
 
     /**
      *
@@ -59,7 +59,7 @@ public class MakeMarketStopOrder extends OrderMethod {
         this.addFieldParameter("instrument", this.tickerInstrumentUrl);
         this.addFieldParameter("symbol", this.ticker);
         this.addFieldParameter("type", "market");
-        this.addFieldParameter("time_in_force", getTimeInForceString(this.time));
+        this.addFieldParameter("time_in_force", this.time.toString());
         this.addFieldParameter("trigger", "stop");
         this.addFieldParameter("quantity", String.valueOf(this.quantity));
         this.addFieldParameter("side", getOrderSideString(orderType));
