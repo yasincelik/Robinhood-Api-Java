@@ -38,6 +38,7 @@ public class InstrumentCollectionList implements ApiElement {
 	 */
 	public List<InstrumentElement> getInstruments()
 	throws RobinhoodApiException {
+        RequestManager rm = RequestManager.getInstance();
 
         if (instruments == null) {
             throw new RobinhoodApiException("Error retrieving the list of instruments.");
@@ -48,15 +49,7 @@ public class InstrumentCollectionList implements ApiElement {
 
         instruments.forEach(url -> {
             ApiMethod method = new GetInstrumentByUrl(url);
-            InstrumentElement element = null;
-
-            try {
-                element = RequestManager.getInstance().makeApiRequest(method);
-            } catch (RobinhoodApiException e) {
-                e.printStackTrace();
-            }
-
-            elementList.add(element);
+            elementList.add(rm.makeApiRequest(method));
         });
 
         return elementList;

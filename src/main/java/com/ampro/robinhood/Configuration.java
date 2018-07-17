@@ -1,5 +1,7 @@
 package com.ampro.robinhood;
 
+import com.ampro.robinhood.throwables.NotLoggedInException;
+
 /**
  * The Configuration stores authorization information about an instance of the
  * {@link RobinhoodApi}.
@@ -42,9 +44,13 @@ public class Configuration {
 	 * first.
 	 *
 	 * @return the saved Token for the logged in user
-	 * @throws RobinhoodNotLoggedInException if there is no stored Token. This must be populated by the setToken() method first
+	 * @throws NotLoggedInException if there is no stored Token. This must be
+     *                                  populated by the setToken() method first
 	 */
 	public String getToken() {
+		if(authToken == null) {
+            throw new NotLoggedInException();
+        }
 		return this.authToken;
 	}
 
@@ -59,10 +65,13 @@ public class Configuration {
 
 	/**
 	 * @return The account number
-	 * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
+	 * @throws NotLoggedInException If the {@link Configuration} is
      * not logged in
 	 */
 	public String getAccountNumber() {
+		if (this.accountNumber == null) {
+            throw new NotLoggedInException();
+        }
 		return accountNumber;
 	}
 
@@ -73,12 +82,14 @@ public class Configuration {
 	/**
 	 * Method returning the Account URL for the logged in user. This is created
      * by appending the account number to a base URL. This is valid in most
-     * order requests
+     * order requests.
 	 * @return the account URL
-     * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
-     *                                          not logged in
+     * @throws NotLoggedInException If the {@link Configuration} is not logged in
 	 */
 	public String getAccountUrl() {
+		if (this.accountNumber == null) {
+            throw new NotLoggedInException();
+        }
 		return "https://api.robinhood.com/accounts/" + this.accountNumber + "/";
 	}
 
@@ -106,4 +117,9 @@ public class Configuration {
 		Configuration.rateLimit = newRateLimitValue;
 	}
 
+    /** Clears all user data from the {@link Configuration}. */
+    public void clear() {
+        this.authToken = null;
+        this.accountNumber = null;
+    }
 }

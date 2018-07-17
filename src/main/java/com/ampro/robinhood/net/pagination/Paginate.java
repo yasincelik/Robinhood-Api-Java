@@ -10,23 +10,16 @@ import com.ampro.robinhood.net.ApiMethod;
 public class Paginate extends ApiMethod {
 
     /**
-     * Build a Paginator without Authorization token
-     * @param type The return type of each page
-     */
-    protected Paginate(Class<?> type) {
-        super(Configuration.getDefault());
-        setReturnType(type);
-    }
-
-    /**
-     * Build a Paginator with authorization token
+     * Build a Paginator
      * @param config A logged in {@link Configuration}
      * @param type The return type
      */
-    protected Paginate(Class<?> type, Configuration config) {
+    protected Paginate(Class<?> type, boolean requiresAuth, Configuration config) {
         super(config);
-        addAuthTokenParameter();
         setReturnType(type);
+        if (requiresAuth) {
+            this.addAuthTokenParameter();
+        }
     }
 
 }

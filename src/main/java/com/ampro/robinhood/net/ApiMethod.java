@@ -1,11 +1,12 @@
 package com.ampro.robinhood.net;
 
+import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.net.request.RequestMethod;
+import com.ampro.robinhood.throwables.NotLoggedInException;
+
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.net.request.RequestMethod;
 
 
 /**
@@ -132,7 +133,7 @@ public abstract class ApiMethod {
 
 	/**
 	 * Method which adds the Authorization Token to the HTTP request header
-	 * @throws RobinhoodNotLoggedInException if the token does not exist or
+	 * @throws NotLoggedInException if the token does not exist or
      *              If the user is not logged in.
 	 */
 	public void addAuthTokenParameter() {

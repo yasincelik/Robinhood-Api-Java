@@ -1,12 +1,15 @@
 package com.ampro.robinhood;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.ampro.robinhood.throwables.NotLoggedInException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,36 +28,50 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
  */
 public class PrivateBaseTest extends BaseTest {
 
+    protected RobinhoodApi loggedInApi;
+
     @Override
     public void init() {
         super.init();
         File file = new File("config.txt");
-        if (file.canRead())
-        {
+        if (file.canRead()) {
         	try{
 		        List<String> lines = Files.readAllLines(file.toPath());
-		        api = new RobinhoodApi(lines.get(0), lines.get(1));
+		        loggedInApi = new RobinhoodApi(lines.get(0), lines.get(1));
         	}catch(Exception e){
         		e.printStackTrace();
         	}
         }
-        else
-        {
+        else {
         	RobinhoodApi.log.log(Level.SEVERE, "Could not read the "
         			+ "config file to get credentials!");
         }
     }
 
     @Test
+    public void failedLogin() {
+        try {
+            new RobinhoodApi("email", "password");
+        } catch (RobinhoodApiException e) {
+            assertEquals(e.getMessage(), "Failed to log user in: no token");
+        }
+    }
+
+    @Test(expected = NotLoggedInException.class)
+    public void notLoggedInAccount() {
+        api.getAccountData();
+    }
+
+    @Test
     public void getOrders() throws RobinhoodApiException {
-        List<SecurityOrderElement> orders = api.getOrders();
+        List<SecurityOrderElement> orders = loggedInApi.getOrders();
         assertNotNull(orders);
         orders.forEach(Assert::assertNotNull);
     }
 
     @Test
     public void getAccoutInvestmentProfile() throws RobinhoodApiException {
-        AccountHolderInvestmentProfile profile = api
+        AccountHolderInvestmentProfile profile = loggedInApi
                 .getAccountInvestmentProfile();
         Assert.assertNotNull(profile);
     }

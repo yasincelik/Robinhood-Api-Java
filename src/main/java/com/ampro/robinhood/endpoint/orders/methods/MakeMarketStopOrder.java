@@ -3,6 +3,7 @@ package com.ampro.robinhood.endpoint.orders.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
+import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 /**
@@ -26,7 +27,7 @@ public class MakeMarketStopOrder extends OrderMethod {
      * @param stopPrice
      * @param config
      * @throws RobinhoodApiException
-     * @throws com.ampro.robinhood.throwables.RobinhoodNotLoggedInException
+     * @throws NotLoggedInException
      */
     public MakeMarketStopOrder(String ticker, int quantity,
                                OrderTransactionType orderType, TimeInForce time,
