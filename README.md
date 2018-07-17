@@ -194,6 +194,10 @@ a few guidlines:
     ...
     }
     ```
+    4. Ternary operators are fine (& pretty when sized correctly).
+    ```java
+    return this.hasString() ? this.string : "backup";
+    ```
     2. Try your best to keep lines under ``80`` characters and *must* be under
     ``90``. Yes, most moitors can handle plenty more text than that,
     but side-by-side views get to be a PItA when the lines are too long.
@@ -212,7 +216,6 @@ a few guidlines:
     ```
     - If you find anything in the existing code, feel free to correct or point
     it out, nobody's perfect...
-
 
 
 ## Disclaimer
