@@ -43,6 +43,7 @@ import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -639,45 +640,50 @@ public class RobinhoodApi {
 	}
     
     /**
-     * Gets the ratings by tickers.
-     * 
-     * @author MainStringArgs
-     * @param ticker the ticker
-     * @return the ratings by tickers
-     * @throws RobinhoodApiException the robinhood api exception
-     */
-      public RatingElementList getRatingsByTickers(String... tickers) throws RobinhoodApiException {
-      
-        List<String> instrumentIds = new ArrayList<String>();
-        for(String ticker: tickers) {
-          ApiMethod method = new GetTickerQuote(ticker.toUpperCase());
-          
-          TickerQuoteElement element = requestManager.makeApiRequest(method);
-          
-          if (element != null && element.getInstrumentId() != null) {
-            instrumentIds.add(element.getInstrumentId());
-          }
-        }
+	 * Gets the ratings by tickers.
+	 * 
+	 * @author MainStringArgs
+	 * @param ticker
+	 *            the ticker
+	 * @return the ratings by tickers
+	 * @throws RobinhoodApiException
+	 *             the robinhood api exception
+	 */
+	public RatingElementList getRatingsByTickers(String... tickers) throws RobinhoodApiException {
+		List<String> tickerList = Arrays.asList(tickers);
+		List<String> instrumentIds = new ArrayList<String>();
 
-        GetRatingsData method = new GetRatingsData(instrumentIds.toArray(new String[0]));
+		ApiMethod method = new GetTickerQuoteList(tickerList);
+
+		TickerQuoteElementList tqeList = requestManager.makeApiRequest(method);
+
+		for (TickerQuoteElement quote : tqeList.getQuotes()) {
+			if (quote.getInstrumentId() != null) {
+				instrumentIds.add(quote.getInstrumentId());
+			}
+		}
+
+		GetRatingsData getRatingsData = new GetRatingsData(instrumentIds.toArray(new String[0]));
+
+		return requestManager.makeApiRequest(getRatingsData);
+
+	}
     
-        return requestManager.makeApiRequest(method);
-        
-      }
-    
-    /**
-     * Gets the ratings by instrument ids.
-     *
-     * @author MainStringArgs
-     * @param instrument ids
-     * @return the ratings by instrument ids
-     * @throws RobinhoodApiException the robinhood api exception
-     */
-    public RatingElementList getRatingsByInstrumentIds(String... ids) throws RobinhoodApiException {
-      GetRatingsData method = new GetRatingsData(ids);
-  
-      return requestManager.makeApiRequest(method);
-    }
+	/**
+	 * Gets the ratings by instrument ids.
+	 *
+	 * @author MainStringArgs
+	 * @param instrument
+	 *            ids
+	 * @return the ratings by instrument ids
+	 * @throws RobinhoodApiException
+	 *             the robinhood api exception
+	 */
+	public RatingElementList getRatingsByInstrumentIds(String... ids) throws RobinhoodApiException {
+		GetRatingsData method = new GetRatingsData(ids);
+
+		return requestManager.makeApiRequest(method);
+	}
 
 
 	/** @return {@code true} if the API has been logged in */
