@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.option.methods;
 
-import static com.ampro.robinhood.test.RobinhoodAssertions.assertDateEquals;
-import static com.ampro.robinhood.test.RobinhoodAssertions.assertDateTimeEquals;
+import static com.ampro.robinhood.RobinhoodAssertions.assertDateEquals;
+import static com.ampro.robinhood.RobinhoodAssertions.assertDateTimeEquals;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
@@ -19,7 +19,6 @@ import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.option.data.Option;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestManager;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 public class GetOptionElementListMethodIntegrationTest {

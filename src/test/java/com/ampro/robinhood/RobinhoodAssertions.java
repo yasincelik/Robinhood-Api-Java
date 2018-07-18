@@ -1,4 +1,4 @@
-package com.ampro.robinhood.test;
+package com.ampro.robinhood;
 
 import static org.junit.Assert.assertEquals;
 
