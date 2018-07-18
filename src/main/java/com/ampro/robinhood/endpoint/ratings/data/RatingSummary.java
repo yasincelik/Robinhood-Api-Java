@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 /**
  * The Class RatingSummary.
- * 
+ *
  * @author MainStringArgs
  */
 public class RatingSummary implements ApiElement {
@@ -45,24 +45,15 @@ public class RatingSummary implements ApiElement {
     return num_sell_ratings;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "RatingSummary [num_buy_ratings=" + num_buy_ratings + ", num_hold_ratings="
         + num_hold_ratings + ", num_sell_ratings=" + num_sell_ratings + "]";
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.ampro.robinhood.endpoint.ApiElement#requiresAuth()
-   */
   @Override
   public boolean requiresAuth() {
     return false;
   }
+
 }

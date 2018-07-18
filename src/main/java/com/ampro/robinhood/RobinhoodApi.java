@@ -42,11 +42,7 @@ import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 import io.github.openunirest.http.exceptions.UnirestException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -449,7 +445,7 @@ public class RobinhoodApi {
     public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
                                                     OrderTransactionType orderType,
                                                     TimeInForce time, float stopPrice)
-    throws RobinhoodApiException, TickerNotFoundException {
+    throws TickerNotFoundException {
         //Create the API method
         ApiMethod method = new MakeMarketStopOrder(ticker, quantity, orderType, time,
                                                    stopPrice, this.config);
@@ -475,7 +471,7 @@ public class RobinhoodApi {
      * @return
      * @throws RobinhoodApiException
      */
-    public List<Option> getOptions() throws RobinhoodApiException {
+    public List<Option> getOptions() {
         ApiMethod method = new GetOptionsMethod(this.config);
         method.addAuthTokenParameter();
         OptionElementList optionElementList = requestManager.makeApiRequest(method);
@@ -489,8 +485,7 @@ public class RobinhoodApi {
 	 * @param ticker The Stock's ticker
 	 * @throws RobinhoodApiException
 	 */
-	public TickerFundamentalElement getFundamental(String ticker)
-    throws RobinhoodApiException {
+	public TickerFundamentalElement getFundamental(String ticker) {
 		//Create the API method
 		ApiMethod method = new GetTickerFundamental(ticker);
 		return requestManager.makeApiRequest(method);
@@ -506,13 +501,13 @@ public class RobinhoodApi {
 	 */
 	public List<TickerFundamentalElement> getFundamentalList(Collection<String> tickers)
 	throws RobinhoodApiException {
-		TickerFundimentalElementList list = requestManager.makeApiRequest(
-				new GetTickerFundamentalList(tickers)
-		);
-		PaginatedIterator<TickerFundamentalElement> it
-				= new PaginatedIterator<>(list);
+	    ApiMethod method = new GetTickerFundamentalList(tickers);
+		TickerFundimentalElementList list = requestManager.makeApiRequest(method);
+		PaginatedIterator<TickerFundamentalElement> it = new PaginatedIterator<>(list);
 		List<TickerFundamentalElement> out = new ArrayList<>();
-		while (it.hasNext()) { out.add(it.next()); }
+		while (it.hasNext()) {
+		    out.add(it.next());
+		}
 		return out;
 	}
 
@@ -526,11 +521,13 @@ public class RobinhoodApi {
      * @throws TickerNotFoundException If the quote is not found
 	 */
 	public TickerQuoteElement getQuoteByTicker(String ticker)
-    throws RobinhoodApiException {
+    throws TickerNotFoundException {
 		//Create the API method
 		ApiMethod method = new GetTickerQuote(ticker);
         TickerQuoteElement quote = requestManager.makeApiRequest(method);
-        if (quote == null) throw new TickerNotFoundException();
+        if (quote == null) {
+            throw new TickerNotFoundException();
+        }
 		return quote;
 	}
 
@@ -541,11 +538,10 @@ public class RobinhoodApi {
      * @return A list of {@link TickerQuoteElement TickerQuoteElements}.
      *          A value in the list may be null if the ticker was not found
      *          on Robinhood.
-     * @throws RobinhoodApiException
      * @throws RequestTooLargeException if the collection is longer than 1,630
      */
 	public List<TickerQuoteElement> getQuoteListByTickers(Collection<String> tickers)
-    throws RobinhoodApiException {
+    throws RequestTooLargeException {
         ApiMethod method = new GetTickerQuoteList(tickers);
         TickerQuoteElementList list = requestManager.makeApiRequest(method);
         return list.getQuotes();
@@ -561,7 +557,7 @@ public class RobinhoodApi {
      * @author Jonathan Augustine
      */
     public InstrumentElement getInstrumentByTicker(String ticker)
-    throws RobinhoodApiException, TickerNotFoundException {
+    throws TickerNotFoundException {
         ApiMethod method = new GetInstrumentByTicker(ticker);
         InstrumentElementList list = requestManager.makeApiRequest(method);
         if (!list.isEmpty()) return list.getResults().get(0);
@@ -577,8 +573,7 @@ public class RobinhoodApi {
      *                  returned by Robinhood's search
      * @throws RobinhoodApiException
      */
-    public List<InstrumentElement> getInstrumentsByKeyword(String keyword)
-    throws RobinhoodApiException {
+    public List<InstrumentElement> getInstrumentsByKeyword(String keyword) {
         ApiMethod method = new SearchInstrumentsByKeyword(keyword);
         InstrumentElementList list = requestManager.makeApiRequest(method);
         return list.getResults();
@@ -593,8 +588,7 @@ public class RobinhoodApi {
      * @throws RobinhoodApiException Generic exception from the
      *                                  {@link RequestManager}
      */
-    public List<InstrumentElement> getAllInstruments()
-    throws RobinhoodApiException {
+    public List<InstrumentElement> getAllInstruments() {
         ApiMethod method = GetAllInstruments.getDefault();
         InstrumentElementList list = requestManager.makeApiRequest(method);
         ArrayList<InstrumentElement> normalList = new ArrayList<>();
@@ -619,8 +613,7 @@ public class RobinhoodApi {
 	 *
 	 * @author MainStringArgs
 	 */
-	public InstrumentCollectionList getCollectionData(String collectionName)
-	throws RobinhoodApiException {
+	public InstrumentCollectionList getCollectionData(String collectionName) {
 
 		// Create the API method
 		ApiMethod method = new GetCollectionData(collectionName);
@@ -630,28 +623,18 @@ public class RobinhoodApi {
 	}
 
     /**
-     * Build an {@link Iterable} based off a {@link PaginatedIterator}.
-     * @param elementList The {@link ApiElementList} build from
-     * @param <E> The ApiElement of the List
-     * @return a "Paginated" Iterable
-     */
-    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
-    	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
-	}
-    
-    /**
 	 * Gets the ratings by tickers.
-	 * 
+	 *
 	 * @author MainStringArgs
-	 * @param ticker
-	 *            the ticker
+	 * @param tickers the tickers
 	 * @return the ratings by tickers
-	 * @throws RobinhoodApiException
-	 *             the robinhood api exception
+	 * @throws RequestTooLargeException if request is greater than
+     *                          {@link ApiMethod#MAX_TICKERS}
 	 */
-	public RatingElementList getRatingsByTickers(String... tickers) throws RobinhoodApiException {
+	public RatingElementList getRatingsByTickers(String... tickers)
+    throws RequestTooLargeException {
 		List<String> tickerList = Arrays.asList(tickers);
-		List<String> instrumentIds = new ArrayList<String>();
+		List<String> instrumentIds = new ArrayList<>();
 
 		ApiMethod method = new GetTickerQuoteList(tickerList);
 
@@ -663,28 +646,36 @@ public class RobinhoodApi {
 			}
 		}
 
-		GetRatingsData getRatingsData = new GetRatingsData(instrumentIds.toArray(new String[0]));
+		GetRatingsData getRatingsData = new GetRatingsData(instrumentIds);
 
 		return requestManager.makeApiRequest(getRatingsData);
 
 	}
-    
+
 	/**
 	 * Gets the ratings by instrument ids.
 	 *
 	 * @author MainStringArgs
-	 * @param instrument
-	 *            ids
+	 * @param ids the tickers
 	 * @return the ratings by instrument ids
 	 * @throws RobinhoodApiException
 	 *             the robinhood api exception
 	 */
-	public RatingElementList getRatingsByInstrumentIds(String... ids) throws RobinhoodApiException {
+	public RatingElementList getRatingsByInstrumentIds(String... ids) {
 		GetRatingsData method = new GetRatingsData(ids);
 
 		return requestManager.makeApiRequest(method);
 	}
 
+    /**
+     * Build an {@link Iterable} based off a {@link PaginatedIterator}.
+     * @param elementList The {@link ApiElementList} build from
+     * @param <E> The ApiElement of the List
+     * @return a "Paginated" Iterable
+     */
+    public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
+    	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
+	}
 
 	/** @return {@code true} if the API has been logged in */
 	public boolean isLoggedIn() {

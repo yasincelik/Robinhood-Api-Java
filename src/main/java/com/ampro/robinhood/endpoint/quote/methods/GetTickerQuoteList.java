@@ -36,7 +36,7 @@ public class GetTickerQuoteList extends GetQuote {
                     "Ticker request must be under " + MAX_TICKERS
             );
         }
-        this.setUrlBase("https://api.robinhood.com/quotes/");
+        this.setUrlBase(RH_URL + "/quotes/");
         //Reform the collection as a url param
         //replaceAll("[\\[\\]\\s+]", "") replaces "[]" and empty spaces
         // in collection.toString

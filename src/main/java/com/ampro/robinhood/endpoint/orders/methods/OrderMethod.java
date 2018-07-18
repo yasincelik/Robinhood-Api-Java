@@ -39,19 +39,8 @@ public class OrderMethod extends ApiMethod {
 	 *
 	 * @param transactionType buy or sell
 	 */
-	protected String getOrderSideString(OrderTransactionType transactionType)
-    throws RobinhoodApiException {
-        switch (transactionType) {
-            case BUY: return "buy";
-            case SELL: return "sell";
-            default:
-                throw new RobinhoodApiException(
-                        "[Robinhood API] ERROR - Order Side parsing failed. " +
-                                "You shouldn't see this. Please file a bug " +
-                                "report on github!"
-                );
-        }
-
+	protected String getOrderSideString(OrderTransactionType transactionType) {
+		return transactionType.getValue();
     }
 
 	/**
@@ -63,7 +52,7 @@ public class OrderMethod extends ApiMethod {
 	 * @throws TickerNotFoundException
 	 */
 	protected String verifyTickerData(String ticker)
-	throws RobinhoodApiException, TickerNotFoundException {
+	throws TickerNotFoundException {
 
 		//Make a Ticker Fundamental API request for the supplied ticker
 		RequestManager requestManager = RequestManager.getInstance();

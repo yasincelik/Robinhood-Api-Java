@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 /**
  * The Class RatingResult.
- * 
+ *
  * @author MainStringArgs
  */
 public class RatingElement implements ApiElement {
@@ -33,21 +33,11 @@ public class RatingElement implements ApiElement {
     return instrument_id;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "RatingResult [summary=" + summary + ", instrument_id=" + instrument_id + "]";
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.ampro.robinhood.endpoint.ApiElement#requiresAuth()
-   */
   @Override
   public boolean requiresAuth() {
     return false;

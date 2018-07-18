@@ -18,6 +18,7 @@ import java.util.List;
  * This ElementList can contain a a maximum of 1,630 quotes and is
  * Semi-Paginated (meaning there is no next/previous like other ElemenetLists)
  * which is why it an {@link ApiElement} and not an {@link ApiElementList}
+ *
  * @author Jonathan Augustine
  */
 public class TickerQuoteElementList

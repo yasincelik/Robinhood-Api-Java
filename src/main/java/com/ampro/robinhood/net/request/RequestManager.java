@@ -45,6 +45,13 @@ public class RequestManager {
 		return RequestManager.instance;
 	}
 
+	/**
+	 * Make an API request to the Robinhood servers
+	 * @param method The ApiMethod containing the request information
+	 * @param <T>
+	 * @return The Http response as the ApiMethod's {@link ApiMethod#returnType}
+	 * 	           or null if an error response is received.
+	 */
 	public <T> T makeApiRequest(ApiMethod method) {
 
 		T response = null;
@@ -75,7 +82,7 @@ public class RequestManager {
 	}
 
 	/**
-	 * Method which uses OKHTTP to send a POST request to the specified URL saved
+	 * Method which uses HTTP to send a POST request to the specified URL saved
 	 * within the APIMethod class
 	 * @throws UnirestException
 	 */
@@ -107,6 +114,14 @@ public class RequestManager {
         return makeRequest(request, method);
 	}
 
+	/**
+	 * Makes a request to the API.
+	 * @param request The HttpRequest
+	 * @param method The ApiMethod
+	 * @param <T> The return type
+	 * @return The Http response as the ApiMethod's {@link ApiMethod#returnType}
+	 *          or null if an error response is received.
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> T makeRequest(HttpRequest request, ApiMethod method) {
 		T out = null;
