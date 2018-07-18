@@ -41,7 +41,7 @@ plugins {
 }
 sourceCompatibility = 1.8
 
-group 'com.ampro'
+group 'my.group'
 version '1.0'
 
 repositories {
@@ -51,7 +51,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.AquaticMasteryProductions:Robinhood-Api-Java:v0.8.0-alpha'
+    implementation 'com.github.AquaticMasteryProductions:Robinhood-Api-Java:v0.8.3-alpha'
     compile group: 'io.github.openunirest', name: 'unirest-java', version: '2.2.04'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile 'com.google.code.gson:gson:2.8.5'
