@@ -30,6 +30,7 @@ You can download the latest stable build
 #### The Robinhood API Depends on these projects & packages
 - [Open Unirest](https://github.com/OpenUnirest/unirest-java)
 - [Google's Gson](https://github.com/google/gson)
+- [Apache Commons IO](https://commons.apache.org/proper/commons-io/)
 - [Simple Logger For java (SL4J) (optional)](https://www.slf4j.org)
 
 Sample Gradle build.gradle file:
