@@ -31,7 +31,7 @@ public class GetOptionElementListMethodIntegrationTest {
 	private Option firstOption;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		requestManager = RequestManager.getInstance();
 
 		wireMockRule.stubFor(get(urlEqualTo("/options/aggregate_positions/"))
@@ -54,114 +54,114 @@ public class GetOptionElementListMethodIntegrationTest {
 		firstOption = getOptions().getResults().get(0);
 	}
 
-	private OptionElementList getOptions() throws RobinhoodApiException {
+	private OptionElementList getOptions() {
 		ApiMethod method = new GetOptionsMethod(Configuration.getDefault(), "http://localhost:8080");
 		return requestManager.makeApiRequest(method);
 	}
 
 	@Test
-	public void correctlyParseCreatedAt() throws Exception {
+	public void correctlyParseCreatedAt() {
 		assertDateTimeEquals(2018, 7, 11, 14, 1, 0, 509277000, ZoneOffset.UTC,
 		                     firstOption.getCreatedAt());
 	}
 
 	@Test
-	public void correctlyParseDirection() throws Exception {
+	public void correctlyParseDirection() {
 		assertEquals("debit", firstOption.getDirection());
 	}
 
 	@Test
-	public void correctlyParseIntradayQuantity() throws Exception {
+	public void correctlyParseIntradayQuantity() {
 		assertEquals(new BigDecimal("0.0000"), firstOption.getIntradayQuantity());
 	}
 
 	@Test
-	public void correctlyParseAverageOpenPrice() throws Exception {
+	public void correctlyParseAverageOpenPrice() {
 		assertEquals(new BigDecimal("12.0000"), firstOption.getAverageOpenPrice());
 	}
 
 	@Test
-	public void correctlyParseChainUrl() throws Exception {
+	public void correctlyParseChainUrl() {
 		assertEquals("https://api.robinhood.com/options/chains/5c79042f-4f8a-4bfd-9056-8546893c69ae/", firstOption.getChainUrl());
 	}
 
 	@Test
-	public void correctlyParseUpdatedAt() throws Exception {
+	public void correctlyParseUpdatedAt() {
 		assertDateTimeEquals(2018, 7, 11, 14, 1, 0, 518885000, ZoneOffset.UTC, firstOption.getUpdatedAt());
 	}
 
 	@Test
-	public void correctlyParseSymbol() throws Exception {
+	public void correctlyParseSymbol() {
 		assertEquals("MU", firstOption.getSymbol());
 	}
 
 	@Test
-	public void correctlyParseTradeValueMultiplier() throws Exception {
+	public void correctlyParseTradeValueMultiplier() {
 		assertEquals(new BigDecimal("100.0000"), firstOption.getTradeValueMultiplier());
 	}
 
 	@Test
-	public void correctlyParseIntradayDirection() throws Exception {
+	public void correctlyParseIntradayDirection() {
 		assertEquals("debit", firstOption.getIntradayDirection());
 	}
 
 	@Test
-	public void correctlyParseStrategy() throws Exception {
+	public void correctlyParseStrategy() {
 		assertEquals("long_call", firstOption.getStrategy());
 	}
 
 	@Test
-	public void correctlyParseIntradayAverageOpenPrice() throws Exception {
+	public void correctlyParseIntradayAverageOpenPrice() {
 		assertEquals(new BigDecimal("0.0000"), firstOption.getIntradayAverageOpenPrice());
 	}
 
 	@Test
-	public void correctlyParseFirstLegStrikePrice() throws Exception {
+	public void correctlyParseFirstLegStrikePrice() {
 		assertEquals(new BigDecimal("70.0000"), firstOption.getLegs().get(0).getStrikePrice());
 	}
 
 	@Test
-	public void correctlyParseFirstLegOptionUrl() throws Exception {
+	public void correctlyParseFirstLegOptionUrl() {
 		assertEquals("https://api.robinhood.com/options/instruments/278c0d83-6a88-4d76-accb-a4e8ac626379/", firstOption.getLegs().get(0).getOptionUrl());
 	}
 
 	@Test
-	public void correctlyParseFirstLegExpirationDate() throws Exception {
+	public void correctlyParseFirstLegExpirationDate() {
 		assertDateEquals(2018, 8, 17, firstOption.getLegs().get(0).getExpirationDate());
 	}
 
 	@Test
-	public void correctlyParseFirstLegOptionType() throws Exception {
+	public void correctlyParseFirstLegOptionType() {
 		assertEquals("call", firstOption.getLegs().get(0).getOptionType());
 	}
 
 	@Test
-	public void correctlyParseFirstLegId() throws Exception {
+	public void correctlyParseFirstLegId() {
 		assertEquals("827e06a6-1b9f-4941-bb72-32ce220736fd", firstOption.getLegs().get(0).getId());
 	}
 
 	@Test
-	public void correctlyParseFirstLegPositionType() throws Exception {
+	public void correctlyParseFirstLegPositionType() {
 		assertEquals("long", firstOption.getLegs().get(0).getPositionType());
 	}
 
 	@Test
-	public void correctlyParseFirstLegPositionUrl() throws Exception {
+	public void correctlyParseFirstLegPositionUrl() {
 		assertEquals("https://api.robinhood.com/options/positions/5b2c2524-d149-4865-a0d9-3db99d5ef2b8/", firstOption.getLegs().get(0).getPositionUrl());
 	}
 
 	@Test
-	public void correctlyParseFirstLegRatioQuantity() throws Exception {
+	public void correctlyParseFirstLegRatioQuantity() {
 		assertEquals(new BigDecimal("1"), firstOption.getLegs().get(0).getRatioQuantity());
 	}
 
 	@Test
-	public void correctlyParseId() throws Exception {
+	public void correctlyParseId() {
 		assertEquals("9182928a-f780-4043-a307-d04e9d07ad3b", firstOption.getId());
 	}
 
 	@Test
-	public void correctlyParseQuantity() throws Exception {
+	public void correctlyParseQuantity() {
 		assertEquals(new BigDecimal("2.0000"), firstOption.getQuantity());
 	}
 }

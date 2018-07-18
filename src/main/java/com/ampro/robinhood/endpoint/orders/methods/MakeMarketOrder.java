@@ -29,7 +29,7 @@ public class MakeMarketOrder extends OrderMethod {
      */
     public MakeMarketOrder(String ticker, int quantity, OrderTransactionType orderType,
                            TimeInForce time, Configuration config)
-    throws RobinhoodApiException {
+    throws TickerNotFoundException {
         super(config);
         this.ticker = ticker;
         this.quantity = quantity;
@@ -50,8 +50,10 @@ public class MakeMarketOrder extends OrderMethod {
     /**
      * Method which sets the URLParameters for correctly so the order is ran as a
      * Market order, given the settings from the constructor
+     *
+     * @throws com.ampro.robinhood.throwables.NotLoggedInException
      */
-    private void setOrderParameters() throws RobinhoodApiException {
+    private void setOrderParameters() {
         this.addFieldParameter("account", this.config.getAccountUrl());
         this.addFieldParameter("instrument", this.tickerInstrumentUrl);
         this.addFieldParameter("symbol", this.ticker);

@@ -15,6 +15,7 @@ public class OrderMethod extends ApiMethod {
 
 	protected OrderMethod(Configuration config) {
 		super(config);
+		this.addAuthTokenParameter();
 	}
 
 	/**

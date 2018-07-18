@@ -21,9 +21,15 @@ public class GetOptionsMethod extends ApiMethod {
 	 *
 	 * @param config
 	 *            The configuration associated with this method.
+	 *
+	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
 	 */
 	public GetOptionsMethod(Configuration config) {
-		this(config, RH_URL);
+        super(config);
+        this.setMethodType(RequestMethod.GET);
+        this.setUrlBase(RH_URL + "/options/aggregate_positions/");
+        this.setReturnType(OptionElementList.class);
+		this.addAuthTokenParameter();
 	}
 
 	/**
@@ -36,7 +42,10 @@ public class GetOptionsMethod extends ApiMethod {
 	 * @param host
 	 *            The target of the method call (i.e.
 	 *            {@code http://localhost:8080}).
+	 *
+	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
 	 */
+	@Deprecated
 	protected GetOptionsMethod(Configuration config, String host) {
 		super(config);
 		this.setMethodType(RequestMethod.GET);

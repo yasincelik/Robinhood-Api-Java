@@ -30,7 +30,7 @@ public class MakeLimitOrder extends OrderMethod {
 	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice,
 	                      int quantity, OrderTransactionType orderType,
 	                      Configuration config)
-    throws RobinhoodApiException {
+    throws TickerNotFoundException {
         super(config);
         this.ticker = ticker;
         this.time = time;
@@ -53,10 +53,10 @@ public class MakeLimitOrder extends OrderMethod {
 	 * Method which sets the URLParameters for correctly so the order is ran as
 	 * a Limit Buy order, given the settings from the constructor
 	 * @throws RobinhoodApiException
-	 * @throws RobinhoodNotLoggedInException If the {@link Configuration} is
-	 *              not logged in
+	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
+     *              If the {@link Configuration} is not logged in
 	 */
-	protected void setOrderParameters() throws RobinhoodApiException {
+	protected void setOrderParameters() {
 		//Add the account URL for the currently logged in account
 		this.addFieldParameter("account", this.config.getAccountUrl());
 		this.addFieldParameter("instrument", this.tickerInstrumentUrl);

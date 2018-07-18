@@ -63,14 +63,14 @@ public class PrivateBaseTest extends BaseTest {
     }
 
     @Test
-    public void getOrders() throws RobinhoodApiException {
+    public void getOrders() {
         List<SecurityOrderElement> orders = loggedInApi.getOrders();
         assertNotNull(orders);
         orders.forEach(Assert::assertNotNull);
     }
 
     @Test
-    public void getAccoutInvestmentProfile() throws RobinhoodApiException {
+    public void getAccountInvestmentProfile() {
         AccountHolderInvestmentProfile profile = loggedInApi
                 .getAccountInvestmentProfile();
         Assert.assertNotNull(profile);
