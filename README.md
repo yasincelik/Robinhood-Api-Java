@@ -14,7 +14,7 @@ whatever.](https://discord.gg/VF7FctD)__
     - [Dependencies](#DEPEN)
 - [Usage](#USAGE)
 - [RoadMap](#RDMP)
-- [Contributing](#CONTR)
+- [Contributing](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki/Contributing)
 
 <a name='INSTALL'></a>
 ## Installation
@@ -94,38 +94,6 @@ For Maven:
 </dependency>
 ```
 
-<a name='RDMP'></a>
-## Roadmap
-
--  ~~Logging users in and out~~
-    - Multifactor Login
-- ~~Get account information~~
-[(JSON Response contents)](https://github.com/sanko/Robinhood/blob/master/Account.md#gather-list-of-accounts)
-- ~~Getting information about tickers~~
-- Orders
-    - Get
-        - Get full history (live and closed orders)
-    - Post
-        - ~~Make &~~ cancel orders (limit, stop, etc)
-- Asynchronous requests & RateLimiting
-- Clean up & add more JavaDocs
-    - Include a more comprehensive guide on what data you are getting from
-        each method.
-- Improved Wiki & Walkthroughs
-- Improve & clarify many vague exceptions
-- ~~The structure of the ConfigManager needs to be restructured
-  from static/global management to instance-based authorization. The top
-  option right now is to change ConfigManager to just a "local" config
-  for each API instance (this is to allow for multiple APIs logged in to
-  different accounts)~~
-- more...so much...more
-
-### Things that will likely *never* happen here
-- Transfering funds from bank accounts to Robinhood & visa versa.
-    - That's a *lot* of security
-    [we can't provide](https://www.youtube.com/watch?v=2bVhjOcz0s0)
-    (at least not now) and will leave it to Robinhood & their applications.
-
 <a name='USAGE'></a>
 ## Usage
 [We Have Javadocs!](https://aquaticmasteryproductions.github.io/Robinhood-Api-Java/)
@@ -153,70 +121,30 @@ System.out.println(accountNumber + " : " + buyingPower);
 
 ### [More detailed instructions on usage and Endpoint Data](https://github.com/AquaticMasteryProductions/Robinhood-Api-Java/wiki)
 
-<a name='CONTR'></a>
-## Contributing
-I am *very* new to web and REST implentations, so really...*help*.
-Any pull requests will be looked over and (likely) accepted given they follow
-a few guidlines:
 
-- Documentation
-    - Classes & methods must have docs, unless they are increadibly
-    intuituve (e.g. ``getAccountId()``).
-    - We cant accept your code if we don't know what's going on, and we don't
-    have time to decrypt your methods, as good as they might be.
-- Adding new Dependencies
-    - If you use an external library, it should be available from the
-    maven/gradle repositories or a reputable library wtih gradle compatablity,
-    since this library is built from gradle.
-    - Try to keep any new external dependencies to a minimum. We will accept
-    most things from reputable sources (Apache, Google, etc), but we
-    still reserve the right to deny any pull requests that add too many and/or
-     unreliable dependencies.
-- Prettyness
-    - Since the codebase is constantly being updated, we won't blame you
-    if your contribution is a few commits behind (unless it's a big
-    change). Whenever possible, we will update the needed parts, just
-    don't make it too much work...
-    - We're pretty open to coding styles here, everyone has their prefered way
-    to code, but at some point...*ya gotta look consistant*.
-    1. ``for``, ``if``, ``while``, etc should have curly braces. We know it
-    looks so *minimalistic* without them, but it helps code reading a ton!
-    3. If a method is too long (throws or multiple parameters) try and
-    move part of it to the next line like this:
-    ```java
-    protected static syncronized SuperCoolObject
-    superCoolMethod(int a, int b, boolean YOUCANTHANDLETHETRUTH) {
-        ...
-    }
-    //or
-    protected static syncronized SuperCoolObject superCoolMethod()
-    throws Exception {
-    ...
-    }
-    ```
-    4. Ternary operators are fine (& pretty when sized correctly).
-    ```java
-    return this.hasString() ? this.string : "backup";
-    ```
-    2. Try your best to keep lines under ``80`` characters and *must* be under
-    ``90``. Yes, most moitors can handle plenty more text than that,
-    but side-by-side views get to be a PItA when the lines are too long.
-    If you use any modern IDE it's super easy to set an automatic
-    code-wrapping or guidelines to help you stay within readable spaces.
-    If a method or constructor is called and it ends up being too long,
-    let it span across multiple lines, like so (no need to be perfect,
-    just similar)...
-    ```java
-    Thing thisThing = new Thing(param, other param,
-                                more param, so much param);
-    //or
-    thisThing.superCoolMethod(
-                "Wow this param is such a stupid long string wow...maybe too long?"
-    );
-    ```
-    - If you find anything in the existing code, feel free to correct or point
-    it out, nobody's perfect...
+<a name='RDMP'></a>
+## Roadmap
 
+- Multifactor Login
+- Orders full history (live and closed orders)
+- Asynchronous requests & RateLimiting
+- Clean up & add more JavaDocs
+    - Include a more comprehensive guide on what data you are getting from
+        each method.
+- Improved Wiki & Walkthroughs
+- Improve & clarify many vague exceptions
+- more...so much...more
+- ~~Logging users in and out~~
+- ~~Get account information~~
+- ~~Getting information about tickers~~
+- ~~Remoive singleton-type configuration~~
+~~Make &~~ cancel orders (limit, stop, etc)
+
+### Things that will likely *never* happen here
+- Transfering funds from bank accounts to Robinhood & visa versa.
+    - That's a *lot* of security
+    [we can't provide](https://www.youtube.com/watch?v=2bVhjOcz0s0)
+    (at least not now) and will leave it to Robinhood & their applications.
 
 ## Disclaimer
 I have never taken up a project working with APIs like this.
