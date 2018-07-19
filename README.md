@@ -110,7 +110,7 @@ Say for the following example, we want to get our account number, and
 RobinhoodApi api = new RobinhoodApi("username", "password");
 
 //Make the request for all of the account information
-AccountElement accountData = api.getAccountData();
+Account accountData = api.getAccountData();
 
 //Extract the data we want
 String accountNumber = accountData.getAccountNumber();
