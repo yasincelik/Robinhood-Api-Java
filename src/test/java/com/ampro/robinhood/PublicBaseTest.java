@@ -43,7 +43,7 @@ public class PublicBaseTest extends BaseTest {
     @Test
     public void getQuote() throws RobinhoodApiException {
         TickerQuoteElement quote = api.getQuoteByTicker(MSFT);
-        assertFalse(quote == null);
+        assertNotNull(quote);
     }
 
     @Test(expected = TickerNotFoundException.class)

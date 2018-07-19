@@ -1,7 +1,7 @@
 package com.ampro.robinhood.net.request;
 
+import com.ampro.robinhood.RobinhoodApi;
 import com.ampro.robinhood.net.ApiMethod;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.Gson;
 import io.github.openunirest.http.HttpResponse;
 import io.github.openunirest.http.JsonNode;
@@ -14,15 +14,13 @@ import org.apache.http.impl.client.HttpClients;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static java.lang.Void.TYPE;
-
 /**
  * Singleton for making HTTP(S) requests with {@link ApiMethod}
  * @author Conrad Weise, modified by Jonathan Augustine
  */
 public class RequestManager {
 
-    private static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
 	/**
 	 * Singleton instance of this class.
@@ -47,8 +45,9 @@ public class RequestManager {
 
 	/**
 	 * Make an API request to the Robinhood servers
+     *
 	 * @param method The ApiMethod containing the request information
-	 * @param <T>
+	 * @param <T> The return type
 	 * @return The Http response as the ApiMethod's {@link ApiMethod#returnType}
 	 * 	           or null if an error response is received.
 	 */
@@ -84,7 +83,11 @@ public class RequestManager {
 	/**
 	 * Method which uses HTTP to send a POST request to the specified URL saved
 	 * within the APIMethod class
-	 * @throws UnirestException
+     *
+     * @param method The ApiMethod making the request
+     * @param <T> The return type
+     * @return The Http response as the ApiMethod's {@link ApiMethod#returnType}
+     * 	  	           or null if an error response is received.
 	 */
 	private <T> T makePostRequest(ApiMethod method) {
         HttpRequest request = Unirest.post(method.getBaseUrl())
@@ -100,8 +103,12 @@ public class RequestManager {
 	/**
 	 * Method which uses Unirest to send a GET request to the specified URL saved
 	 * within the ApiMethod class
-	 * @throws UnirestException
-	 */
+     *
+     * @param method The ApiMethod making the request
+     * @param <T> The return type
+     * @return The Http response as the ApiMethod's {@link ApiMethod#returnType}
+     * 	  	           or null if an error response is received.
+     */
 	private <T> T makeGetRequest(ApiMethod method) {
 
         HttpRequest request =
@@ -116,6 +123,7 @@ public class RequestManager {
 
 	/**
 	 * Makes a request to the API.
+     *
 	 * @param request The HttpRequest
 	 * @param method The ApiMethod
 	 * @param <T> The return type
@@ -128,13 +136,12 @@ public class RequestManager {
         try {
             //Make the request
 	        HttpResponse<JsonNode> response = request.asJson();
-			//String responseJson = response.getBody().toString();
 
             //If the response type for this is VOID (
             //Meaning we are not expecting a response) do not
             //try to use Gson
-            if (method.getReturnType() == TYPE) {
-                return (T) TYPE;
+            if (method.getReturnType() == Void.TYPE) {
+                return (T) Void.TYPE;
             }
 
             String body = IOUtils.toString(response.getRawBody(),
@@ -143,13 +150,12 @@ public class RequestManager {
 
         } catch (UnirestException ex) {
             System.err.println( "[RobinhoodApi] Failed to communicate with endpoint");
-            ex.printStackTrace();
+            RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
         } catch (IOException ex) {
         	System.err.println("[RobinhoodApi] Failed to parse response body");
-            ex.printStackTrace();
-        } finally {
-	        return out;
+            RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
         }
-    }
+        return out;
+	}
 
 }

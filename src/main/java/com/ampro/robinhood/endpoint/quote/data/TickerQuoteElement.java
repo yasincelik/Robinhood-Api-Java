@@ -9,40 +9,40 @@ public class TickerQuoteElement implements ApiElement {
 
     /** The ask price. */
     private float ask_price;
-    
+
     /** The ask size. */
     private int ask_size;
-    
+
     /** The bid price. */
     private float bid_price;
-    
+
     /** The big size. */
     private int big_size;
 
     /** The last trade price. */
     private float last_trade_price;
-    
+
     /** The last extended hours trade price. */
     private float last_extended_hours_trade_price;
 
     /** The previous close. */
     private float previous_close;
-    
+
     /** The adjusted previous close. */
     private float adjusted_previous_close;
-    
+
     /** The previous close date. */
     private String previous_close_date;
-    
+
     /** The symbol. */
     private String symbol;
-    
+
     /** The trading halted. */
     private boolean trading_halted;
-    
+
     /** The updated at. */
     private String updated_at;
-    
+
     /** The instrument. */
     private String instrument;
 
@@ -159,17 +159,14 @@ public class TickerQuoteElement implements ApiElement {
     public String getUpdatedAt() {
         return updated_at;
     }
-    
+
     /**
      * Gets the instrument id.
      *
      * @return the instrument id
      */
     public String getInstrumentId() {
-  
-      final String idStr = instrument == null ? "" : instrument.split("/")[4];
-      return idStr;
-  
+        return instrument == null ? "" : instrument.split("/")[4];
     }
 
 }

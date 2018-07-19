@@ -3,7 +3,8 @@ package com.ampro.robinhood.endpoint.orders.enums;
 import com.ampro.robinhood.endpoint.RobinhoodEnum;
 
 /**
- * The time an order will be active.
+ * The time and/or duration an order will be active.
+ *
  * @author Conrad Weiser, Jonathan Augustine
  */
 public enum TimeInForce implements RobinhoodEnum {

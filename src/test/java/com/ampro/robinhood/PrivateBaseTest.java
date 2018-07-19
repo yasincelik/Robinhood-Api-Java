@@ -1,21 +1,19 @@
 package com.ampro.robinhood;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.throwables.NotLoggedInException;
+import com.ampro.robinhood.throwables.RobinhoodApiException;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.ampro.robinhood.throwables.NotLoggedInException;
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests getting private data.

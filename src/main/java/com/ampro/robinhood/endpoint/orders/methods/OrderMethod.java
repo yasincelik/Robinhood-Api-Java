@@ -4,19 +4,29 @@ import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.net.ApiMethod;
-import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestMethod;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
+import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 
-public class OrderMethod extends ApiMethod {
+/**
+ * Base method to send an order to the RH API.
+ *
+ * @author Conrad Weiser, Jonathan Augustine
+ */
+public abstract class OrderMethod extends ApiMethod {
 
 	protected OrderMethod(Configuration config) {
 		super(config);
 		this.addAuthTokenParameter();
 	}
+
+    /**
+     * Method which sets the URLParameters for the order.
+     * Used for cleanliness.
+     * @throws NotLoggedInException if calling instance is not logged in
+     */
+	protected abstract void setOrderParameters();
 
 	/**
 	 * Method which sets up the basic parameters for the endpoint.
@@ -24,7 +34,7 @@ public class OrderMethod extends ApiMethod {
 	 */
 	protected void setEndpointParameters() {
 
-		this.setUrlBase("https://api.robinhood.com/orders/");
+		this.setUrlBase(RH_URL + "/orders/");
 
 		this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
 
@@ -33,17 +43,6 @@ public class OrderMethod extends ApiMethod {
 
 		this.setReturnType(SecurityOrderElement.class);
 	}
-
-	/**
-	 * Method which parses the Order Side enum value.
-	 * This should only return BUY or SELL
-	 *
-	 * @param transactionType buy or sell
-	 * @return The string value of the parameter formatted for RH API calls
-	 */
-	protected String getOrderSideString(OrderTransactionType transactionType) {
-		return transactionType.getValue();
-    }
 
 	/**
 	 * Verifies that the ticker is a valid one. If not, throw an error. This

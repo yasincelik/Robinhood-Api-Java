@@ -5,7 +5,6 @@ import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.request.RequestManager;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -68,7 +67,7 @@ public class PositionElement implements ApiElement {
     @Override
     public boolean requiresAuth() { return true; }
 
-    public InstrumentElement getInstrumentElement() throws RobinhoodApiException {
+    public InstrumentElement getInstrumentElement() {
         return RequestManager.getInstance().makeApiRequest(
                 new GetInstrumentByUrl(this.instrumentUrl)
         );

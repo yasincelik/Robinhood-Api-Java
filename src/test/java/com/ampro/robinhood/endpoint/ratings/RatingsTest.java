@@ -40,7 +40,7 @@ public class RatingsTest extends BaseTest {
 	@Test
 	public void getRatingsByInstruments() throws RobinhoodApiException {
 		List<TickerQuoteElement> quoteList = api.getQuoteListByTickers(tenTickers);
-		List<String> instrumentIds = new ArrayList<String>();
+		List<String> instrumentIds = new ArrayList<>();
 		for (TickerQuoteElement quoteElement : quoteList) {
 			instrumentIds.add(quoteElement.getInstrumentId());
 		}

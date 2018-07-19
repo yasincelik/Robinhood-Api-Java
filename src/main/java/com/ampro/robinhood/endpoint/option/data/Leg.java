@@ -61,7 +61,8 @@ public class Leg implements ApiElement {
 
     /**
      * ! Should only be used for test purposes !
-     * @param id
+     *
+     * @param id The new ID
      */
 	void setId(String id) {
 		this.id = id;
@@ -69,7 +70,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param expiration_date
+     *
+	 * @param expiration_date the new expiration date
 	 */
 	public void setExpirationDate(String expiration_date) {
 		this.expiration_date = expiration_date;
@@ -77,7 +79,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param option
+     *
+	 * @param option The new option
 	 */
 	public void setOption(String option) {
 		this.option = option;
@@ -85,7 +88,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param option_type
+     *
+	 * @param option_type the new option type
 	 */
 	public void setOptionType(String option_type) {
 		this.option_type = option_type;
@@ -93,7 +97,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param position
+     *
+	 * @param position The new position
 	 */
 	public void setPosition(String position) {
 		this.position = position;
@@ -101,7 +106,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param position_type
+     *
+	 * @param position_type the new position type
 	 */
 	public void setPositionType(String position_type) {
 		this.position_type = position_type;
@@ -109,7 +115,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param ratio_quantity
+     *
+	 * @param ratio_quantity the new ratio quality
 	 */
 	public void setRatioQuantity(String ratio_quantity) {
 		this.ratio_quantity = ratio_quantity;
@@ -117,7 +124,8 @@ public class Leg implements ApiElement {
 
 	/**
 	 * ! Should only be used for test purposes !
-	 * @param strike_price
+     *
+	 * @param strike_price the new strike price
 	 */
 	public void setStrikePrice(String strike_price) {
 		this.strike_price = strike_price;

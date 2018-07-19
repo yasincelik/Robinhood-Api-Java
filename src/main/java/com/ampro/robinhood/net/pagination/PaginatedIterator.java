@@ -3,8 +3,6 @@ package com.ampro.robinhood.net.pagination;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
-import com.ampro.robinhood.net.request.RequestManager;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +11,6 @@ import java.util.NoSuchElementException;
 public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
 
     private final Configuration config;
-
-    private final RequestManager requestManager = RequestManager.getInstance();
 
     private ApiElementList<?> apiElementList;
 
@@ -44,14 +40,9 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
         // is not another page anyway)
         //If the current List has been exhausted, load the next one
         if (currentIndex >= currentList.size()) {
-            try {
-                //This loads the next list, replaces the current ones, & resets
-                //the current index
-                loadNextList();
-            } catch (RobinhoodApiException e) {
-                e.printStackTrace();
-                return null;
-            }
+            //This loads the next list, replaces the current ones, & resets
+            // the current index
+            loadNextList();
         }
         return currentList.get(currentIndex++);
     }
@@ -67,22 +58,17 @@ public class PaginatedIterator<T extends ApiElement> implements Iterator<T> {
                 || apiElementList.getNext() != null;
     }
 
-    /**
-     * Loads the next page in the paginated list & REPLACES THE CURRENT LIST
-     * @return The next Page in the Paginated list
-     */
-    private ApiElementList<?> loadNextList()
-    throws RobinhoodApiException {
+    /** Loads the next page in the paginated list & REPLACES THE CURRENT LIST */
+    private void loadNextList() {
         if (apiElementList.getNext() == null)
             throw new NoSuchElementException();
         GetNextPage method = this.apiElementList.requiresAuth()
                 ? new GetNextPage(this.apiElementList, config)
                 : new GetNextPage(this.apiElementList);
-        ApiElementList<T> newElementList = requestManager.makeApiRequest(method);
+        ApiElementList<T> newElementList = method.execute();
         this.apiElementList = newElementList;
         this.currentList = newElementList.getResults();
         this.currentIndex = 0;
-        return newElementList;
     }
 
 }

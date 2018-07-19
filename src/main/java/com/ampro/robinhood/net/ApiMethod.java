@@ -20,7 +20,7 @@ public abstract class ApiMethod {
 
 	public static final String RH_URL = "https://api.robinhood.com";
 
-	public static int MAX_TICKERS = 1630;
+	public static final int MAX_TICKERS = 1630;
 
 	protected static final RequestManager reqMan = RequestManager.getInstance();
 

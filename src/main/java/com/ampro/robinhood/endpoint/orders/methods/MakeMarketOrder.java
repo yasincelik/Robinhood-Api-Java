@@ -3,7 +3,7 @@ package com.ampro.robinhood.endpoint.orders.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
+import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 
 /**
@@ -18,13 +18,12 @@ public class MakeMarketOrder extends OrderMethod {
     private final TimeInForce time;
 
     /**
-     * TODO DOCS
-     * @param ticker
-     * @param quantity
-     * @param orderType
-     * @param time
-     * @param config
-     * @throws TickerNotFoundException
+     * @param ticker What ticker you are performing this order on
+     * @param quantity How many shares should be transacted
+     * @param orderType Which type of order is being made. A buy, or a sell.
+     * @param time The Enum representation of when this order should be made.
+     * @throws TickerNotFoundException if the ticker supplied was invalid
+     * @throws NotLoggedInException if instance not logged in
      */
     public MakeMarketOrder(String ticker, int quantity, OrderTransactionType orderType,
                            TimeInForce time, Configuration config)
@@ -46,13 +45,8 @@ public class MakeMarketOrder extends OrderMethod {
 
     }
 
-    /**
-     * Method which sets the URLParameters for correctly so the order is ran as a
-     * Market order, given the settings from the constructor
-     *
-     * @throws com.ampro.robinhood.throwables.NotLoggedInException
-     */
-    private void setOrderParameters() {
+    @Override
+    protected void setOrderParameters() {
         this.addFieldParameter("account", this.config.getAccountUrl());
         this.addFieldParameter("instrument", this.tickerInstrumentUrl);
         this.addFieldParameter("symbol", this.ticker);
@@ -60,7 +54,7 @@ public class MakeMarketOrder extends OrderMethod {
         this.addFieldParameter("time_in_force", this.time.toString());
         this.addFieldParameter("trigger", "immediate");
         this.addFieldParameter("quantity", String.valueOf(this.quantity));
-        this.addFieldParameter("side", getOrderSideString(orderType));
+        this.addFieldParameter("side", orderType.getValue());
     }
 
 }

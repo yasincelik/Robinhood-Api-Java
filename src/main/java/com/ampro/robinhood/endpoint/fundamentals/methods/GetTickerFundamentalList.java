@@ -9,7 +9,7 @@ import java.util.Collection;
 public class GetTickerFundamentalList extends GetFundamental {
 
     /** API supports up to ten per request */
-    private static int MAX_TICKERS = 10;
+    private static final int MAX_TICKERS = 10;
 
     public GetTickerFundamentalList(Collection<String> tickers)
     throws RequestTooLargeException {

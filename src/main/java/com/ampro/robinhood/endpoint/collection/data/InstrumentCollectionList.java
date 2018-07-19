@@ -41,7 +41,7 @@ public class InstrumentCollectionList implements ApiElement {
         RequestManager rm = RequestManager.getInstance();
 
         if (instruments == null) {
-            throw new RobinhoodApiException("Error retrieving the list of instruments.");
+            throw new RobinhoodApiException("No available Instruments.");
         }
 
         // Return the array as a list for ease-of-use

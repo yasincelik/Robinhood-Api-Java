@@ -13,11 +13,6 @@ import java.net.URL;
  */
 public class AccountElement implements ApiElement {
 
-	/**
-	 * Public class declaring the response structure for the
-	 * api.robinhood.com/accounts/ endpoint
-	 * allowing Gson to turn the Json directly into this object
-	 */
 	private boolean deactivated = false;
 
 	//TODO: updated_at
@@ -54,6 +49,7 @@ public class AccountElement implements ApiElement {
 	public boolean isDeactivated() {
 		return deactivated;
 	}
+
 	/**
 	 * @return the margin_balances
 	 */

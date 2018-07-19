@@ -34,7 +34,6 @@ import com.ampro.robinhood.endpoint.ratings.data.RatingElementList;
 import com.ampro.robinhood.endpoint.ratings.method.GetRatingsData;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
-import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestStatus;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
@@ -288,7 +287,7 @@ public class RobinhoodApi {
         List<SecurityOrderElement> out = new ArrayList<>();
         //Load all the pages into one list
         buildIterable(orders).forEach(out::add);
-        return orders.getResults();
+        return out;
     }
 
     /**
@@ -316,8 +315,6 @@ public class RobinhoodApi {
     }
 
     /**
-     * Method which returns a {@link SecurityOrderElement} after running a
-     * LIMIT STOP order given the supplied parameters
      * @param ticker The ticker which the buy or sell order should be performed on
      * @param timeInForce The Enum representation for when this order should be made
      * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
@@ -325,6 +322,7 @@ public class RobinhoodApi {
      * @param orderType Which type of order is being made. A buy, or a sell
      * @param stopPrice The price at which the stop trigger converts the order
      *                      into a market order
+     * @return The created {@link SecurityOrderElement}
      * @throws TickerNotFoundException The ticker supplied is not valid.
      */
     public SecurityOrderElement makeLimitStopOrder(String ticker, TimeInForce timeInForce,
@@ -337,31 +335,32 @@ public class RobinhoodApi {
     }
 
     /**
-     *
      * @param ticker What ticker you are performing this order on
      * @param quantity How many shares should be transacted
      * @param orderType Which type of order is being made. A buy, or a sell.
      * @param time The Enum representation of when this order should be made.
      * @return The SecurityOrderElement object with the API response.
      * @throws TickerNotFoundException if the ticker supplied was invalid
+     * @throws NotLoggedInException if instance not logged in
      */
     public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
                                                 OrderTransactionType orderType,
                                                 TimeInForce time)
     throws TickerNotFoundException {
-        return new MakeMarketOrder(ticker, quantity, orderType, time,
-                this.config).execute();
+        return new MakeMarketOrder(ticker, quantity, orderType, time, this.config)
+                .execute();
     }
 
     /**
-     * TODO Docs
-     * @param ticker
-     * @param quantity
-     * @param orderType
-     * @param time
-     * @param stopPrice
-     * @return The {@link SecurityOrderElement} created.
+     * @param ticker The stock ticker
+     * @param quantity The number of elements to order
+     * @param orderType {@link OrderTransactionType#BUY} or {@link OrderTransactionType#SELL}
+     * @param time The time and/or duration an order will be active.
+     * @param stopPrice The stop (activation) price
+     * @return The {@link SecurityOrderElement} created, this order can fail
+     *              ({@link SecurityOrderElement#reject_reason}
      * @throws TickerNotFoundException If the ticker is not tracked by RH
+     * @throws NotLoggedInException If instance is not logged in
      */
     public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
                                                     OrderTransactionType orderType,
@@ -373,10 +372,10 @@ public class RobinhoodApi {
 
     /**
      * Cancel an order. The order must be open and not completed.
-     * !! UNDER CONSTRUCTION DO NOT USE !!
-     * @param order The order to cancel
-     * @return The cancelled order
-     * @throws RobinhoodApiException
+     *
+     * @param order The {@link SecurityOrderElement} to cancel
+     * @return The cancelled order as a {@link SecurityOrderElement}
+     * @throws RobinhoodApiException If the order could not be cancelled
      */
     @Deprecated
     public SecurityOrderElement cancelOrder(SecurityOrderElement order)
@@ -557,7 +556,7 @@ public class RobinhoodApi {
      * @return a "Paginated" Iterable
      */
     public <E extends ApiElement> Iterable<E> buildIterable(ApiElementList<E> elementList) {
-    	return () -> new PaginatedIterator<E>(elementList, RobinhoodApi.this.config);
+    	return () -> new PaginatedIterator<>(elementList, RobinhoodApi.this.config);
 	}
 
 	/** @return {@code true} if the API has been logged in */

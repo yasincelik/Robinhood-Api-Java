@@ -16,7 +16,7 @@ public class InstrumentCollectionsTest extends BaseTest {
         InstrumentCollectionList collectionList
                 = api.getCollectionData("100-most-popular");
         List<InstrumentElement> instruments = collectionList.getInstruments();
-        Assert.assertTrue(instruments.size() == 100);
+        Assert.assertEquals(100, instruments.size());
         instruments.forEach(Assert::assertNotNull);
     }
 

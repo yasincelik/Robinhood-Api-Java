@@ -27,4 +27,7 @@ public class GetOrdersMethod extends OrderMethod {
         this.setReturnType(SecurityOrderElementList.class);
     }
 
+    /** Does nothing */
+    @Override
+    protected void setOrderParameters() {}
 }

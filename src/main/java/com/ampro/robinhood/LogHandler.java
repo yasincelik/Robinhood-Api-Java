@@ -24,10 +24,11 @@ public class LogHandler extends Handler {
 
 		try {
 			File log = new File("robinhood-api.log");
-			if(!log.exists()) {
-				log.createNewFile();
+			if(!log.exists() || !log.createNewFile()) {
+				out = new PrintWriter(new BufferedWriter(new FileWriter(log, true)), true);
+			} else {
+				throw new IOException();
 			}
-			out = new PrintWriter(new BufferedWriter(new FileWriter(log, true)), true);
 		} catch (IOException ex) {
 			System.err.println("Could not use the Log Handler. Using Java System.out instead");
 			ex.printStackTrace();

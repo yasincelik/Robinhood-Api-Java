@@ -8,7 +8,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
  */
 public class Token implements ApiElement {
 
-	private String token = null;
+	private final String token = null;
 
 	public String getToken() { return this.token; }
 

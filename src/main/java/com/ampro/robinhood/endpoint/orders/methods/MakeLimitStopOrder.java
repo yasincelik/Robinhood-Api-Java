@@ -3,10 +3,11 @@ package com.ampro.robinhood.endpoint.orders.methods;
 import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 
 /**
+ * Make a Stop-trigger Limit Order.
+ *
  * Created by SirensBell on 5/11/2017.
  */
 public class MakeLimitStopOrder extends OrderMethod {
@@ -20,15 +21,14 @@ public class MakeLimitStopOrder extends OrderMethod {
     private final float stopPrice;
 
     /**
-     * TODO
-     * @param ticker
-     * @param time
-     * @param limitPrice
-     * @param quantity
-     * @param orderType
-     * @param stopPrice
-     * @param config
-     * @throws TickerNotFoundException
+     * @param ticker The ticker which the buy or sell order should be performed on
+     * @param time The Enum representation for when this order should be made
+     * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
+     * @param quantity The number of shares you would like to buy or sell
+     * @param orderType Which type of order is being made. A buy, or a sell
+     * @param stopPrice The price at which the stop trigger converts the order
+     *                      into a market order
+     * @throws TickerNotFoundException The ticker supplied is not valid
      */
     public MakeLimitStopOrder(String ticker, TimeInForce time, float limitPrice,
                               int quantity, OrderTransactionType orderType,
@@ -52,13 +52,8 @@ public class MakeLimitStopOrder extends OrderMethod {
 
     }
 
-    /**
-     * Method which sets the URLParameters for correctly so the order is ran as a
-     * Limit Buy order, given the settings from the constructor
-     *
-     * @throws com.ampro.robinhood.throwables.NotLoggedInException
-     */
-    private void setOrderParameters() {
+    @Override
+    protected void setOrderParameters() {
         //Add the account URL for the currently logged in account
         this.addFieldParameter("account", this.config.getAccountUrl());
         this.addFieldParameter("instrument", this.tickerInstrumentUrl);
@@ -69,7 +64,7 @@ public class MakeLimitStopOrder extends OrderMethod {
         this.addFieldParameter("stop_price", this.stopPrice);
         this.addFieldParameter("trigger", "stop");
         this.addFieldParameter("quantity", String.valueOf(this.quantity));
-        this.addFieldParameter("side", getOrderSideString(this.orderType));
+        this.addFieldParameter("side", this.orderType.getValue());
     }
 
 }

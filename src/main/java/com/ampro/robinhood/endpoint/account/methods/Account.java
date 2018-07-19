@@ -12,8 +12,7 @@ public class Account extends ApiMethod {
 
 	protected Account(Configuration config) {
 		super(config);
-		//We do require a token for these methods. Thus we require it for
-		//all methods using this service
+		//We require a token for these methods.
 		this.requireToken();
 		this.addAuthTokenParameter();
 	}

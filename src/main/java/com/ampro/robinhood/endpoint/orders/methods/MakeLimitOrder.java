@@ -1,9 +1,10 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
-import com.ampro.robinhood.throwables.RobinhoodApiException;
+import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.TickerNotFoundException;
 
 public class MakeLimitOrder extends OrderMethod {
@@ -17,14 +18,17 @@ public class MakeLimitOrder extends OrderMethod {
 	private String tickerInstrumentUrl;
 
 	/**
-	 * TODO
-	 * @param ticker
-	 * @param time
-	 * @param limitPrice
-	 * @param quantity
-	 * @param orderType
-	 * @param config
-	 * @throws TickerNotFoundException
+	 * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
+	 * given the supplied parameters.
+	 * @param ticker The ticker which the buy or sell order should be performed on
+	 * @param time The Enum representation for when this order should be made
+	 * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
+	 * @param quantity The number of shares you would like to buy or sell
+	 * @param orderType Which type of order is being made. A buy, or sell.
+	 * @throws TickerNotFoundException Thrown when the ticker supplied to the
+	 *                                   method is invalid.
+	 * @throws NotLoggedInException  Thrown when this Robinhood Api instance is
+	 *                      not logged into an account. Run the login method first.
 	 */
 	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice,
 	                      int quantity, OrderTransactionType orderType,
@@ -48,13 +52,7 @@ public class MakeLimitOrder extends OrderMethod {
 
     }
 
-	/**
-	 * Method which sets the URLParameters for correctly so the order is ran as
-	 * a Limit Buy order, given the settings from the constructor
-	 *
-	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
-     *              If the {@link Configuration} is not logged in
-	 */
+	@Override
 	protected void setOrderParameters() {
 		//Add the account URL for the currently logged in account
 		this.addFieldParameter("account", this.config.getAccountUrl());
@@ -65,7 +63,7 @@ public class MakeLimitOrder extends OrderMethod {
 		this.addFieldParameter("price", this.limitPrice);
 		this.addFieldParameter("trigger", "immediate");
 		this.addFieldParameter("quantity", String.valueOf(this.quantity));
-		this.addFieldParameter("side", getOrderSideString(orderType));
+		this.addFieldParameter("side", orderType.getValue());
 	}
 
 }

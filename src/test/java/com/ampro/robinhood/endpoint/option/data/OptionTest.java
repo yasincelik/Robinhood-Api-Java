@@ -1,15 +1,14 @@
 package com.ampro.robinhood.endpoint.option.data;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.ampro.robinhood.throwables.NonSimpleOptionException;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static org.junit.Assert.*;
 
 public class OptionTest {
 
@@ -34,7 +33,7 @@ public class OptionTest {
 	@Test
 	public void singleLegIsSimpleOption() {
 		Leg leg = new Leg();
-		option.setLegs(Arrays.asList(leg));
+		option.setLegs(Collections.singletonList(leg));
 		assertTrue(option.isSimpleOption());
 	}
 
@@ -57,7 +56,7 @@ public class OptionTest {
 		option.setQuantity("5.0000");
 		option.setAverageOpenPrice("10.0000");
 		option.setTradeValueMultiplier("0");
-		option.setLegs(Arrays.asList(leg));
+		option.setLegs(Collections.singletonList(leg));
 
 		SimpleOption simpleOption = option.asSimpleOption();
 
