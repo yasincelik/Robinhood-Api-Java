@@ -10,16 +10,16 @@ import com.ampro.robinhood.endpoint.ApiElementList;
  * pulling the only account from the results. Gson needs this in order to
  * work, though.
  */
-public class AccountArrayWrapper extends ApiElementList<AccountElement> {
+public class AccountArrayWrapper extends ApiElementList<Account> {
 
 	/**
 	 * Currently, there will NEVER be more than just one of these.
      * To make it easy for the user to use the methods requiring
 	 * this, we only return the existing data.
      * @since 0.6
-	 * @return The {@link AccountElement} within the result.
+	 * @return The {@link Account} within the result.
 	 */
-	public AccountElement getResult() {
+	public Account getResult() {
 		return results.get(0);
 	}
 

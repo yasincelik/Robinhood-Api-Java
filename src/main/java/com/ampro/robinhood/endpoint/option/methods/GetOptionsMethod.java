@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.option.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.option.data.OptionElementList;
+import com.ampro.robinhood.endpoint.option.data.OptionList;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestMethod;
 
@@ -29,7 +29,7 @@ public class GetOptionsMethod extends ApiMethod {
         super(config);
         this.setMethodType(RequestMethod.GET);
         this.setUrlBase(RH_URL + "/options/aggregate_positions/");
-        this.setReturnType(OptionElementList.class);
+        this.setReturnType(OptionList.class);
 		this.addAuthTokenParameter();
 	}
 
@@ -52,6 +52,6 @@ public class GetOptionsMethod extends ApiMethod {
 		super(config);
 		this.setMethodType(RequestMethod.GET);
 		this.setUrlBase(host + "/options/aggregate_positions/");
-		this.setReturnType(OptionElementList.class);
+		this.setReturnType(OptionList.class);
 	}
 }

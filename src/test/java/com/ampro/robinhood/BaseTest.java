@@ -1,6 +1,6 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
 import com.ampro.robinhood.net.request.RequestManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,14 +18,14 @@ public class BaseTest {
     protected static String MSFT_URL;
     protected static String FAKE;
     protected static String KEYWORD;
-    protected static List<InstrumentElement> allInstruments;
+    protected static List<Instrument> allInstruments;
 
     /**
      * Load all the instruments.
      * Relies on {@link InstrumentTest#getAllInstruments()}
      * @return The singleton list of all Robinhood instruments
      */
-    protected List<InstrumentElement> preLoadAllInstruments() {
+    protected List<Instrument> preLoadAllInstruments() {
         if (allInstruments == null) {
             allInstruments = api.getAllInstruments();
         }

@@ -1,10 +1,10 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamental;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
+import com.ampro.robinhood.endpoint.instrument.data.InstrumentList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuote;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
@@ -23,13 +23,13 @@ public class PublicBaseTest extends BaseTest {
     //Fundimentals
     @Test
     public void getTickerFundimental() {
-        TickerFundamentalElement msft = api.getFundamental(MSFT);
+        TickerFundamental msft = api.getFundamental(MSFT);
         assertNotNull(msft);
     }
 
     @Test
     public void getTickerFundimentalList() throws RobinhoodApiException {
-        List<TickerFundamentalElement> list = api.getFundamentalList(tenTickers);
+        List<TickerFundamental> list = api.getFundamentalList(tenTickers);
         list.forEach(Assert::assertNotNull);
     }
 
@@ -42,7 +42,7 @@ public class PublicBaseTest extends BaseTest {
     //Quotes
     @Test
     public void getQuote() throws RobinhoodApiException {
-        TickerQuoteElement quote = api.getQuoteByTicker(MSFT);
+        TickerQuote quote = api.getQuoteByTicker(MSFT);
         assertNotNull(quote);
     }
 
@@ -54,7 +54,7 @@ public class PublicBaseTest extends BaseTest {
     @Test
     public void getQuoteList() throws RobinhoodApiException {
         List<String> tickers = new ArrayList<>();
-        List<InstrumentElement> list = preLoadAllInstruments().subList(0, 1100);
+        List<Instrument> list = preLoadAllInstruments().subList(0, 1100);
 
         list.forEach( element -> tickers.add(element.getSymbol()) );
 
@@ -65,7 +65,7 @@ public class PublicBaseTest extends BaseTest {
     @Test(expected = RequestTooLargeException.class)
     public void quotelistTooLarge() throws RobinhoodApiException {
         List<String> tickers = new ArrayList<>();
-        List<InstrumentElement> list = preLoadAllInstruments().subList(0, 1631);
+        List<Instrument> list = preLoadAllInstruments().subList(0, 1631);
         list.forEach( element -> tickers.add(element.getSymbol()));
         api.getQuoteListByTickers(tickers);
     }
@@ -73,9 +73,9 @@ public class PublicBaseTest extends BaseTest {
     //Pagination
     @Test
     public void paginatedIterator() {
-        InstrumentElementList list = requestManager
+        InstrumentList list = requestManager
                 .makeApiRequest(GetAllInstruments.getDefault());
-        PaginatedIterator<InstrumentElement> iterator
+        PaginatedIterator<Instrument> iterator
                 = new PaginatedIterator<>(list);
         while (iterator.hasNext()) {
             iterator.next();
@@ -84,9 +84,9 @@ public class PublicBaseTest extends BaseTest {
 
     @Test
     public void paginatedIterable() {
-        InstrumentElementList list = requestManager
+        InstrumentList list = requestManager
                 .makeApiRequest(GetAllInstruments.getDefault());
-        Iterable<InstrumentElement> iterable = api.buildIterable(list);
+        Iterable<Instrument> iterable = api.buildIterable(list);
         iterable.forEach(instrumentElement -> {});
     }
 

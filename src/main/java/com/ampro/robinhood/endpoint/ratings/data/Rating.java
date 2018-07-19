@@ -7,7 +7,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
  *
  * @author MainStringArgs
  */
-public class RatingElement implements ApiElement {
+public class Rating implements ApiElement {
 
   /** The summary. */
   private RatingSummary summary;

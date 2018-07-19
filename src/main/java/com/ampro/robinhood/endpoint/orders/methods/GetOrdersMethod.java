@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderList;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
@@ -12,7 +12,7 @@ public class GetOrdersMethod extends OrderMethod {
 
     /**
      * Set api URL to GET from and return type
-     * ({@link SecurityOrderElementList}).
+     * ({@link SecurityOrderList}).
      * @param config a logged in {@link Configuration}
      */
     public GetOrdersMethod(Configuration config) {
@@ -24,7 +24,7 @@ public class GetOrdersMethod extends OrderMethod {
         //This method should be ran as POST
         this.setMethodType(RequestMethod.GET);
 
-        this.setReturnType(SecurityOrderElementList.class);
+        this.setReturnType(SecurityOrderList.class);
     }
 
     /** Does nothing */

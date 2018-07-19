@@ -6,7 +6,7 @@ import com.ampro.robinhood.endpoint.ApiElementList;
  * A paginated list of a user's positions
  * @author Jonathan Augustine
  */
-public class PositionElementList extends ApiElementList<PositionElement> {
+public class PositionList extends ApiElementList<Position> {
     @Override
     public boolean requiresAuth() { return true; }
 

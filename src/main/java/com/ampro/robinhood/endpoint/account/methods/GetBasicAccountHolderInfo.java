@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.account.data.BasicAccountHolderInfoElement;
+import com.ampro.robinhood.endpoint.account.data.BasicAccountHolderInfo;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 public class GetBasicAccountHolderInfo extends Account {
@@ -15,7 +15,7 @@ public class GetBasicAccountHolderInfo extends Account {
 		this.setMethodType(RequestMethod.GET);
 
 		//Declare what the response should look like
-		this.setReturnType(BasicAccountHolderInfoElement.class);
+		this.setReturnType(BasicAccountHolderInfo.class);
 	}
 
 }

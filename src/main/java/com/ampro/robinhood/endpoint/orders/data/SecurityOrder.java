@@ -5,7 +5,7 @@ import com.ampro.robinhood.endpoint.orders.enums.OrderState;
 
 import java.net.URL;
 
-public class SecurityOrderElement implements ApiElement {
+public class SecurityOrder implements ApiElement {
 
 	//TODO: updated_at
 	private Execution[] executions;

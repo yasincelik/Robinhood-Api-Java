@@ -11,14 +11,14 @@ import java.net.URL;
  *
  * @author Jonathan Augustine
  */
-public class AccountElement implements ApiElement {
+public class Account implements ApiElement {
 
 	private boolean deactivated = false;
 
 	//TODO: updated_at
-	private MarginBalanceElement margin_balances;
+	private MarginBalance margin_balances;
 	private URL portfolio;
-	private CashBalancesElement cash_balances;
+	private CashBalances cash_balances;
 	private boolean withdrawl_halted;
 	private float cash_available_for_withdrawl;
 	private String type;
@@ -53,7 +53,7 @@ public class AccountElement implements ApiElement {
 	/**
 	 * @return the margin_balances
 	 */
-	public MarginBalanceElement getMarginBalances() {
+	public MarginBalance getMarginBalances() {
 		return margin_balances;
 	}
 	/**
@@ -65,7 +65,7 @@ public class AccountElement implements ApiElement {
 	/**
 	 * @return the cash_balances
 	 */
-	public CashBalancesElement getCashBalances() {
+	public CashBalances getCashBalances() {
 		return cash_balances;
 	}
 	/**

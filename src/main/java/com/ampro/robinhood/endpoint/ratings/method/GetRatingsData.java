@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetFundamental;
-import com.ampro.robinhood.endpoint.ratings.data.RatingElementList;
+import com.ampro.robinhood.endpoint.ratings.data.RatingList;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
@@ -32,7 +32,7 @@ public class GetRatingsData extends GetFundamental {
         this.setMethodType(RequestMethod.GET);
 
         // Declare what the response should look like
-        this.setReturnType(RatingElementList.class);
+        this.setReturnType(RatingList.class);
 
     }
 
@@ -53,7 +53,7 @@ public class GetRatingsData extends GetFundamental {
         this.setMethodType(RequestMethod.GET);
 
         // Declare what the response should look like
-        this.setReturnType(RatingElementList.class);
+        this.setReturnType(RatingList.class);
     }
 
 }

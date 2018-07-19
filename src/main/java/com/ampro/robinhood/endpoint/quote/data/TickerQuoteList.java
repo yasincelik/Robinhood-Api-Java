@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A list of {@link TickerQuoteElement TickerQuoteElements} that Robinhood
+ * A list of {@link TickerQuote TickerQuoteElements} that Robinhood
  * returns from {@link GetTickerQuoteList GetTickerQuoteList}. <br>
  * This ElementList can contain a a maximum of 1,630 quotes and is
  * Semi-Paginated (meaning there is no next/previous like other ElemenetLists)
@@ -21,15 +21,14 @@ import java.util.List;
  *
  * @author Jonathan Augustine
  */
-public class TickerQuoteElementList
-implements ApiElement, Iterable<TickerQuoteElement> {
+public class TickerQuoteList implements ApiElement, Iterable<TickerQuote> {
 
     @SerializedName("results")
     @Expose
-    private List<TickerQuoteElement> results;
+    private List<TickerQuote> results;
 
-    /** @return An unmodifiable non-null list of {@link TickerQuoteElement quotes} */
-    public List<TickerQuoteElement> getQuotes() {
+    /** @return An unmodifiable non-null list of {@link TickerQuote quotes} */
+    public List<TickerQuote> getQuotes() {
         results = results == null ? new ArrayList<>() : results;
         return Collections.unmodifiableList(results);
     }
@@ -38,7 +37,7 @@ implements ApiElement, Iterable<TickerQuoteElement> {
     public boolean requiresAuth() { return false; }
 
     @Override
-    public Iterator<TickerQuoteElement> iterator() {
+    public Iterator<TickerQuote> iterator() {
         return this.results.iterator();
     }
 

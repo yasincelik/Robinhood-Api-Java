@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 
@@ -18,7 +18,7 @@ public class CancelOrderMethod extends OrderMethod {
      * @param config A logged in {@link Configuration}
      * @throws RobinhoodApiException If the order cannot be cancelled
      */
-    public CancelOrderMethod(SecurityOrderElement order, Configuration config)
+    public CancelOrderMethod(SecurityOrder order, Configuration config)
     throws RobinhoodApiException {
         super(config);
         switch (order.getTransactionState()) {
@@ -39,7 +39,7 @@ public class CancelOrderMethod extends OrderMethod {
         }
         this.setMethodType(RequestMethod.POST);
         this.setUrlBase(order.getCancel().toExternalForm());
-        this.setReturnType(SecurityOrderElement.class);
+        this.setReturnType(SecurityOrder.class);
     }
 
     /** Does nothing */

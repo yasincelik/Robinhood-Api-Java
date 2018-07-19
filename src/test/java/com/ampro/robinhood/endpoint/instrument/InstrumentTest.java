@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.instrument;
 
 import com.ampro.robinhood.BaseTest;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
@@ -15,7 +15,7 @@ public class InstrumentTest extends BaseTest {
 
     @Test
     public void getInstrumentByTicker() throws RobinhoodApiException {
-        InstrumentElement instrument = api.getInstrumentByTicker(MSFT);
+        Instrument instrument = api.getInstrumentByTicker(MSFT);
         assertNotNull(instrument);
     }
 
@@ -27,7 +27,7 @@ public class InstrumentTest extends BaseTest {
     @Test
     public void getInstrumentByUrl() {
         ApiMethod method = new GetInstrumentByUrl(MSFT_URL);
-        InstrumentElement instrument = requestManager.makeApiRequest(method);
+        Instrument instrument = requestManager.makeApiRequest(method);
         assertNotNull(instrument);
     }
 

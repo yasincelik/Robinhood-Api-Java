@@ -2,7 +2,7 @@ package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 
-public class BasicAccountHolderInfoElement implements ApiElement {
+public class BasicAccountHolderInfo implements ApiElement {
 
 	private String address;
 	private String citizenship;

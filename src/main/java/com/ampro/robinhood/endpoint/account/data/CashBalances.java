@@ -2,7 +2,7 @@ package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 
-public class CashBalancesElement implements ApiElement {
+public class CashBalances implements ApiElement {
 
 	private float cash_held_for_orders;
 

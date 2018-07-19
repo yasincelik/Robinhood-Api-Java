@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 
-import com.ampro.robinhood.endpoint.option.data.OptionElementList;
+import com.ampro.robinhood.endpoint.option.data.OptionList;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
-public class GetOptionElementListMethodIntegrationTest {
+public class GetOptionListMethodIntegrationTest {
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
@@ -53,7 +53,7 @@ public class GetOptionElementListMethodIntegrationTest {
 		firstOption = getOptions().getResults().get(0);
 	}
 
-	private OptionElementList getOptions() {
+	private OptionList getOptions() {
 		ApiMethod method = new GetOptionsMethod(Configuration.getDefault(), "http://localhost:8080");
 		return requestManager.makeApiRequest(method);
 	}

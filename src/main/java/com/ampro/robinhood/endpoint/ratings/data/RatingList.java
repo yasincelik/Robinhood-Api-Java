@@ -3,11 +3,11 @@ package com.ampro.robinhood.endpoint.ratings.data;
 import com.ampro.robinhood.endpoint.ApiElementList;
 
 /**
- * The Class RatingElementList.
- * 
+ * The Class RatingList.
+ *
  * @author MainStringArgs
  */
-public class RatingElementList extends ApiElementList<RatingElement> {
+public class RatingList extends ApiElementList<Rating> {
 
   @Override
   public boolean requiresAuth() {
@@ -16,7 +16,7 @@ public class RatingElementList extends ApiElementList<RatingElement> {
 
   @Override
   public String toString() {
-    return "RatingElementList [results=" + results + "]";
+    return "RatingList [results=" + results + "]";
   }
 
 

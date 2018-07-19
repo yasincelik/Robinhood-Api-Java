@@ -1,9 +1,9 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamental;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.NotLoggedInException;
@@ -41,7 +41,7 @@ public abstract class OrderMethod extends ApiMethod {
 		//This method should be ran as POST
 		this.setMethodType(RequestMethod.POST);
 
-		this.setReturnType(SecurityOrderElement.class);
+		this.setReturnType(SecurityOrder.class);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public abstract class OrderMethod extends ApiMethod {
 	protected String verifyTickerData(String ticker)
 	throws TickerNotFoundException {
 		//Make a Ticker Fundamental API request for the supplied ticker
-		TickerFundamentalElement response = new GetTickerFundamental(ticker).execute();
+		TickerFundamental response = new GetTickerFundamental(ticker).execute();
 
 		//Does the ticker have a valid Instrument URL?
         //If not, this ticker is invalid. Throw an error.

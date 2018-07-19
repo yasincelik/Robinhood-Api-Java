@@ -16,7 +16,7 @@ import com.ampro.robinhood.util.ChronoFormatter;
  * support for multi-leg options.
  * <p>
  * For further domain knowledge on options, see the
- * <a href="https://www.investopedia.com/terms/o/option.asp">OptionElementList
+ * <a href="https://www.investopedia.com/terms/o/option.asp">OptionList
  * Investopedia article</a>.
  *
  * @author <a href="https://github.com/albanoj2">Justin Albano</a>
@@ -58,7 +58,7 @@ public class Option implements ApiElement {
 	}
 
 	public ZonedDateTime getCreatedAt() {
-		return ZonedDateTime.parse(created_at, ChronoFormatter.getFormat());
+		return ChronoFormatter.parseDefault(created_at);
 	}
 
 	public String getDirection() {

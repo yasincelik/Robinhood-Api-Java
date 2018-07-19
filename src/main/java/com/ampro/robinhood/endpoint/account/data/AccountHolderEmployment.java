@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 import java.net.URL;
 
-public class AccountHolderEmploymentElement implements ApiElement {
+public class AccountHolderEmployment implements ApiElement {
 
 	private String employer_address;
 	private String employer_city;

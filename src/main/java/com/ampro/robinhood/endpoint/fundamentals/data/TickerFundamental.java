@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 import java.net.URL;
 
-public class TickerFundamentalElement implements ApiElement {
+public class TickerFundamental implements ApiElement {
 
 	/**
 	 * The ticker price at market open

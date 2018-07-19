@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.fundamentals.methods;
 
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundimentalElementList;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalList;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 
@@ -28,6 +28,6 @@ public class GetTickerFundamentalList extends GetFundamental {
         //This method is ran as GET
         this.setMethodType(RequestMethod.GET);
 
-        this.setReturnType(TickerFundimentalElementList.class);
+        this.setReturnType(TickerFundamentalList.class);
     }
 }

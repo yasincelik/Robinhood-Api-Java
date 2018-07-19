@@ -2,7 +2,7 @@ package com.ampro.robinhood.endpoint.account.data;
 
 
 import com.ampro.robinhood.endpoint.ApiElement;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.request.RequestManager;
 import com.google.gson.annotations.Expose;
@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Jonathan Augustine
  */
-public class PositionElement implements ApiElement {
+public class Position implements ApiElement {
 
     @SerializedName("account")
     @Expose
@@ -67,7 +67,7 @@ public class PositionElement implements ApiElement {
     @Override
     public boolean requiresAuth() { return true; }
 
-    public InstrumentElement getInstrumentElement() {
+    public Instrument getInstrumentElement() {
         return RequestManager.getInstance().makeApiRequest(
                 new GetInstrumentByUrl(this.instrumentUrl)
         );

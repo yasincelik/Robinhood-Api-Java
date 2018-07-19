@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ampro.robinhood.endpoint.ApiElement;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByUrl;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.request.RequestManager;
@@ -36,7 +36,7 @@ public class InstrumentCollectionList implements ApiElement {
 	 * @throws RobinhoodApiException
 	 *             the robinhood api exception
 	 */
-	public List<InstrumentElement> getInstruments()
+	public List<Instrument> getInstruments()
 	throws RobinhoodApiException {
         RequestManager rm = RequestManager.getInstance();
 
@@ -45,7 +45,7 @@ public class InstrumentCollectionList implements ApiElement {
         }
 
         // Return the array as a list for ease-of-use
-        List<InstrumentElement> elementList = new ArrayList<>();
+        List<Instrument> elementList = new ArrayList<>();
 
         instruments.forEach(url -> {
             ApiMethod method = new GetInstrumentByUrl(url);

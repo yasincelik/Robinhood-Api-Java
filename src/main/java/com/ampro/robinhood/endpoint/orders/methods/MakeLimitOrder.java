@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.orders.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.throwables.NotLoggedInException;
@@ -18,7 +18,7 @@ public class MakeLimitOrder extends OrderMethod {
 	private String tickerInstrumentUrl;
 
 	/**
-	 * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
+	 * Method which returns a {@link SecurityOrder} after running a LIMIT order
 	 * given the supplied parameters.
 	 * @param ticker The ticker which the buy or sell order should be performed on
 	 * @param time The Enum representation for when this order should be made

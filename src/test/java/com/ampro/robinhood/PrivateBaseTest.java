@@ -1,7 +1,7 @@
 package com.ampro.robinhood;
 
 import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import org.junit.Assert;
@@ -62,7 +62,7 @@ public class PrivateBaseTest extends BaseTest {
 
     @Test
     public void getOrders() {
-        List<SecurityOrderElement> orders = loggedInApi.getOrders();
+        List<SecurityOrder> orders = loggedInApi.getOrders();
         assertNotNull(orders);
         orders.forEach(Assert::assertNotNull);
     }

@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * TODO Getting fundamental and other URL data instead of the string
  * @author Jonathan Augustine
  */
-public class InstrumentElement implements ApiElement {
+public class Instrument implements ApiElement {
 
     @SerializedName("tradable_chain_id")
     @Expose
@@ -40,7 +40,7 @@ public class InstrumentElement implements ApiElement {
     @Expose
     private String quote;
 
-    /** Seemingly a duplicate variable for {@link InstrumentElement#tradeable}*/
+    /** Seemingly a duplicate variable for {@link Instrument#tradeable}*/
     @SerializedName("tradability")
     @Expose
     private String tradability;

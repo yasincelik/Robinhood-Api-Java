@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.quote.methods;
 
 
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteList;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 
@@ -13,7 +13,7 @@ import java.util.Collection;
       </a>)<br>
  * "Gather quote data for a list of symbols at once...Returned data is
  * semi-paginated (in that there are no next or previous keys)." <br>
- *     Returns a {@link TickerQuoteElementList}.
+ *     Returns a {@link TickerQuoteList}.
  *
  * @author Jonathan Augustine
  */
@@ -46,7 +46,7 @@ public class GetTickerQuoteList extends GetQuote {
         this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
-        this.setReturnType(TickerQuoteElementList.class);
+        this.setReturnType(TickerQuoteList.class);
 
     }
 

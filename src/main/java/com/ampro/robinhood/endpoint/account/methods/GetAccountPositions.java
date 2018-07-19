@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.account.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.account.data.PositionElementList;
+import com.ampro.robinhood.endpoint.account.data.PositionList;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 /**
@@ -20,7 +20,7 @@ public class GetAccountPositions extends Account {
         this.setMethodType(RequestMethod.GET);
 
         //Declare what the response should look like
-        this.setReturnType(PositionElementList.class);
+        this.setReturnType(PositionList.class);
 
     }
 }

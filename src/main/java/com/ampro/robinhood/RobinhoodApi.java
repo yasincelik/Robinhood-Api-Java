@@ -3,34 +3,35 @@ package com.ampro.robinhood;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.account.data.*;
+import com.ampro.robinhood.endpoint.account.data.Account;
 import com.ampro.robinhood.endpoint.account.methods.*;
 import com.ampro.robinhood.endpoint.authorize.data.Token;
 import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithoutMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
 import com.ampro.robinhood.endpoint.collection.data.InstrumentCollectionList;
 import com.ampro.robinhood.endpoint.collection.methods.GetCollectionData;
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundimentalElementList;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamental;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalList;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamental;
 import com.ampro.robinhood.endpoint.fundamentals.methods.GetTickerFundamentalList;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElement;
-import com.ampro.robinhood.endpoint.instrument.data.InstrumentElementList;
+import com.ampro.robinhood.endpoint.instrument.data.Instrument;
+import com.ampro.robinhood.endpoint.instrument.data.InstrumentList;
 import com.ampro.robinhood.endpoint.instrument.methods.GetAllInstruments;
 import com.ampro.robinhood.endpoint.instrument.methods.GetInstrumentByTicker;
 import com.ampro.robinhood.endpoint.instrument.methods.SearchInstrumentsByKeyword;
 import com.ampro.robinhood.endpoint.option.data.Option;
-import com.ampro.robinhood.endpoint.option.data.OptionElementList;
+import com.ampro.robinhood.endpoint.option.data.OptionList;
 import com.ampro.robinhood.endpoint.option.methods.GetOptionsMethod;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElement;
-import com.ampro.robinhood.endpoint.orders.data.SecurityOrderElementList;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
+import com.ampro.robinhood.endpoint.orders.data.SecurityOrderList;
 import com.ampro.robinhood.endpoint.orders.enums.OrderTransactionType;
 import com.ampro.robinhood.endpoint.orders.enums.TimeInForce;
 import com.ampro.robinhood.endpoint.orders.methods.*;
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElement;
-import com.ampro.robinhood.endpoint.quote.data.TickerQuoteElementList;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuote;
+import com.ampro.robinhood.endpoint.quote.data.TickerQuoteList;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuote;
 import com.ampro.robinhood.endpoint.quote.methods.GetTickerQuoteList;
-import com.ampro.robinhood.endpoint.ratings.data.RatingElementList;
+import com.ampro.robinhood.endpoint.ratings.data.RatingList;
 import com.ampro.robinhood.endpoint.ratings.method.GetRatingsData;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
@@ -138,7 +139,7 @@ public class RobinhoodApi {
             if (requestData.getResult() == null) {
                 return FAILURE.setValue("no account wrapper");
             }
-            AccountElement data = requestData.getResult();
+            Account data = requestData.getResult();
 
             //If there is no account number, something went wrong.
             if (data.getAccountNumber() == null) {
@@ -182,12 +183,12 @@ public class RobinhoodApi {
 	//ACCOUNT DATA
 
 	/**
-	 * Method returning a {@link AccountElement} using the currently logged in
+	 * Method returning a {@link Account} using the currently logged in
      * user
-     * @return The requested {@link AccountElement}
+     * @return The requested {@link Account}
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
-	public AccountElement getAccountData() {
+	public Account getAccountData() {
 		//TODO: This is a temporary fix, as the Robinhood API seems
 		//to have some features implemented, but are not used yet
 		AccountArrayWrapper data = new GetAccounts(this.config).execute();
@@ -195,36 +196,36 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method returning a {@link BasicUserInfoElement} for the currently logged in user
+	 * Method returning a {@link BasicUserInfo} for the currently logged in user
      *
      * @return Basic information about the user
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
-	public BasicUserInfoElement getBasicUserInfo()  {
+	public BasicUserInfo getBasicUserInfo()  {
 		return new GetBasicUserInfo(this.config).execute();
 	}
 
 	/**
-	 * Method returning a {@link BasicAccountHolderInfoElement} for the currently logged in user
+	 * Method returning a {@link BasicAccountHolderInfo} for the currently logged in user
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
-	public BasicAccountHolderInfoElement getAccountHolderInfo() {
+	public BasicAccountHolderInfo getAccountHolderInfo() {
 		return new GetBasicAccountHolderInfo(this.config).execute();
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderAffiliationElement} for the currently logged in user
+	 * Method returning a {@link AccountHolderAffiliation} for the currently logged in user
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
-	public AccountHolderAffiliationElement getAccountHolderAffiliation() {
+	public AccountHolderAffiliation getAccountHolderAffiliation() {
 		return new GetAccountHolderAffiliationInfo(this.config).execute();
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderEmploymentElement} for the currently logged in user
+	 * Method returning a {@link AccountHolderEmployment} for the currently logged in user
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
-	public AccountHolderEmploymentElement getAccountHolderEmployment() {
+	public AccountHolderEmployment getAccountHolderEmployment() {
 		return new GetAccountHolderEmploymentInfo(this.config).execute();
 	}
 
@@ -241,18 +242,18 @@ public class RobinhoodApi {
 	//ORDERS
 
     /**
-     * Returns a list of {@link PositionElement} for each entry on the account's
-     * watchlist. If the quantity of the {@link PositionElement} is above 0,
+     * Returns a list of {@link Position} for each entry on the account's
+     * watchlist. If the quantity of the {@link Position} is above 0,
      * that means that you have an active position in that stock. All of the
      * other information which can be retrieved from this can be found in the
-     * PositionElement page itself
-     * @return A list of {@link PositionElement}, both held and only watched entities
+     * Position page itself
+     * @return A list of {@link Position}, both held and only watched entities
      * @throws NotLoggedInException If not logged in
      */
-    public List<PositionElement> getAccountWatchlist() {
+    public List<Position> getAccountWatchlist() {
         //Return the current account positions
-        PositionElementList response = new GetAccountPositions(this.config).execute();
-        List<PositionElement> out = new ArrayList<>();
+        PositionList response = new GetAccountPositions(this.config).execute();
+        List<Position> out = new ArrayList<>();
         buildIterable(response).forEach(out::add);
         return out;
     }
@@ -262,13 +263,13 @@ public class RobinhoodApi {
      * @return List containing all of the stocks an account has shares in.
      * @throws NotLoggedInException If not logged in
      */
-    public List<PositionElement> getAccountPositions() {
+    public List<Position> getAccountPositions() {
         //Get the entire watchlist for the account
-        List<PositionElement> accountWatchlist = this.getAccountWatchlist();
+        List<Position> accountWatchlist = this.getAccountWatchlist();
 
         //Parse the watchlist for things which have a quantity
         // >= 1 and return it
-        Vector<PositionElement> accountPositions = new Vector<>();
+        Vector<Position> accountPositions = new Vector<>();
 
         accountWatchlist.forEach( position -> {
             if(position.getQuantity() >= 1) {
@@ -282,16 +283,16 @@ public class RobinhoodApi {
      * @return Closed and open orders.
      * @throws NotLoggedInException If not logged in
      */
-    public List<SecurityOrderElement> getOrders() {
-        SecurityOrderElementList orders = new GetOrdersMethod(this.config).execute();
-        List<SecurityOrderElement> out = new ArrayList<>();
+    public List<SecurityOrder> getOrders() {
+        SecurityOrderList orders = new GetOrdersMethod(this.config).execute();
+        List<SecurityOrder> out = new ArrayList<>();
         //Load all the pages into one list
         buildIterable(orders).forEach(out::add);
         return out;
     }
 
     /**
-     * Method which returns a {@link SecurityOrderElement} after running a LIMIT order
+     * Method which returns a {@link SecurityOrder} after running a LIMIT order
      * given the supplied parameters.
      * @param ticker The ticker which the buy or sell order should be performed on
      * @param timeInForce The Enum representation for when this order should be made
@@ -299,16 +300,16 @@ public class RobinhoodApi {
      * @param quantity The number of shares you would like to buy or sell
      * @param orderType Which type of order is being made. A buy, or sell.
 
-     * @return The {@link SecurityOrderElement} that was made
+     * @return The {@link SecurityOrder} that was made
      *
      * @throws TickerNotFoundException Thrown when the ticker supplied to the
      *                                   method is invalid.
      * @throws NotLoggedInException  Thrown when this Robinhood Api instance is
      *                      not logged into an account. Run the login method first.
      */
-    public SecurityOrderElement makeLimitOrder(String ticker, TimeInForce timeInForce,
-                                               float limitPrice, int quantity,
-                                               OrderTransactionType orderType)
+    public SecurityOrder makeLimitOrder(String ticker, TimeInForce timeInForce,
+                                        float limitPrice, int quantity,
+                                        OrderTransactionType orderType)
     throws TickerNotFoundException {
         return new MakeLimitOrder(ticker, timeInForce, limitPrice, quantity,
                                   orderType, this.config).execute();
@@ -322,13 +323,13 @@ public class RobinhoodApi {
      * @param orderType Which type of order is being made. A buy, or a sell
      * @param stopPrice The price at which the stop trigger converts the order
      *                      into a market order
-     * @return The created {@link SecurityOrderElement}
+     * @return The created {@link SecurityOrder}
      * @throws TickerNotFoundException The ticker supplied is not valid.
      */
-    public SecurityOrderElement makeLimitStopOrder(String ticker, TimeInForce timeInForce,
-                                                   float limitPrice, int quantity,
-                                                   OrderTransactionType orderType,
-                                                   float stopPrice)
+    public SecurityOrder makeLimitStopOrder(String ticker, TimeInForce timeInForce,
+                                            float limitPrice, int quantity,
+                                            OrderTransactionType orderType,
+                                            float stopPrice)
     throws TickerNotFoundException {
         return new MakeLimitStopOrder(ticker, timeInForce, limitPrice,
                 quantity, orderType, stopPrice, this.config).execute();
@@ -339,13 +340,13 @@ public class RobinhoodApi {
      * @param quantity How many shares should be transacted
      * @param orderType Which type of order is being made. A buy, or a sell.
      * @param time The Enum representation of when this order should be made.
-     * @return The SecurityOrderElement object with the API response.
+     * @return The SecurityOrder object with the API response.
      * @throws TickerNotFoundException if the ticker supplied was invalid
      * @throws NotLoggedInException if instance not logged in
      */
-    public SecurityOrderElement makeMarketOrder(String ticker, int quantity,
-                                                OrderTransactionType orderType,
-                                                TimeInForce time)
+    public SecurityOrder makeMarketOrder(String ticker, int quantity,
+                                         OrderTransactionType orderType,
+                                         TimeInForce time)
     throws TickerNotFoundException {
         return new MakeMarketOrder(ticker, quantity, orderType, time, this.config)
                 .execute();
@@ -357,14 +358,14 @@ public class RobinhoodApi {
      * @param orderType {@link OrderTransactionType#BUY} or {@link OrderTransactionType#SELL}
      * @param time The time and/or duration an order will be active.
      * @param stopPrice The stop (activation) price
-     * @return The {@link SecurityOrderElement} created, this order can fail
-     *              ({@link SecurityOrderElement#reject_reason}
+     * @return The {@link SecurityOrder} created, this order can fail
+     *              ({@link SecurityOrder#reject_reason}
      * @throws TickerNotFoundException If the ticker is not tracked by RH
      * @throws NotLoggedInException If instance is not logged in
      */
-    public SecurityOrderElement makeMarketStopOrder(String ticker, int quantity,
-                                                    OrderTransactionType orderType,
-                                                    TimeInForce time, float stopPrice)
+    public SecurityOrder makeMarketStopOrder(String ticker, int quantity,
+                                             OrderTransactionType orderType,
+                                             TimeInForce time, float stopPrice)
     throws TickerNotFoundException {
         return new MakeMarketStopOrder(ticker, quantity, orderType, time, stopPrice,
                                        this.config).execute();
@@ -373,12 +374,12 @@ public class RobinhoodApi {
     /**
      * Cancel an order. The order must be open and not completed.
      *
-     * @param order The {@link SecurityOrderElement} to cancel
-     * @return The cancelled order as a {@link SecurityOrderElement}
+     * @param order The {@link SecurityOrder} to cancel
+     * @return The cancelled order as a {@link SecurityOrder}
      * @throws RobinhoodApiException If the order could not be cancelled
      */
     @Deprecated
-    public SecurityOrderElement cancelOrder(SecurityOrderElement order)
+    public SecurityOrder cancelOrder(SecurityOrder order)
     throws RobinhoodApiException {
         return new CancelOrderMethod(order, this.config).execute();
     }
@@ -390,49 +391,49 @@ public class RobinhoodApi {
      * @throws NotLoggedInException
      */
     public List<Option> getOptions() {
-        OptionElementList options = new GetOptionsMethod(this.config).execute();
+        OptionList options = new GetOptionsMethod(this.config).execute();
         return options.getResults();
     }
 
 	//PUBLIC DATA
 
 	/**
-	 * Method returning a {@link TickerFundamentalElement} for the supplied ticker name
+	 * Method returning a {@link TickerFundamental} for the supplied ticker name
      *
 	 * @param ticker The Stock's ticker
 	 */
-	public TickerFundamentalElement getFundamental(String ticker) {
+	public TickerFundamental getFundamental(String ticker) {
 		//Create the API method
 		return new GetTickerFundamental(ticker).execute();
 	}
 
 	/**
-	 * Get a {@link List} of {@link TickerFundamentalElement}.
+	 * Get a {@link List} of {@link TickerFundamental}.
      *
 	 * @param tickers A collection of stock tickers
-	 * @return a {@link List} of {@link TickerFundamentalElement}.
+	 * @return a {@link List} of {@link TickerFundamental}.
 	 * @throws RequestTooLargeException If the Collection is longer than 10
 	 * @author Jonathan Augustine
 	 */
-	public List<TickerFundamentalElement> getFundamentalList(Collection<String> tickers)
+	public List<TickerFundamental> getFundamentalList(Collection<String> tickers)
     throws RequestTooLargeException {
-		TickerFundimentalElementList list = new GetTickerFundamentalList(tickers).execute();
-		List<TickerFundamentalElement> out = new ArrayList<>();
+		TickerFundamentalList list = new GetTickerFundamentalList(tickers).execute();
+		List<TickerFundamental> out = new ArrayList<>();
 		buildIterable(list).forEach(out::add);
 		return out;
 	}
 
 	/**
-	 * Method returning a {@link TickerQuoteElement} for the supplied ticker.
+	 * Method returning a {@link TickerQuote} for the supplied ticker.
      * Contains general information, such as the current asking price and the
      * last trading price. Does not require the API to be logged on.
 	 * @param ticker Which symbol you are retrieving a quote for
-	 * @return {@link TickerQuoteElement}
+	 * @return {@link TickerQuote}
      * @throws TickerNotFoundException If the quote is not found
 	 */
-	public TickerQuoteElement getQuoteByTicker(String ticker)
+	public TickerQuote getQuoteByTicker(String ticker)
     throws TickerNotFoundException {
-        TickerQuoteElement quote = new GetTickerQuote(ticker).execute();
+        TickerQuote quote = new GetTickerQuote(ticker).execute();
         if (quote == null || quote.getSymbol() == null) {
             throw new TickerNotFoundException();
         }
@@ -443,25 +444,25 @@ public class RobinhoodApi {
      * Get a list of security quotes by their tickers. The result is
      * SemiPaginated, which is why this can return a normal List
      * @param tickers The tickers to get quotes of (e.g. MSFT, FIT)
-     * @return A list of {@link TickerQuoteElement TickerQuoteElements}.
+     * @return A list of {@link TickerQuote TickerQuoteElements}.
      *          A value in the list may be null if the ticker was not found
      *          on Robinhood.
      * @throws RequestTooLargeException if the collection is longer than 1,630
      */
-	public List<TickerQuoteElement> getQuoteListByTickers(Collection<String> tickers)
+	public List<TickerQuote> getQuoteListByTickers(Collection<String> tickers)
     throws RequestTooLargeException {
-        TickerQuoteElementList list = new GetTickerQuoteList(tickers).execute();
+        TickerQuoteList list = new GetTickerQuoteList(tickers).execute();
         return list.getQuotes();
    }
 
     /**
      * @param ticker The stock ticker
-     * @return The {@link InstrumentElement} requested
+     * @return The {@link Instrument} requested
      * @throws TickerNotFoundException If the ticker is not tracked by Robinhood
      */
-    public InstrumentElement getInstrumentByTicker(String ticker)
+    public Instrument getInstrumentByTicker(String ticker)
     throws TickerNotFoundException {
-        InstrumentElementList list = new GetInstrumentByTicker(ticker).execute();
+        InstrumentList list = new GetInstrumentByTicker(ticker).execute();
         if (list.isEmpty()) {
             throw new TickerNotFoundException(ticker);
         }
@@ -474,25 +475,25 @@ public class RobinhoodApi {
      * elements.
      *
      * @param keyword The keyword to search with
-     * @return A {@link List} of {@link InstrumentElement InstrumentElements}
+     * @return A {@link List} of {@link Instrument InstrumentElements}
      *                  returned by Robinhood's search
      */
-    public List<InstrumentElement> getInstrumentsByKeyword(String keyword) {
-        InstrumentElementList list = new SearchInstrumentsByKeyword(keyword).execute();
+    public List<Instrument> getInstrumentsByKeyword(String keyword) {
+        InstrumentList list = new SearchInstrumentsByKeyword(keyword).execute();
         return list.getResults();
     }
 
     /**
-     * Get's every {@link InstrumentElement} tracked by Robinhood.
+     * Get's every {@link Instrument} tracked by Robinhood.
      * This method performs several calls to the Robinhood servers and is
      * therefore rather expensive to use. Try to use it sparingly (it's not
      * like it's going to be changing all the time)
      *
-     * @return Every {@link InstrumentElement} tracked by Robinhood
+     * @return Every {@link Instrument} tracked by Robinhood
      */
-    public List<InstrumentElement> getAllInstruments() {
-        InstrumentElementList list = GetAllInstruments.get();
-        ArrayList<InstrumentElement> out = new ArrayList<>();
+    public List<Instrument> getAllInstruments() {
+        InstrumentList list = GetAllInstruments.get();
+        ArrayList<Instrument> out = new ArrayList<>();
         buildIterable(list).forEach(out::add);
         return out;
     }
@@ -506,7 +507,7 @@ public class RobinhoodApi {
 	 *
 	 * @param collectionName
 	 *            the collection name
-	 * @return the collection data as a list of {@link InstrumentElement}.
+	 * @return the collection data as a list of {@link Instrument}.
 	 *
 	 * @author MainStringArgs
 	 */
@@ -523,14 +524,14 @@ public class RobinhoodApi {
 	 * @throws RequestTooLargeException if request is greater than
      *                          {@link ApiMethod#MAX_TICKERS}
 	 */
-    public RatingElementList getRatingsByTickers(String... tickers)
+    public RatingList getRatingsByTickers(String... tickers)
     throws RequestTooLargeException {
         List<String> tkList = Arrays.asList(tickers);
         List<String> instrumentIds = new ArrayList<>();
 
-        TickerQuoteElementList tqeList = new GetTickerQuoteList(tkList).execute();
+        TickerQuoteList tqeList = new GetTickerQuoteList(tkList).execute();
 
-        for (TickerQuoteElement quote : tqeList.getQuotes()) {
+        for (TickerQuote quote : tqeList.getQuotes()) {
             if (quote.getInstrumentId() != null) {
                 instrumentIds.add(quote.getInstrumentId());
             }
@@ -545,7 +546,7 @@ public class RobinhoodApi {
 	 * @param ids the tickers
 	 * @return the ratings by instrument ids
 	 */
-	public RatingElementList getRatingsByInstrumentIds(String... ids) {
+	public RatingList getRatingsByInstrumentIds(String... ids) {
 		return new GetRatingsData(ids).execute();
 	}
 

@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 import java.net.URL;
 
-public class AccountHolderAffiliationElement implements ApiElement {
+public class AccountHolderAffiliation implements ApiElement {
 
 
 	private boolean control_person;

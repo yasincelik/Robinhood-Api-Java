@@ -4,7 +4,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 
 import java.net.URL;
 
-public class BasicUserInfoElement implements ApiElement {
+public class BasicUserInfo implements ApiElement {
 
 	private String username;
 	private String first_name;

@@ -1,6 +1,6 @@
 package com.ampro.robinhood.endpoint.fundamentals.methods;
 
-import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamentalElement;
+import com.ampro.robinhood.endpoint.fundamentals.data.TickerFundamental;
 import com.ampro.robinhood.net.request.RequestMethod;
 
 public class GetTickerFundamental extends GetFundamental {
@@ -16,7 +16,7 @@ public class GetTickerFundamental extends GetFundamental {
 		this.setMethodType(RequestMethod.GET);
 
 		//Declare what the response should look like
-		this.setReturnType(TickerFundamentalElement.class);
+		this.setReturnType(TickerFundamental.class);
 	}
 
 }

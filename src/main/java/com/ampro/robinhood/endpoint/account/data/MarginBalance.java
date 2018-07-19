@@ -3,7 +3,7 @@ package com.ampro.robinhood.endpoint.account.data;
 import com.ampro.robinhood.endpoint.ApiElement;
 
 
-public class MarginBalanceElement implements ApiElement {
+public class MarginBalance implements ApiElement {
 
 	private float day_trade_buying_power;
 

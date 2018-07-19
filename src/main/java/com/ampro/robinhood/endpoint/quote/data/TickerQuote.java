@@ -5,7 +5,7 @@ import com.ampro.robinhood.endpoint.ApiElement;
 /**
  * Created by SirensBell on 6/19/2017.
  */
-public class TickerQuoteElement implements ApiElement {
+public class TickerQuote implements ApiElement {
 
     /** The ask price. */
     private float ask_price;
