@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * An Instrument contains data on any of the 10,000+ instruments tracked by
  * Robinhood's partners (~8,000 are trade-able)
- * TODO Getting fundamental and other URL data instead of the string
+ *
  * @author Jonathan Augustine
  */
 public class Instrument implements ApiElement {

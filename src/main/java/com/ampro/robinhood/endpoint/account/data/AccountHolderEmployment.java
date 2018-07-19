@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
+import java.time.ZonedDateTime;
 
 public class AccountHolderEmployment implements ApiElement {
 
@@ -14,12 +16,16 @@ public class AccountHolderEmployment implements ApiElement {
 	private String employment_status;
 	private String occupation;
 
-	//TODO: updated_at
+	private String updated_at;
 	private URL user;
 	private int years_employed;
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
 
 	/**
 	 * @return the employer_address

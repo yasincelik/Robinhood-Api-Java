@@ -2,8 +2,10 @@ package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.account.enums.*;
+import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
+import java.time.ZonedDateTime;
 
 public class AccountHolderInvestmentProfile implements ApiElement {
 
@@ -19,11 +21,15 @@ public class AccountHolderInvestmentProfile implements ApiElement {
 	private String time_horizon;
 	private String total_net_worth;
 
-	//TODO: Updated_at
+	private String updated_at;
 	private URL user;
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
 
 	/**
 	 * @return the annual_income

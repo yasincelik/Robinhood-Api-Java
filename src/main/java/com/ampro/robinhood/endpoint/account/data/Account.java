@@ -1,8 +1,10 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
+import java.time.ZonedDateTime;
 
 /**
  * An {@link ApiElement} containing information (or the URL location of
@@ -15,8 +17,9 @@ public class Account implements ApiElement {
 
 	private boolean deactivated = false;
 
-	//TODO: updated_at
-	private MarginBalance margin_balances;
+	private String updated_at;
+	private String created_at;
+	private MarginBalances margin_balances;
 	private URL portfolio;
 	private CashBalances cash_balances;
 	private boolean withdrawl_halted;
@@ -32,8 +35,6 @@ public class Account implements ApiElement {
 	private boolean only_position_closing_trades;
 	private URL url;
 	private URL positions;
-
-	//TODO: Created_at
 	private float cash;
 	private float sma_held_for_orders;
 	private String account_number;
@@ -50,10 +51,18 @@ public class Account implements ApiElement {
 		return deactivated;
 	}
 
+	public ZonedDateTime getCreatedAt() {
+	    return ChronoFormatter.parseDefault(this.created_at);
+    }
+
+    public ZonedDateTime getUpdatedAt() {
+	    return ChronoFormatter.parseDefault(this.updated_at);
+    }
+
 	/**
 	 * @return the margin_balances
 	 */
-	public MarginBalance getMarginBalances() {
+	public MarginBalances getMarginBalances() {
 		return margin_balances;
 	}
 	/**

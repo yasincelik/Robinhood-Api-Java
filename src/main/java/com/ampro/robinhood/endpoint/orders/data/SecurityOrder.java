@@ -2,12 +2,14 @@ package com.ampro.robinhood.endpoint.orders.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderState;
+import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
+import java.time.ZonedDateTime;
 
 public class SecurityOrder implements ApiElement {
 
-	//TODO: updated_at
+	private String updated_at;
 	private Execution[] executions;
 	/**
 	 * Total fees incurred. Normally this is 0.00 - Robinhood just likes to
@@ -40,26 +42,19 @@ public class SecurityOrder implements ApiElement {
 	 */
 	private String state;
 
-	//TODO: last_transaction_at
-	/**
-	 * Self explanatory
-	 */
+	private String last_transaction_at;
+
 	private String client_id;
 
-	/**
-	 * A link to this order with up to date information
-	 */
+	/** A link to this order with up to date information */
 	private URL url;
 
-	//TODO: created_at
-	/**
-	 * A link to positions for this account with this instrument
-	 */
+	private String created_at;
+
+	/** A link to positions for this account with this instrument */
 	private URL position;
 
-	/**
-	 * Average price for all shares executed so far
-	 */
+	/** Average price for all shares executed so far */
 	private float average_price;
 
 	/**
@@ -68,15 +63,25 @@ public class SecurityOrder implements ApiElement {
 	 */
 	private boolean extended_hours;
 
-	/**
-	 * Do you have pattern day trading checking enabled?
-	 */
+	/** Do you have pattern day trading checking enabled? */
 	private boolean override_day_trade_checks;
 
 	private boolean override_dtbp_checks;
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
+
+	public ZonedDateTime getCreatedAt() {
+		return ChronoFormatter.parseDefault(this.created_at);
+	}
+
+	public ZonedDateTime getLastTransactionAt() {
+		return ChronoFormatter.parseDefault(this.last_transaction_at);
+	}
 
 	/**
 	 * @return the executions

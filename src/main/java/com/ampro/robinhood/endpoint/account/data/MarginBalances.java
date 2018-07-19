@@ -1,23 +1,26 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
+
+import java.time.ZonedDateTime;
 
 
-public class MarginBalance implements ApiElement {
+public class MarginBalances implements ApiElement {
 
 	private float day_trade_buying_power;
 
-	//TODO: created_at
+	private String created_at;
 
 	private float overnight_buying_power_held_for_orders;
 	private float cash_held_for_orders;
 	private float day_trade_buying_power_held_for_orders;
 
-	//TODO: marked_pattern_day_trader_date
+	private String marked_pattern_day_trader_date;
 	private float cash;
 	private float unallocated_margin_cash;
 
-	//TODO: updated_at
+	private String updated_at;
 	private float cash_available_for_withdral;
 	private float margin_limit;
 	private float overnight_buying_power;
@@ -28,6 +31,18 @@ public class MarginBalance implements ApiElement {
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
+
+	public ZonedDateTime getCreatedAt() {
+		return ChronoFormatter.parseDefault(this.created_at);
+	}
+
+	public ZonedDateTime getMarkedPatternDayTraderDate() {
+		return ChronoFormatter.parseDefault(this.marked_pattern_day_trader_date);
+	}
 
 	/**
 	 * @return the day_trade_buying_power

@@ -1,16 +1,19 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
+
+import java.time.ZonedDateTime;
 
 public class CashBalances implements ApiElement {
 
 	private float cash_held_for_orders;
 
-	//TODO: created_at
+	private String created_at;
 	private float cash;
 	private float buying_power;
 
-	//TODO: updated_at
+	private String updated_at;
 
 	private float cash_available_for_withdrawl;
 	private float uncleared_deposits;
@@ -18,6 +21,14 @@ public class CashBalances implements ApiElement {
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
+
+	public ZonedDateTime getCreatedAt() {
+		return ChronoFormatter.parseDefault(this.created_at);
+	}
 
 	/**
 	 * @return the cash_held_for_orders

@@ -1,6 +1,9 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
+
+import java.time.ZonedDateTime;
 
 public class BasicAccountHolderInfo implements ApiElement {
 
@@ -15,12 +18,16 @@ public class BasicAccountHolderInfo implements ApiElement {
 	private String state;
 	private int tax_id_ssn;
 
-	//TODO: updated_at
+	public String updated_at;
 
 	private int zipcode;
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
 
 	/**
 	 * @return the address

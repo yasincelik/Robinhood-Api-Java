@@ -1,11 +1,15 @@
 package com.ampro.robinhood.endpoint.account.data;
 
 import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
+import java.time.ZonedDateTime;
 
+/**
+ * This method returns SEC Rule 405 related information.
+ */
 public class AccountHolderAffiliation implements ApiElement {
-
 
 	private boolean control_person;
 	private String control_person_security_symbol;
@@ -17,15 +21,17 @@ public class AccountHolderAffiliation implements ApiElement {
 	private String security_affiliated_person_name;
 	private boolean sweep_consent;
 
-	//TODO: updated_at
+	private String updated_at;
 	private URL user;
 
 	@Override
 	public boolean requiresAuth() { return true; }
 
-	/**
-	 * @return the control_person
-	 */
+	public ZonedDateTime getUpdatedAt() {
+		return ChronoFormatter.parseDefault(this.updated_at);
+	}
+
+	/** @return the control_person */
 	public boolean isControlPerson() {
 		return control_person;
 	}
