@@ -1,6 +1,8 @@
 package com.ampro.robinhood.net;
 
 import com.ampro.robinhood.Configuration;
+import com.ampro.robinhood.endpoint.ApiElement;
+import com.ampro.robinhood.net.request.RequestManager;
 import com.ampro.robinhood.net.request.RequestMethod;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 
@@ -20,7 +22,10 @@ public abstract class ApiMethod {
 
 	public static int MAX_TICKERS = 1630;
 
+	protected static final RequestManager reqMan = RequestManager.getInstance();
+
 	protected final Configuration config;
+
 	private String urlBase;
 
 	/** Default request methodType is GET*/
@@ -57,6 +62,16 @@ public abstract class ApiMethod {
     protected ApiMethod(Configuration config) {
         addHeaderParameter("Accept", "application/json");
         this.config = config;
+    }
+
+    /**
+     * Execute the method request. This is alternative to using the
+     * RequestManager directly.
+     * @param <E> The return ApiElement
+     * @return The requested ApiElement or null
+     */
+    public <E extends ApiElement> E execute() {
+        return reqMan.makeApiRequest(this);
     }
 
     /**
@@ -140,14 +155,6 @@ public abstract class ApiMethod {
 		addHeaderParameter("Authorization", "Token " + this.config.getToken());
 	}
 
-	/**
-	 * @return {@code true} if this {@link ApiMethod} requires an
-	 *                  authorization token (i.e. logged in instance)
-	 */
-	public boolean requiresToken() {
-		return this.requireToken;
-	}
-
     /** @return the header parameters of the method */
     public HashMap<String, String> getHeaderParameters() {
         return this.headerParameters;
@@ -181,11 +188,17 @@ public abstract class ApiMethod {
 		return this.urlBase;
 	}
 
-	/**
-	 * Method to set the request to require an AuthToken
-	 */
+	/** Method to set the request to require an AuthToken */
 	protected void requireToken() {
 		this.requireToken = true;
+	}
+
+	/**
+	 * @return {@code true} if this {@link ApiMethod} requires an
+	 *                  authorization token (i.e. logged in instance)
+	 */
+	public boolean requiresToken() {
+		return this.requireToken;
 	}
 
 	/**
@@ -212,7 +225,8 @@ public abstract class ApiMethod {
 	}
 
 	/**
-	 * As this is an abstract methodType, this override gets the name of the implementing class
+	 * As this is an abstract methodType, this override gets the name of the
+	 * implementing class
 	 * @return The classes simple-name
 	 */
 	@Override

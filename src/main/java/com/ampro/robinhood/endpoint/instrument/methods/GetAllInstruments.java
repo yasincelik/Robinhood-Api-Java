@@ -30,4 +30,8 @@ public class GetAllInstruments extends GetInstrument {
         this.setReturnType(InstrumentElementList.class);
     }
 
+    public static InstrumentElementList get() {
+        return defaultMethod.execute();
+    }
+
 }

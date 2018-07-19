@@ -28,7 +28,7 @@ implements ApiElement, Iterable<TickerQuoteElement> {
     @Expose
     private List<TickerQuoteElement> results;
 
-    /** @return An unmodifieable list of {@link TickerQuoteElement quotes} */
+    /** @return An unmodifiable non-null list of {@link TickerQuoteElement quotes} */
     public List<TickerQuoteElement> getQuotes() {
         results = results == null ? new ArrayList<>() : results;
         return Collections.unmodifiableList(results);
