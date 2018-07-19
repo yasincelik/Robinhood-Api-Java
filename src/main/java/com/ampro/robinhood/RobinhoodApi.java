@@ -160,10 +160,9 @@ public class RobinhoodApi {
 
 	/**
 	 * Method which forces the authorization token to expire, logging the user
-	 * out if the user is currently logged in. You should never see a
-	 * "FAILURE" response from this. If so, file a bug report on github
-	 * @return an enum containing either "SUCCESS", "FAILURE" or "NOT_LOGGED_IN"
-     * @throws RobinhoodApiException
+	 * out if the user is currently logged in.
+	 *
+     * @return an enum containing either "SUCCESS"or "NOT_LOGGED_IN"
 	 */
 	public RequestStatus logUserOut() {
 		if(!this.isLoggedIn()) {
@@ -198,6 +197,8 @@ public class RobinhoodApi {
 
 	/**
 	 * Method returning a {@link BasicUserInfoElement} for the currently logged in user
+     *
+     * @return Basic information about the user
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public BasicUserInfoElement getBasicUserInfo()  {
@@ -386,7 +387,8 @@ public class RobinhoodApi {
     /**
      * TODO DOCS
      * @return
-     * @throws RobinhoodApiException
+     *
+     * @throws NotLoggedInException
      */
     public List<Option> getOptions() {
         OptionElementList options = new GetOptionsMethod(this.config).execute();

@@ -20,15 +20,14 @@ public class MakeMarketStopOrder extends OrderMethod {
     private final float stopPrice;
 
     /**
-     *
+     * TODO DOCS
      * @param ticker
      * @param quantity
      * @param orderType
      * @param time
      * @param stopPrice
      * @param config
-     * @throws RobinhoodApiException
-     * @throws NotLoggedInException
+     * @throws NotLoggedInException If the instance is not logged in
      */
     public MakeMarketStopOrder(String ticker, int quantity,
                                OrderTransactionType orderType, TimeInForce time,

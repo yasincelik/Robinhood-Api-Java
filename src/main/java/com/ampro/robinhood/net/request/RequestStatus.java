@@ -23,7 +23,9 @@ public enum RequestStatus implements RobinhoodEnum {
 
     /**
      * Set the value (and toString) of this enum.
+     *
      * @param s The new value
+     * @return this
      */
 	public RequestStatus setValue(String s) {
 	    value = s;

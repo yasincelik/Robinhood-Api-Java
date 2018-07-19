@@ -23,6 +23,7 @@ public class GetOptionsMethod extends ApiMethod {
 	 *            The configuration associated with this method.
 	 *
 	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
+	 *              If instance is not logged in
 	 */
 	public GetOptionsMethod(Configuration config) {
         super(config);
@@ -44,6 +45,7 @@ public class GetOptionsMethod extends ApiMethod {
 	 *            {@code http://localhost:8080}).
 	 *
 	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
+	 *              If instance is not logged in
 	 */
 	@Deprecated
 	protected GetOptionsMethod(Configuration config, String host) {

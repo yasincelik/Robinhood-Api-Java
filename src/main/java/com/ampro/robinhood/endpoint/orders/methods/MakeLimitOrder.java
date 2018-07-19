@@ -24,7 +24,6 @@ public class MakeLimitOrder extends OrderMethod {
 	 * @param quantity
 	 * @param orderType
 	 * @param config
-	 * @throws RobinhoodApiException
 	 * @throws TickerNotFoundException
 	 */
 	public MakeLimitOrder(String ticker, TimeInForce time, float limitPrice,
@@ -52,7 +51,7 @@ public class MakeLimitOrder extends OrderMethod {
 	/**
 	 * Method which sets the URLParameters for correctly so the order is ran as
 	 * a Limit Buy order, given the settings from the constructor
-	 * @throws RobinhoodApiException
+	 *
 	 * @throws com.ampro.robinhood.throwables.NotLoggedInException
      *              If the {@link Configuration} is not logged in
 	 */

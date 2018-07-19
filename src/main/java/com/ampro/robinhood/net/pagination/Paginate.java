@@ -10,9 +10,14 @@ import com.ampro.robinhood.net.ApiMethod;
 public class Paginate extends ApiMethod {
 
     /**
-     * Build a Paginator
-     * @param config A logged in {@link Configuration}
+     * Build a Paginate method instance.
+     *
      * @param type The return type
+     * @param requiresAuth If the return type requires an authorization token
+     * @param config A logged in {@link Configuration}
+     * @throws com.ampro.robinhood.throwables.NotLoggedInException
+     *              If the the element list requires a token and the instance
+     *              is not logged in.
      */
     protected Paginate(Class<?> type, boolean requiresAuth, Configuration config) {
         super(config);

@@ -24,7 +24,6 @@ public class MakeMarketOrder extends OrderMethod {
      * @param orderType
      * @param time
      * @param config
-     * @throws RobinhoodApiException
      * @throws TickerNotFoundException
      */
     public MakeMarketOrder(String ticker, int quantity, OrderTransactionType orderType,

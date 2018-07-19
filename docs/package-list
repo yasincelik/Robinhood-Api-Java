@@ -19,6 +19,8 @@ com.ampro.robinhood.endpoint.orders.methods
 com.ampro.robinhood.endpoint.orders.wrappers
 com.ampro.robinhood.endpoint.quote.data
 com.ampro.robinhood.endpoint.quote.methods
+com.ampro.robinhood.endpoint.ratings.data
+com.ampro.robinhood.endpoint.ratings.method
 com.ampro.robinhood.net
 com.ampro.robinhood.net.annotations
 com.ampro.robinhood.net.pagination

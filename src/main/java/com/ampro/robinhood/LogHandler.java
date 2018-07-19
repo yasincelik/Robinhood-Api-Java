@@ -17,7 +17,6 @@ public class LogHandler extends Handler {
 	public LogHandler() {
 		//Force it to run the constructor without the write flag once created
 		this(false);
-
 	}
 
 	public LogHandler(boolean writeFlag) {

@@ -28,7 +28,6 @@ public class MakeLimitStopOrder extends OrderMethod {
      * @param orderType
      * @param stopPrice
      * @param config
-     * @throws RobinhoodApiException
      * @throws TickerNotFoundException
      */
     public MakeLimitStopOrder(String ticker, TimeInForce time, float limitPrice,

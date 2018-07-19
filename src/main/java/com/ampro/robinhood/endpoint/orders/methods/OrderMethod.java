@@ -39,6 +39,7 @@ public class OrderMethod extends ApiMethod {
 	 * This should only return BUY or SELL
 	 *
 	 * @param transactionType buy or sell
+	 * @return The string value of the parameter formatted for RH API calls
 	 */
 	protected String getOrderSideString(OrderTransactionType transactionType) {
 		return transactionType.getValue();
@@ -48,28 +49,24 @@ public class OrderMethod extends ApiMethod {
 	 * Verifies that the ticker is a valid one. If not, throw an error. This
 	 * method also supplies additional information of the Ticker symbol that
 	 * the order class is required to use.
+	 *
+	 * @param ticker The ticker to verify
 	 * @return InstrumentURL to the class to be used in the request
-	 * @throws RobinhoodApiException
-	 * @throws TickerNotFoundException
+	 * @throws TickerNotFoundException If the ticker was not found
 	 */
 	protected String verifyTickerData(String ticker)
 	throws TickerNotFoundException {
-
 		//Make a Ticker Fundamental API request for the supplied ticker
-		RequestManager requestManager = RequestManager.getInstance();
-
-		ApiMethod method = new GetTickerFundamental(ticker);
-
-		TickerFundamentalElement response = requestManager.makeApiRequest(method);
+		TickerFundamentalElement response = new GetTickerFundamental(ticker).execute();
 
 		//Does the ticker have a valid Instrument URL?
         //If not, this ticker is invalid. Throw an error.
-		if (response.getInstrument() == null)
+		if (response.getInstrument() == null) {
 			throw new TickerNotFoundException();
+		}
 
 		//Otherwise, supply the InstrumentURL to the class to be used in the request
 		return response.getInstrument().toString();
-
 	}
 
 }
