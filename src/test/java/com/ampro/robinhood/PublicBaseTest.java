@@ -74,7 +74,7 @@ public class PublicBaseTest extends BaseTest {
     @Test
     public void paginatedIterator() {
         InstrumentList list = requestManager
-                .makeApiRequest(GetAllInstruments.getDefault());
+                .apiRequest(GetAllInstruments.getDefault());
         PaginatedIterator<Instrument> iterator
                 = new PaginatedIterator<>(list);
         while (iterator.hasNext()) {
@@ -85,7 +85,7 @@ public class PublicBaseTest extends BaseTest {
     @Test
     public void paginatedIterable() {
         InstrumentList list = requestManager
-                .makeApiRequest(GetAllInstruments.getDefault());
+                .apiRequest(GetAllInstruments.getDefault());
         Iterable<Instrument> iterable = api.buildIterable(list);
         iterable.forEach(instrumentElement -> {});
     }

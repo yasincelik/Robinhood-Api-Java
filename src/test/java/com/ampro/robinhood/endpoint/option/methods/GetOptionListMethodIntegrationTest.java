@@ -55,7 +55,7 @@ public class GetOptionListMethodIntegrationTest {
 
 	private OptionList getOptions() {
 		ApiMethod method = new GetOptionsMethod(Configuration.getDefault(), "http://localhost:8080");
-		return requestManager.makeApiRequest(method);
+		return requestManager.apiRequest(method);
 	}
 
 	@Test

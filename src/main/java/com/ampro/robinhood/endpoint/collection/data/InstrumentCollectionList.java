@@ -49,7 +49,7 @@ public class InstrumentCollectionList implements ApiElement {
 
         instruments.forEach(url -> {
             ApiMethod method = new GetInstrumentByUrl(url);
-            elementList.add(rm.makeApiRequest(method));
+            elementList.add(rm.apiRequest(method));
         });
 
         return elementList;

@@ -71,7 +71,7 @@ public abstract class ApiMethod {
      * @return The requested ApiElement or null
      */
     public <E extends ApiElement> E execute() {
-        return reqMan.makeApiRequest(this);
+        return reqMan.apiRequest(this);
     }
 
     /**

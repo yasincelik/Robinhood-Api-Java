@@ -27,7 +27,7 @@ public class InstrumentTest extends BaseTest {
     @Test
     public void getInstrumentByUrl() {
         ApiMethod method = new GetInstrumentByUrl(MSFT_URL);
-        Instrument instrument = requestManager.makeApiRequest(method);
+        Instrument instrument = requestManager.apiRequest(method);
         assertNotNull(instrument);
     }
 

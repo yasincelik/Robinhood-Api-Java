@@ -68,7 +68,7 @@ public class Position implements ApiElement {
     public boolean requiresAuth() { return true; }
 
     public Instrument getInstrumentElement() {
-        return RequestManager.getInstance().makeApiRequest(
+        return RequestManager.getInstance().apiRequest(
                 new GetInstrumentByUrl(this.instrumentUrl)
         );
     }
