@@ -1,5 +1,6 @@
 package com.ampro.robinhood;
 
+import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 
 /**
@@ -19,8 +20,8 @@ public class Configuration {
 	/** The default Config (to reduce repeated allocations for non-auth methods) */
 	private static Configuration defaultConfig;
 
-	/** The authentication token for the logged in user, if one exists */
-	private String authToken;
+	/** Information about login & authorization, contains the account auth token */
+	private AuthorizationData authorizationData;
 
 	/**
 	 * The Account Number for the account logged in. This variable is used for
@@ -28,13 +29,26 @@ public class Configuration {
 	 */
 	private String accountNumber;
 
+	public Configuration() {
+		this.authorizationData = null;
+		this.accountNumber = null;
+	}
+
+	public AuthorizationData getAuthData() {
+	    return this.authorizationData;
+    }
+
+    public void setAuthData(AuthorizationData authData) {
+	    this.authorizationData = authData;
+    }
+
 	/**
 	 * Whether or not an authToken exists.
 	 * If an authToken does not exist than there is no current logged in user.
 	 * @return {@code true} if an authToken exists
 	 */
 	public boolean hasToken() {
-		return this.authToken != null;
+		return this.authorizationData.getToken() != null;
 	}
 
 	/**
@@ -48,10 +62,10 @@ public class Configuration {
      *                                  populated by the setToken() method first
 	 */
 	public String getToken() {
-		if(authToken == null) {
+		if(this.authorizationData.getToken() == null) {
             throw new NotLoggedInException();
         }
-		return this.authToken;
+		return this.authorizationData.getToken();
 	}
 
 	/**
@@ -60,7 +74,7 @@ public class Configuration {
 	 * @param token verified Authorization Token for the user
 	 */
 	public void setAuthToken(String token) {
-		this.authToken = token;
+		this.authorizationData.setToken(token);
 	}
 
 	/**
@@ -119,7 +133,7 @@ public class Configuration {
 
     /** Clears all user data from the {@link Configuration}. */
     public void clear() {
-        this.authToken = null;
+        this.authorizationData = null;
         this.accountNumber = null;
     }
 }

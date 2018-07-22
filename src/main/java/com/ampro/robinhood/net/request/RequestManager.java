@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * Singleton for making HTTP(S) requests with {@link ApiMethod}
@@ -136,7 +137,9 @@ public class RequestManager {
         try {
             //Make the request
 	        HttpResponse<JsonNode> response = request.asJson();
-
+			if (!Objects.equals(response.getStatusText(), "OK")) {
+				return null;
+			}
             //If the response type for this is VOID (
             //Meaning we are not expecting a response) do not
             //try to use Gson

@@ -1,13 +1,17 @@
 package com.ampro.robinhood;
 
 import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
+import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
+import com.ampro.robinhood.net.request.LoginStatus;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,24 +30,40 @@ import static org.junit.Assert.assertNotNull;
  */
 public class PrivateBaseTest extends BaseTest {
 
-    protected RobinhoodApi loggedInApi;
+    protected static RobinhoodApi loggedInApi;
 
     @Override
-    public void init() {
+    public void init() throws IOException, RobinhoodApiException {
         super.init();
+        if (loggedInApi == null) {
+            File file = new File("config.txt");
+            if (file.canRead()) {
+                try {
+                    List<String> lines = Files.readAllLines(file.toPath());
+                    loggedInApi = new RobinhoodApi(lines.get(0), lines.get(1));
+                } catch (Exception e) {
+                    this.multifactorLogin();
+                }
+            } else {
+                RobinhoodApi.log.log(Level.SEVERE, "Could not read the "
+                        + "config file to get credentials!");
+            }
+        }
+    }
+
+    /** This test requires the tester's account to use multifactor login */
+    @Test
+    public void multifactorLogin() throws IOException {
+        RobinhoodApi testApi = new RobinhoodApi();
         File file = new File("config.txt");
-        if (file.canRead()) {
-        	try{
-		        List<String> lines = Files.readAllLines(file.toPath());
-		        loggedInApi = new RobinhoodApi(lines.get(0), lines.get(1));
-        	}catch(Exception e){
-        		e.printStackTrace();
-        	}
-        }
-        else {
-        	RobinhoodApi.log.log(Level.SEVERE, "Could not read the "
-        			+ "config file to get credentials!");
-        }
+        List<String> lines = Files.readAllLines(file.toPath());
+        AuthorizationData data = testApi.requestAuthData(lines.get(0), lines.get(1));
+        LoginStatus status = testApi.loginMultifactor(lines.get(0), lines.get(1),
+                                                    JOptionPane.showInputDialog("Code"));
+        System.out.println("STATUS: " + status);
+        System.out.println(data);
+        System.out.println("LOGGED IN: " + testApi.isLoggedIn());
+        loggedInApi = testApi;
     }
 
     @Test
@@ -51,7 +71,7 @@ public class PrivateBaseTest extends BaseTest {
         try {
             new RobinhoodApi("email", "password");
         } catch (RobinhoodApiException e) {
-            assertEquals(e.getMessage(), "Failed to log user in: no token");
+            assertEquals("Failed to log user in: no token", e.getMessage());
         }
     }
 
@@ -73,4 +93,5 @@ public class PrivateBaseTest extends BaseTest {
                 .getAccountInvestmentProfile();
         Assert.assertNotNull(profile);
     }
+
 }

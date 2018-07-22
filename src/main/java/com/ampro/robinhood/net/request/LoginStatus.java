@@ -2,14 +2,16 @@ package com.ampro.robinhood.net.request;
 
 import com.ampro.robinhood.endpoint.RobinhoodEnum;
 
-public enum RequestStatus implements RobinhoodEnum {
+public enum LoginStatus implements RobinhoodEnum {
 	SUCCESS,
+    /** Requires Multifactor Authorization */
+    REQ_MFA,
 	FAILURE,
 	NOT_LOGGED_IN;
 
 	private String value;
-	RequestStatus() { this.value = null; }
-	RequestStatus(String s) { value = s; }
+	LoginStatus() { this.value = null; }
+	LoginStatus(String s) { value = s; }
 
 	@Override
 	public String getValue() {
@@ -27,7 +29,7 @@ public enum RequestStatus implements RobinhoodEnum {
      * @param s The new value
      * @return this
      */
-	public RequestStatus setValue(String s) {
+	public LoginStatus setValue(String s) {
 	    value = s;
 	    return this;
     }
