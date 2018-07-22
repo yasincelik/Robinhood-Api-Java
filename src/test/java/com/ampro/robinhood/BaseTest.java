@@ -2,10 +2,12 @@ package com.ampro.robinhood;
 
 import com.ampro.robinhood.endpoint.instrument.data.Instrument;
 import com.ampro.robinhood.net.request.RequestManager;
+import com.ampro.robinhood.throwables.RobinhoodApiException;
 import org.junit.Before;
 import org.junit.Test;
 import com.ampro.robinhood.endpoint.instrument.InstrumentTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +35,7 @@ public class BaseTest {
     }
 
     @Before
-    public void init() {
+    public void init() throws IOException, RobinhoodApiException {
         api = new RobinhoodApi();
         requestManager = RequestManager.getInstance();
         tenTickers = new ArrayList<>(Arrays.asList(

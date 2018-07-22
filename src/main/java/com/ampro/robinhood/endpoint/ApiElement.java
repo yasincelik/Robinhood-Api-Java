@@ -9,5 +9,7 @@ public interface ApiElement {
      * @return If the element requires an authorized API
      *              (i.e. Is user-specific data)
      */
-    boolean requiresAuth();
+    default boolean requiresAuth() {
+        return false;
+    }
 }

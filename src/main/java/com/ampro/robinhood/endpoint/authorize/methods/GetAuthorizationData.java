@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.authorize.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.authorize.data.Token;
+import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
 import com.ampro.robinhood.net.request.RequestMethod;
 import io.github.openunirest.http.exceptions.UnirestException;
 
@@ -12,23 +12,25 @@ import io.github.openunirest.http.exceptions.UnirestException;
  *
  * @author Jonathan Augustine
  */
-public class AuthorizeWithoutMultifactor extends Authorize {
+public class GetAuthorizationData extends Authorize {
 
     /**
      * An {@link com.ampro.robinhood.net.ApiMethod} to log the user in. This
-     * sends the email and password, and returns the token needed to
-     * authorize any more account-specific requests.
+     * sends the email and password.
+     * <br>
+     *     If the account does not have Multifactor/Two-factor authorization
+     *     enabled, this ApiMethod will return AuthData containing a token
+     *     string. Otherwise, it will return the requirements for logging in
+     *     (see {@link AuthorizationData#getMfaType()}.
      *
      * @param email The email used to log into Robinhood
      * @param password The password
-     *
-     * @author Jonathan Augustine
      */
-    public AuthorizeWithoutMultifactor(String email, String password)
+    public GetAuthorizationData(String email, String password)
     throws UnirestException {
         super(Configuration.getDefault());
 
-        setUrlBase("https://api.robinhood.com/api-token-auth/");
+        setUrlBase(RH_URL + "/api-token-auth/");
         //Add the parameters into the request
         this.addFieldParameter("username", email);
         this.addFieldParameter("password", password);
@@ -39,7 +41,8 @@ public class AuthorizeWithoutMultifactor extends Authorize {
         //This needs to be ran as POST
         this.setMethodType(RequestMethod.POST);
         //Declare what the response should look like
-        this.setReturnType(Token.class);
+        this.setReturnType(AuthorizationData.class);
 
     }
+
 }

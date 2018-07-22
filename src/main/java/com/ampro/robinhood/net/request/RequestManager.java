@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * Singleton for making HTTP(S) requests with {@link ApiMethod}
@@ -133,29 +134,31 @@ public class RequestManager {
 	@SuppressWarnings("unchecked")
 	private <T> T makeRequest(HttpRequest request, ApiMethod method) {
 		T out = null;
-        try {
-            //Make the request
-	        HttpResponse<JsonNode> response = request.asJson();
+		try {
+			//Make the request
+			HttpResponse<JsonNode> response = request.asJson();
+			if (!Objects.equals(response.getStatusText(), "OK")) {
+				return null;
+			}
+			//If the response type for this is VOID (
+			//Meaning we are not expecting a response) do not
+			//try to use Gson
+			if (method.getReturnType() == Void.TYPE) {
+				return (T) Void.TYPE;
+			}
 
-            //If the response type for this is VOID (
-            //Meaning we are not expecting a response) do not
-            //try to use Gson
-            if (method.getReturnType() == Void.TYPE) {
-                return (T) Void.TYPE;
-            }
+			String body = IOUtils.toString(response.getRawBody(),
+			                               StandardCharsets.UTF_8.name());
+			out = gson.fromJson(body, method.getReturnType());
 
-            String body = IOUtils.toString(response.getRawBody(),
-                                           StandardCharsets.UTF_8.name());
-            out = gson.fromJson(body, method.getReturnType());
-
-        } catch (UnirestException ex) {
-            System.err.println( "[RobinhoodApi] Failed to communicate with endpoint");
-            RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
-        } catch (IOException ex) {
-        	System.err.println("[RobinhoodApi] Failed to parse response body");
-            RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
-        }
-        return out;
+		} catch (UnirestException ex) {
+			System.err.println("[RobinhoodApi] Failed to communicate with endpoint");
+			RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
+		} catch (IOException ex) {
+			System.err.println("[RobinhoodApi] Failed to parse response body");
+			RobinhoodApi.log.throwing(this.getClass().getName(), "makeRequest", ex);
+		}
+		return out;
 	}
 
 }
