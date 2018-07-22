@@ -60,9 +60,9 @@ public class PrivateBaseTest extends BaseTest {
         AuthorizationData data = testApi.requestAuthData(lines.get(0), lines.get(1));
         LoginStatus status = testApi.loginMultifactor(lines.get(0), lines.get(1),
                                                     JOptionPane.showInputDialog("Code"));
-        System.out.println("STATUS: " + status);
-        System.out.println(data);
-        System.out.println("LOGGED IN: " + testApi.isLoggedIn());
+        assertEquals("SUCCESS", status.toString());
+        assertNotNull(data);
+        assertNotNull(data.getToken());
         loggedInApi = testApi;
     }
 

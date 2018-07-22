@@ -30,7 +30,7 @@ public class Configuration {
 	private String accountNumber;
 
 	public Configuration() {
-		this.authorizationData = null;
+		this.authorizationData = new AuthorizationData();
 		this.accountNumber = null;
 	}
 

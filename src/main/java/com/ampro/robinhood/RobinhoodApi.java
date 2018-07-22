@@ -81,7 +81,6 @@ public class RobinhoodApi {
 	 * to see what can and cannot be used if you do not authorize a user
 	 */
 	public RobinhoodApi() {
-		//Do nothing. Allow users to access the unauthorized sections of the API
 		this.config = new Configuration();
 	}
 
@@ -145,11 +144,13 @@ public class RobinhoodApi {
         try {
             //Save the token into the configuration to be used with other methods
 	        AuthorizationData authData = this.requestAuthData(email, password);
-	        if (authData.mfaRequired()) {
-	        	return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
+	        if (authData == null) {
+		        return FAILURE.setValue("no token");
+	        } else if (authData.mfaRequired()) {
+		        return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
 	        } else if (authData.getToken()== null) {
-                return FAILURE.setValue("no token");
-            }
+		        return FAILURE.setValue("no token");
+	        }
 
             //Save the account number into the config to be used with other methods
             //TODO: Clean up the following line, it should not have to use
