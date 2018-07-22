@@ -143,14 +143,14 @@ public class RobinhoodApi {
         //TODO: Implement multifactor authorization
         try {
             //Save the token into the configuration to be used with other methods
-	        AuthorizationData authData = this.requestAuthData(email, password);
-	        if (authData == null) {
-		        return FAILURE.setValue("no token");
-	        } else if (authData.mfaRequired()) {
-		        return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
-	        } else if (authData.getToken()== null) {
-		        return FAILURE.setValue("no token");
-	        }
+            AuthorizationData authData = this.requestAuthData(email, password);
+            if (authData == null) {
+                return FAILURE.setValue("no token");
+            } else if (authData.mfaRequired()) {
+                return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
+            } else if (authData.getToken() == null) {
+                return FAILURE.setValue("no token");
+            }
 
             //Save the account number into the config to be used with other methods
             //TODO: Clean up the following line, it should not have to use
@@ -163,9 +163,9 @@ public class RobinhoodApi {
 
             //If there is no account number, something went wrong.
             if (data.getAccountNumber() == null) {
-            	RobinhoodApi.log.log(Level.SEVERE, "Failed to get account Number.");
-            	RobinhoodApi.log.log(Level.SEVERE, "Unable to login!");
-            	return FAILURE.setValue("Failed to get account Number.");
+                RobinhoodApi.log.log(Level.SEVERE, "Failed to get account Number.");
+                RobinhoodApi.log.log(Level.SEVERE, "Unable to login!");
+                return FAILURE.setValue("Failed to get account Number.");
             }
 
             this.config.setAccountNumber(data.getAccountNumber());

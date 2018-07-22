@@ -59,7 +59,8 @@ public class PrivateBaseTest extends BaseTest {
         List<String> lines = Files.readAllLines(file.toPath());
         AuthorizationData data = testApi.requestAuthData(lines.get(0), lines.get(1));
         LoginStatus status = testApi.loginMultifactor(lines.get(0), lines.get(1),
-                                                    JOptionPane.showInputDialog("Code"));
+                                                    JOptionPane.showInputDialog(
+                                                            "Code (put 0 if no mfa)"));
         assertEquals("SUCCESS", status.toString());
         assertNotNull(data);
         assertNotNull(data.getToken());

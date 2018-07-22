@@ -18,23 +18,17 @@ import com.ampro.robinhood.endpoint.RobinhoodEnum;
 public class AuthorizationData implements ApiElement {
 
     /**
-     * Class declaring the return structure so Gson can handle parsing the JSON
+     * A wrapper for deserializing token strings from Robinhood
      * @author Conrad Weisse
      */
     public static class Token implements ApiElement {
-
+        /** The actual authorization token string */
         private final String token = null;
-
+        /** @return The actual authorization token string */
         public String getToken() { return this.token; }
-
+        /** @return The actual authorization token string */
         @Override
         public String toString() { return this.token; }
-
-        @Override
-        public boolean requiresAuth() {
-            return false;
-        }
-
     }
 
     /**
@@ -115,13 +109,9 @@ public class AuthorizationData implements ApiElement {
         return mfa_required;
     }
 
+    /** @return The {@link MultifactorType} needed to login */
     public MultifactorType getMfaType() {
         return MultifactorType.parse(mfa_type);
-    }
-
-    @Override
-    public boolean requiresAuth() {
-        return false;
     }
 
     @Override

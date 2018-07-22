@@ -16,7 +16,6 @@ com.ampro.robinhood.endpoint.option.methods
 com.ampro.robinhood.endpoint.orders.data
 com.ampro.robinhood.endpoint.orders.enums
 com.ampro.robinhood.endpoint.orders.methods
-com.ampro.robinhood.endpoint.orders.wrappers
 com.ampro.robinhood.endpoint.quote.data
 com.ampro.robinhood.endpoint.quote.methods
 com.ampro.robinhood.endpoint.ratings.data
