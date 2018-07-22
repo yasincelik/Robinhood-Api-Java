@@ -23,7 +23,7 @@ public class AuthorizationData implements ApiElement {
      */
     public static class Token implements ApiElement {
         /** The actual authorization token string */
-        private final String token = null;
+        private String token;
         /** @return The actual authorization token string */
         public String getToken() { return this.token; }
         /** @return The actual authorization token string */
@@ -50,6 +50,7 @@ public class AuthorizationData implements ApiElement {
         public static MultifactorType parse(String s) {
             switch (s) {
                 case "sms": return SMS;
+                case "app": return APP;
                 default: return null;
             }
         }
@@ -62,10 +63,10 @@ public class AuthorizationData implements ApiElement {
     }
 
     /** The authorization token used to authorize private ApiMethods */
-    private String token = null;
+    private String token;
 
     /** The type of multifactor authorization */
-    private String mfa_type = null;
+    private String mfa_type;
 
     /** Whether multifactor is required to login */
     private boolean mfa_required;
@@ -114,6 +115,7 @@ public class AuthorizationData implements ApiElement {
         return MultifactorType.parse(mfa_type);
     }
 
+    /** @return [TOKEN=%s][MFA_CODE=%s][MFA_TYPE=%s][MFA_REQUIRED=%s] */
     @Override
     public String toString() {
         return String.format("[TOKEN=%s][MFA_CODE=%s][MFA_TYPE=%s][MFA_REQUIRED=%s]",

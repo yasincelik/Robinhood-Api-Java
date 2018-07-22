@@ -29,15 +29,18 @@ public class Configuration {
 	 */
 	private String accountNumber;
 
+	/** Construct a {@link Configuration} with no data */
 	public Configuration() {
 		this.authorizationData = new AuthorizationData();
 		this.accountNumber = null;
 	}
 
+    /** @return The saved {@link AuthorizationData} */
 	public AuthorizationData getAuthData() {
 	    return this.authorizationData;
     }
 
+    /** @param authData The new {@link AuthorizationData} */
     public void setAuthData(AuthorizationData authData) {
 	    this.authorizationData = authData;
     }
@@ -133,7 +136,7 @@ public class Configuration {
 
     /** Clears all user data from the {@link Configuration}. */
     public void clear() {
-        this.authorizationData = null;
+        this.authorizationData = new AuthorizationData();
         this.accountNumber = null;
     }
 }
