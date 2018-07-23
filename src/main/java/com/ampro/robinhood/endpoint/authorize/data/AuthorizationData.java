@@ -69,7 +69,7 @@ public class AuthorizationData implements ApiElement {
     private String mfa_type;
 
     /** Whether multifactor is required to login */
-    private boolean mfa_required;
+    private boolean mfa_required = false;
 
     /** The multifactor authorization code to enable login */
     private String mfaCode;
