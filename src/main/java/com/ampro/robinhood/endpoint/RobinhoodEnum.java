@@ -17,4 +17,8 @@ public interface RobinhoodEnum {
      */
     String getValue();
 
+    default void println() {
+        System.out.println(toString());
+    }
+
 }

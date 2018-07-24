@@ -25,6 +25,8 @@ public class MakeLimitOrder extends OrderMethod {
 	 * @param limitPrice The price you're willing to accept in a sell, or pay in a buy
 	 * @param quantity The number of shares you would like to buy or sell
 	 * @param orderType Which type of order is being made. A buy, or sell.
+	 * @param config A config holding authentication data
+	 *
 	 * @throws TickerNotFoundException Thrown when the ticker supplied to the
 	 *                                   method is invalid.
 	 * @throws NotLoggedInException  Thrown when this Robinhood Api instance is

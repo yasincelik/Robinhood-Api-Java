@@ -22,6 +22,8 @@ public class MakeMarketOrder extends OrderMethod {
      * @param quantity How many shares should be transacted
      * @param orderType Which type of order is being made. A buy, or a sell.
      * @param time The Enum representation of when this order should be made.
+     * @param config A config holding authentication data
+     *
      * @throws TickerNotFoundException if the ticker supplied was invalid
      * @throws NotLoggedInException if instance not logged in
      */

@@ -1,7 +1,7 @@
 package com.ampro.robinhood.endpoint.authorize.methods;
 
 import com.ampro.robinhood.Configuration;
-import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
+import com.ampro.robinhood.endpoint.authorize.AuthorizationData;
 import com.ampro.robinhood.net.request.RequestMethod;
 import io.github.openunirest.http.exceptions.UnirestException;
 

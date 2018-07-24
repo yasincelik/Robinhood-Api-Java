@@ -10,7 +10,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Element containing information of a given position which exists on a users
- * watchlist.
+ * watchlist. The account does not need to hold any equity to be considered a
+ * position.
  *
  * @author Jonathan Augustine
  */

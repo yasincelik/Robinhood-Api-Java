@@ -1,9 +1,9 @@
 package com.ampro.robinhood;
 
 import com.ampro.robinhood.endpoint.account.data.AccountHolderInvestmentProfile;
-import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
+import com.ampro.robinhood.endpoint.authorize.AuthorizationData;
 import com.ampro.robinhood.endpoint.orders.data.SecurityOrder;
-import com.ampro.robinhood.net.request.LoginStatus;
+import com.ampro.robinhood.endpoint.authorize.LoginStatus;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
 import org.junit.Assert;
@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 public class PrivateBaseTest extends BaseTest {
 
     protected static RobinhoodApi loggedInApi;
+    private boolean mfaRun = false;
 
     @Override
     public void init() throws IOException, RobinhoodApiException {
@@ -38,12 +39,7 @@ public class PrivateBaseTest extends BaseTest {
         if (loggedInApi == null) {
             File file = new File("config.txt");
             if (file.canRead()) {
-                try {
-                    List<String> lines = Files.readAllLines(file.toPath());
-                    loggedInApi = new RobinhoodApi(lines.get(0), lines.get(1));
-                } catch (Exception e) {
-                    this.multifactorLogin();
-                }
+                this.multifactorLogin();
             } else {
                 RobinhoodApi.log.log(Level.SEVERE, "Could not read the "
                         + "config file to get credentials!");
@@ -54,17 +50,23 @@ public class PrivateBaseTest extends BaseTest {
     /** This test requires the tester's account to use multifactor login */
     @Test
     public void multifactorLogin() throws IOException {
+        if (mfaRun) return;
         RobinhoodApi testApi = new RobinhoodApi();
         File file = new File("config.txt");
         List<String> lines = Files.readAllLines(file.toPath());
-        AuthorizationData data = testApi.requestAuthData(lines.get(0), lines.get(1));
-        LoginStatus status = testApi.loginMultifactor(lines.get(0), lines.get(1),
-                                                    JOptionPane.showInputDialog(
-                                                            "Code (put 0 if no mfa)"));
+        AuthorizationData data = testApi.loadAuthData(lines.get(0), lines.get(1));
+        if (!data.mfaRequired()) {
+            loggedInApi = testApi;
+            mfaRun = true;
+            return;
+        }
+        String code = JOptionPane.showInputDialog("Code (put 0 if no mfa)");
+        LoginStatus status = testApi.loginMfa(lines.get(0), lines.get(1), code);
         assertEquals("SUCCESS", status.toString());
         assertNotNull(data);
         assertNotNull(data.getToken());
         loggedInApi = testApi;
+        mfaRun = true;
     }
 
     @Test

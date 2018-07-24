@@ -1,4 +1,4 @@
-package com.ampro.robinhood.endpoint.authorize.data;
+package com.ampro.robinhood.endpoint.authorize;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.RobinhoodEnum;

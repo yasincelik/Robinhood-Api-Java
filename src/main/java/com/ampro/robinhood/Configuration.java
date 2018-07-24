@@ -1,7 +1,9 @@
 package com.ampro.robinhood;
 
-import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
+import com.ampro.robinhood.endpoint.authorize.AuthorizationData;
 import com.ampro.robinhood.throwables.NotLoggedInException;
+
+import static com.ampro.robinhood.net.ApiMethod.RH_URL;
 
 /**
  * The Configuration stores authorization information about an instance of the
@@ -31,7 +33,7 @@ public class Configuration {
 
 	/** Construct a {@link Configuration} with no data */
 	public Configuration() {
-		this.authorizationData = new AuthorizationData();
+		this.authorizationData = null;
 		this.accountNumber = null;
 	}
 
@@ -65,18 +67,21 @@ public class Configuration {
      *                                  populated by the setToken() method first
 	 */
 	public String getToken() {
-		if(this.authorizationData.getToken() == null) {
+		if(authorizationData == null || authorizationData.getToken() == null) {
             throw new NotLoggedInException();
         }
 		return this.authorizationData.getToken();
 	}
 
 	/**
-	 * Method which registers the authToken for the user into the Configuration Manager
+	 * Method which registers the authToken for the user into the Configuration
 	 *
 	 * @param token verified Authorization Token for the user
 	 */
 	public void setAuthToken(String token) {
+		if (this.authorizationData == null) {
+			this.authorizationData = new AuthorizationData();
+		}
 		this.authorizationData.setToken(token);
 	}
 
@@ -107,7 +112,7 @@ public class Configuration {
 		if (this.accountNumber == null) {
             throw new NotLoggedInException();
         }
-		return "https://api.robinhood.com/accounts/" + this.accountNumber + "/";
+		return RH_URL + "/accounts/" + this.accountNumber + "/";
 	}
 
 	/** @return The default Configuration (i.e. with no account data) */

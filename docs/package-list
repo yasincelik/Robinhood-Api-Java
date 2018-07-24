@@ -3,7 +3,7 @@ com.ampro.robinhood.endpoint
 com.ampro.robinhood.endpoint.account.data
 com.ampro.robinhood.endpoint.account.enums
 com.ampro.robinhood.endpoint.account.methods
-com.ampro.robinhood.endpoint.authorize.data
+com.ampro.robinhood.endpoint.authorize
 com.ampro.robinhood.endpoint.authorize.methods
 com.ampro.robinhood.endpoint.collection.data
 com.ampro.robinhood.endpoint.collection.methods

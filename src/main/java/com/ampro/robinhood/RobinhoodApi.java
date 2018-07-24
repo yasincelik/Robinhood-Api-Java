@@ -5,8 +5,8 @@ import com.ampro.robinhood.endpoint.ApiElementList;
 import com.ampro.robinhood.endpoint.account.data.Account;
 import com.ampro.robinhood.endpoint.account.data.*;
 import com.ampro.robinhood.endpoint.account.methods.*;
-import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData;
-import com.ampro.robinhood.endpoint.authorize.data.AuthorizationData.Token;
+import com.ampro.robinhood.endpoint.authorize.AuthorizationData;
+import com.ampro.robinhood.endpoint.authorize.AuthorizationData.Token;
 import com.ampro.robinhood.endpoint.authorize.methods.AuthorizeWithMultifactor;
 import com.ampro.robinhood.endpoint.authorize.methods.GetAuthorizationData;
 import com.ampro.robinhood.endpoint.authorize.methods.LogoutFromRobinhood;
@@ -37,7 +37,7 @@ import com.ampro.robinhood.endpoint.ratings.data.RatingList;
 import com.ampro.robinhood.endpoint.ratings.method.GetRatingsData;
 import com.ampro.robinhood.net.ApiMethod;
 import com.ampro.robinhood.net.pagination.PaginatedIterator;
-import com.ampro.robinhood.net.request.LoginStatus;
+import com.ampro.robinhood.endpoint.authorize.LoginStatus;
 import com.ampro.robinhood.throwables.NotLoggedInException;
 import com.ampro.robinhood.throwables.RequestTooLargeException;
 import com.ampro.robinhood.throwables.RobinhoodApiException;
@@ -48,14 +48,13 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.ampro.robinhood.net.request.LoginStatus.*;
+import static com.ampro.robinhood.endpoint.authorize.LoginStatus.*;
 
 /**
- * <p><h2>
  * A {@link RobinhoodApi} instance is used as an intermediary between the
  * Robinhood servers and your java/kotlin/whatever application.
- * </h2>
- * <p>
+ *
+ * <br>
  *     <h3>{@link Configuration}</h3>
  *     Each API instance contains it's own {@link Configuration} which contains
  *     information about account tokens and urls (if the API has been logged
@@ -108,53 +107,10 @@ public class RobinhoodApi {
         }
 	}
 
-    /**
-     * Request {@link AuthorizationData} from Robinhood and adds it to the
-     * {@link Configuration}.
-     * @param email The email to login with
-     * @param password The password
-     * @return The {@link AuthorizationData} returned or null if failed.
-     *          This will wither contain a token or multifactor details.
-     */
-	public AuthorizationData requestAuthData(String email, String password) {
-        AuthorizationData data = new GetAuthorizationData(email, password).execute();
-        this.config.setAuthData(data);
-        return data;
-    }
-
-	/**
-	 * Method which logs a user in given a email and password. This method
-	 * automatically stores the authorization token in with the instance,
-	 * allowing any method which requires the token to have immediate access to
-	 * it.
-	 *
-	 * This method is ran if you created the RobinhoodApi class using the
-	 * constructor with both a email and password, but is available if you
-	 * wish to get the authorization token again. Usually ran after the user
-	 * is logged out to refresh the token
-	 *
-	 * @param email The user's email
-	 * @param password The user's password
-	 * @return {@link LoginStatus#FAILURE} if the user could not be logged in.
-	 *                  {@link LoginStatus#SUCCESS} otherwise
-	 *
-	 */
-	public LoginStatus login(String email, String password) {
-        //TODO: Implement multifactor authorization
+    /** Load the account number into the {@link Configuration} */
+    private LoginStatus loadAccountNumber() {
         try {
-            //Save the token into the configuration to be used with other methods
-            AuthorizationData authData = this.requestAuthData(email, password);
-            if (authData == null) {
-                return FAILURE.setValue("no token");
-            } else if (authData.mfaRequired()) {
-                return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
-            } else if (authData.getToken() == null) {
-                return FAILURE.setValue("no token");
-            }
-
             //Save the account number into the config to be used with other methods
-            //TODO: Clean up the following line, it should not have to use
-            //the array wrapper. Tuck that code elsewhere
             AccountArrayWrapper requestData = new GetAccounts(this.config).execute();
             if (requestData.getResult() == null) {
                 return FAILURE.setValue("no account wrapper");
@@ -171,17 +127,93 @@ public class RobinhoodApi {
             this.config.setAccountNumber(data.getAccountNumber());
 
         } catch (UnirestException | NullPointerException e) {
+            RobinhoodApi.log.throwing(RobinhoodApi.class.getName(),
+                                      "loadAccountNumber", e);
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    /**
+     * Request {@link AuthorizationData} from Robinhood and adds it to the
+     * {@link Configuration}. If MFA is not required, this will save the Token
+     * and account number into the config (just like
+     * {@link RobinhoodApi#login(String, String)}).
+     *
+     * @param email The email to login with
+     * @param password The password
+     * @return The {@link AuthorizationData} returned or null if failed.
+     *          This will wither contain a token or multifactor details.
+     */
+    public AuthorizationData loadAuthData(String email, String password) {
+        AuthorizationData data = new GetAuthorizationData(email, password).execute();
+        if (data == null) {
+            return null;
+        }
+        this.config.setAuthData(data);
+        if (!data.mfaRequired() && data.getToken() != null) {
+            this.loadAccountNumber();
+        }
+        return data;
+    }
+
+	/**
+	 * Method which logs a user in given a email and password. This method
+	 * automatically stores the authorization token in with the instance,
+	 * allowing any method which requires the token to have immediate access to
+	 * it.
+	 *
+	 * This method is ran if you created the RobinhoodApi class using the
+	 * constructor with both a email and password, but is available if you
+	 * wish to get the authorization token again.
+	 *
+	 * @param email The user's email
+	 * @param password The user's password
+	 * @return {@link LoginStatus#FAILURE} if the user could not be logged in.
+	 *                  {@link LoginStatus#SUCCESS} otherwise
+	 *
+	 */
+	public LoginStatus login(String email, String password) {
+        return login(email, password, true);
+    }
+
+    /**
+     * Method which logs a user in given a email and password. This method
+     * automatically stores the authorization token in with the instance,
+     * allowing any method which requires the token to have immediate access to
+     * it.
+     *
+     * @param email The email
+     * @param password The password
+     * @param clean Whether to re-load the previous {@link AuthorizationData}
+     * @return {@link LoginStatus#FAILURE} if the user could not be logged in.
+     *                  {@link LoginStatus#SUCCESS} otherwise
+     */
+    public LoginStatus login(String email, String password, boolean clean) {
+        try {
+            if (clean) {
+                //reload the auth data
+                this.loadAuthData(email, password);
+            }
+            AuthorizationData authData = config.getAuthData();
+            if (authData == null) {
+                return FAILURE.setValue("no token");
+            } else if (authData.mfaRequired()) {
+                return REQ_MFA.setValue("requires mfa " + authData.getMfaType());
+            } else if (authData.getToken() == null) {
+                return FAILURE.setValue("no token");
+            }
+        } catch (UnirestException | NullPointerException e) {
             RobinhoodApi.log.throwing(RobinhoodApi.class.getName(), "login", e);
             return FAILURE;
         }
-
-        return SUCCESS;
+        return this.loadAccountNumber();
     }
 
     /**
      * Login with a Multifactor/Two-factor authorization code.
      * This requires the {@link Configuration Configuration's} {@link AuthorizationData}
-     * to be set with {@link RobinhoodApi#requestAuthData(String, String)}
+     * to be set with {@link RobinhoodApi#loadAuthData(String, String)}
      *
      * @param email The user's email
      * @param password The user's password
@@ -189,20 +221,22 @@ public class RobinhoodApi {
      * @return {@link LoginStatus#FAILURE} if the user could not be logged in.
      *                  {@link LoginStatus#SUCCESS} otherwise
      */
-    public LoginStatus loginMultifactor(String email, String password, String code) {
-	    AuthorizationData authData = this.config.getAuthData();
-	    if (authData == null) {
-	        return FAILURE.setValue("authorization data not set");
-        } else  if (!authData.mfaRequired()) {
-            return this.login(email, password);
+    public LoginStatus loginMfa(String email, String password, String code) {
+        AuthorizationData authData = this.config.getAuthData();
+        if (authData == null) {
+            return FAILURE.setValue("authorization data not set");
+        } else if (authData.mfaRequired()) {
+            authData.setMfaCode(code);
+            Token token = new AuthorizeWithMultifactor(email, password, code).execute();
+            if (token == null) {
+                return FAILURE;
+            }
+            authData.setToken(token);
+        } else if (authData.getToken() == null) {
+            // If mfa isn't required, we should already have a token.
+            return FAILURE.setValue("no token or authData");
         }
-        authData.setMfaCode(code);
-        Token token = new AuthorizeWithMultifactor(email, password, code).execute();
-        if (token == null) {
-            return FAILURE;
-        }
-        authData.setToken(token);
-        return SUCCESS;
+        return this.loadAccountNumber();
     }
 
 	/**
@@ -215,14 +249,11 @@ public class RobinhoodApi {
 		if(!this.isLoggedIn()) {
 			return LoginStatus.NOT_LOGGED_IN;
 		}
-
 		//Create the APIMethod which attempts to log the user out, and run it
         //note: Logout has no return
 	    new LogoutFromRobinhood(this.config).execute();
-
         //Just to be safe, wipe the token from memory
         this.config.clear();
-
 		//If we made it to this point without throwing something, it worked!
 		return SUCCESS;
 	}
@@ -253,7 +284,9 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method returning a {@link BasicAccountHolderInfo} for the currently logged in user
+	 * Method returning a {@link BasicAccountHolderInfo} for the currently logged
+     * in user
+     * @return {@link BasicAccountHolderInfo}
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public BasicAccountHolderInfo getAccountHolderInfo() {
@@ -261,7 +294,10 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderAffiliation} for the currently logged in user
+	 * Method returning a {@link AccountHolderAffiliation} for the currently
+     * logged in user
+     *
+     * @return {@link AccountHolderAffiliation}
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderAffiliation getAccountHolderAffiliation() {
@@ -269,7 +305,10 @@ public class RobinhoodApi {
 	}
 
 	/**
-	 * Method returning a {@link AccountHolderEmployment} for the currently logged in user
+	 * Method returning a {@link AccountHolderEmployment} for the currently
+     * logged in user
+     *
+     * @return {@link AccountHolderEmployment}
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderEmployment getAccountHolderEmployment() {
@@ -279,6 +318,7 @@ public class RobinhoodApi {
 	/**
 	 * Method returning a {@link AccountHolderInvestmentProfile} for the
      * currently logged in user
+     *
      * @return AccountHolderInvestmentProfile
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
@@ -291,9 +331,8 @@ public class RobinhoodApi {
     /**
      * Returns a list of {@link Position} for each entry on the account's
      * watchlist. If the quantity of the {@link Position} is above 0,
-     * that means that you have an active position in that stock. All of the
-     * other information which can be retrieved from this can be found in the
-     * Position page itself
+     * that means that you have an active position in that stock.
+     *
      * @return A list of {@link Position}, both held and only watched entities
      * @throws NotLoggedInException If not logged in
      */
@@ -433,9 +472,9 @@ public class RobinhoodApi {
 
     /**
      * TODO DOCS
-     * @return
      *
-     * @throws NotLoggedInException
+     * @return
+     * @throws NotLoggedInException If the instance is not logged in
      */
     public List<Option> getOptions() {
         OptionList options = new GetOptionsMethod(this.config).execute();
@@ -448,6 +487,7 @@ public class RobinhoodApi {
 	 * Method returning a {@link TickerFundamental} for the supplied ticker name
      *
 	 * @param ticker The Stock's ticker
+     * @return {@link TickerFundamental}
 	 */
 	public TickerFundamental getFundamental(String ticker) {
 		//Create the API method
@@ -460,7 +500,6 @@ public class RobinhoodApi {
 	 * @param tickers A collection of stock tickers
 	 * @return a {@link List} of {@link TickerFundamental}.
 	 * @throws RequestTooLargeException If the Collection is longer than 10
-	 * @author Jonathan Augustine
 	 */
 	public List<TickerFundamental> getFundamentalList(Collection<String> tickers)
     throws RequestTooLargeException {
@@ -474,6 +513,7 @@ public class RobinhoodApi {
 	 * Method returning a {@link TickerQuote} for the supplied ticker.
      * Contains general information, such as the current asking price and the
      * last trading price. Does not require the API to be logged on.
+     *
 	 * @param ticker Which symbol you are retrieving a quote for
 	 * @return {@link TickerQuote}
      * @throws TickerNotFoundException If the quote is not found
@@ -618,20 +658,12 @@ public class RobinhoodApi {
 	}
 
     /**
-     * Method which returns the authentication for the logged in user, if one exists.
-     * <br> To check whether an API instance is logged in, use
-     * {@link RobinhoodApi#isLoggedIn()}.
-     * @throws NotLoggedInException if not login information is available.
-     */
-    public String getAccountToken() {
-        return this.config.getToken();
-    }
-
-    /**
      * Method allowing a user to input a token without logging in.
      * It is not suggested you use this unless you have a specific reason where
      * you need to inject a auth token into the instance, generally allowing the
      * system to resolve this token with a username and password is more 'secure'.
+     *
+     * @param token The new token
      */
     @Deprecated
     public void setAuthToken(String token) {

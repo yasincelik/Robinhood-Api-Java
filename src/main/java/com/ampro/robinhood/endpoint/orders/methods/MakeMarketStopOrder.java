@@ -24,6 +24,8 @@ public class MakeMarketStopOrder extends OrderMethod {
      * @param orderType {@link OrderTransactionType#BUY} or {@link OrderTransactionType#SELL}
      * @param time The time and/or duration an order will be active.
      * @param stopPrice The stop (activation) price
+     * @param config A config holding authentication data
+     *
      * @throws TickerNotFoundException If the ticker is not tracked by RH
      * @throws NotLoggedInException If instance is not logged in
      */

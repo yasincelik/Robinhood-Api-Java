@@ -28,6 +28,7 @@ public class MakeLimitStopOrder extends OrderMethod {
      * @param orderType Which type of order is being made. A buy, or a sell
      * @param stopPrice The price at which the stop trigger converts the order
      *                      into a market order
+     * @param config A config holding authentication data
      * @throws TickerNotFoundException The ticker supplied is not valid
      */
     public MakeLimitStopOrder(String ticker, TimeInForce time, float limitPrice,

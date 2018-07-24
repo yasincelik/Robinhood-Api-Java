@@ -1,4 +1,4 @@
-package com.ampro.robinhood.net.request;
+package com.ampro.robinhood.endpoint.authorize;
 
 import com.ampro.robinhood.endpoint.RobinhoodEnum;
 
