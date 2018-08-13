@@ -230,8 +230,8 @@ public class RobinhoodApi {
 	//ACCOUNT DATA
 
 	/**
-	 * Method returning a {@link Account} using the currently logged in
-     * user
+	 * Method returning a {@link Account} using the currently logged in user
+	 *
      * @return The requested {@link Account}
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
@@ -254,6 +254,7 @@ public class RobinhoodApi {
 
 	/**
 	 * Method returning a {@link BasicAccountHolderInfo} for the currently logged in user
+	 *
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public BasicAccountHolderInfo getAccountHolderInfo() {
@@ -262,6 +263,7 @@ public class RobinhoodApi {
 
 	/**
 	 * Method returning a {@link AccountHolderAffiliation} for the currently logged in user
+	 *
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderAffiliation getAccountHolderAffiliation() {
@@ -270,6 +272,7 @@ public class RobinhoodApi {
 
 	/**
 	 * Method returning a {@link AccountHolderEmployment} for the currently logged in user
+	 *
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
 	public AccountHolderEmployment getAccountHolderEmployment() {
@@ -279,6 +282,7 @@ public class RobinhoodApi {
 	/**
 	 * Method returning a {@link AccountHolderInvestmentProfile} for the
      * currently logged in user
+	 *
      * @return AccountHolderInvestmentProfile
 	 * @throws NotLoggedInException if the user is not logged in
 	 */
@@ -294,6 +298,7 @@ public class RobinhoodApi {
      * that means that you have an active position in that stock. All of the
      * other information which can be retrieved from this can be found in the
      * Position page itself
+     *
      * @return A list of {@link Position}, both held and only watched entities
      * @throws NotLoggedInException If not logged in
      */
@@ -474,6 +479,7 @@ public class RobinhoodApi {
 	 * Method returning a {@link TickerQuote} for the supplied ticker.
      * Contains general information, such as the current asking price and the
      * last trading price. Does not require the API to be logged on.
+	 *
 	 * @param ticker Which symbol you are retrieving a quote for
 	 * @return {@link TickerQuote}
      * @throws TickerNotFoundException If the quote is not found
