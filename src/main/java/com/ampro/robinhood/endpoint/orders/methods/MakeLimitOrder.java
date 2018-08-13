@@ -42,7 +42,7 @@ public class MakeLimitOrder extends OrderMethod {
         this.orderType = orderType;
 
         //Set the normal parameters for this endpoint
-        setEndpointParameters();
+        setDefaultParameters();
 
         //Set the order parameters
         setOrderParameters();

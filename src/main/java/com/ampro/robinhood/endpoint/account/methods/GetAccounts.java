@@ -10,6 +10,7 @@ import com.ampro.robinhood.net.request.RequestMethod;
  * accounts.
  * !!NOTE~~ As of 3/7/2018, this will only ever return a single account, so we
  * will see what the Robinhood team does there...maybe
+ *
  * @author Conrad Weisse
  */
 public class GetAccounts extends Account {

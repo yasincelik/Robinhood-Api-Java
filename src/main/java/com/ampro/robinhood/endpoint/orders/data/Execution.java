@@ -12,18 +12,23 @@ public class Execution implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;
+
     @SerializedName("price")
     @Expose
     private float price;
+
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
+
     @SerializedName("settlement_date")
     @Expose
     private String settlementDate;
+
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
+
     private final static long serialVersionUID = -2838815043116284188L;
 
     public String getId() {

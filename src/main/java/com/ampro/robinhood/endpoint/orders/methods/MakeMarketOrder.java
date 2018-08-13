@@ -35,7 +35,7 @@ public class MakeMarketOrder extends OrderMethod {
         this.time = time;
 
         //Set the normal parameters for this endpoint
-        setEndpointParameters();
+        setDefaultParameters();
 
         //Set the order parameters
         setOrderParameters();

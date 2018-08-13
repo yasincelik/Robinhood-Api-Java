@@ -1,16 +1,26 @@
 package com.ampro.robinhood.endpoint.orders.data;
 
+import com.ampro.robinhood.Configuration;
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.orders.enums.OrderState;
+import com.ampro.robinhood.endpoint.orders.methods.GetOrderMethod;
 import com.ampro.robinhood.util.ChronoFormatter;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
 
+/**
+ * An order of a <a href="https://en.wikipedia.org/wiki/Security_(finance)">security</a>
+ * listed on Robinhood.
+ *
+ * @author Conrad Weise
+ */
 public class SecurityOrder implements ApiElement {
 
 	private String updated_at;
+
 	private Execution[] executions;
+
 	/**
 	 * Total fees incurred. Normally this is 0.00 - Robinhood just likes to
 	 * flaunt the fact
@@ -70,6 +80,16 @@ public class SecurityOrder implements ApiElement {
 
 	@Override
 	public boolean requiresAuth() { return true; }
+
+    /**
+     * Get an updated version of this order from Robinhood.
+     *
+     * @param loggedInConfig A logged in {@link Configuration}
+     * @return an updated version of this order.
+     */
+	public SecurityOrder getUpdatedOrder(Configuration loggedInConfig) {
+        return new GetOrderMethod(id, loggedInConfig).execute();
+    }
 
 	public ZonedDateTime getUpdatedAt() {
 		return ChronoFormatter.parseDefault(this.updated_at);

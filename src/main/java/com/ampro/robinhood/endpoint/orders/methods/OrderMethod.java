@@ -19,6 +19,8 @@ public abstract class OrderMethod extends ApiMethod {
 	protected OrderMethod(Configuration config) {
 		super(config);
 		this.addAuthTokenParameter();
+        this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
+        this.setReturnType(SecurityOrder.class);
 	}
 
     /**
@@ -26,22 +28,16 @@ public abstract class OrderMethod extends ApiMethod {
      * Used for cleanliness.
      * @throws NotLoggedInException if calling instance is not logged in
      */
-	protected abstract void setOrderParameters();
+	protected void setOrderParameters() {}
 
 	/**
 	 * Method which sets up the basic parameters for the endpoint.
 	 * This does not include the order data.
 	 */
-	protected void setEndpointParameters() {
-
+	protected void setDefaultParameters() {
 		this.setUrlBase(RH_URL + "/orders/");
-
-		this.addHeaderParameter("Content-Type", "application/x-www-form-urlencoded");
-
-		//This method should be ran as POST
+		//Defaults to post
 		this.setMethodType(RequestMethod.POST);
-
-		this.setReturnType(SecurityOrder.class);
 	}
 
 	/**
@@ -60,6 +56,7 @@ public abstract class OrderMethod extends ApiMethod {
 
 		//Does the ticker have a valid Instrument URL?
         //If not, this ticker is invalid. Throw an error.
+		//TODO Remove this exception and just return null
 		if (response.getInstrument() == null) {
 			throw new TickerNotFoundException();
 		}

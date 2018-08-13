@@ -39,7 +39,7 @@ public class MakeMarketStopOrder extends OrderMethod {
         this.stopPrice = stopPrice;
 
         //Set the normal parameters for this endpoint
-        setEndpointParameters();
+        setDefaultParameters();
 
         //Set the order parameters
         setOrderParameters();
