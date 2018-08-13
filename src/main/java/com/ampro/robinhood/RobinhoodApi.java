@@ -533,7 +533,7 @@ public class RobinhoodApi {
      */
     public List<Instrument> getInstrumentsByKeyword(String keyword) {
         InstrumentList list = new SearchInstrumentsByKeyword(keyword).execute();
-        return list.getResults();
+        return list != null ? list.getResults() : null;
     }
 
     /**
