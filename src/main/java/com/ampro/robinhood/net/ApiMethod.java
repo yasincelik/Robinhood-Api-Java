@@ -152,7 +152,7 @@ public abstract class ApiMethod {
      *              If the user is not logged in.
 	 */
 	public void addAuthTokenParameter() {
-		addHeaderParameter("Authorization", "Token " + this.config.getToken());
+		addHeaderParameter("Authorization", "Bearer " + this.config.getToken());
 	}
 
     /** @return the header parameters of the method */

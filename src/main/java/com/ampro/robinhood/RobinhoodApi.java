@@ -378,6 +378,19 @@ public class RobinhoodApi {
     }
 
     /**
+     * @return Closed and open orders.
+     * @throws TickerNotFoundException
+     * @throws NotLoggedInException If not logged in
+     */
+    public List<SecurityOrder> getOrders(String ticker) throws TickerNotFoundException {
+        SecurityOrderList orders = new GetOrdersMethod(this.config, ticker).execute();
+        List<SecurityOrder> out = new ArrayList<>();
+        //Load all the pages into one list
+        buildIterable(orders).forEach(out::add);
+        return out;
+    }
+
+    /**
      * Method which returns a {@link SecurityOrder} after running a LIMIT order
      * given the supplied parameters.
      * @param ticker The ticker which the buy or sell order should be performed on

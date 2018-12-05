@@ -2,6 +2,7 @@ package com.ampro.robinhood.endpoint.authorize;
 
 import com.ampro.robinhood.endpoint.ApiElement;
 import com.ampro.robinhood.endpoint.RobinhoodEnum;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * A wrapper for both possible API login responses.
@@ -61,18 +62,29 @@ public class AuthorizationData implements ApiElement {
         @Override
         public String toString() { return value; }
     }
-
+    
     /** The authorization token used to authorize private ApiMethods */
-    private String token;
+    @SerializedName("access_token")   private String token;
+    
+    @SerializedName("refresh_token")  private String refreshToken;
+    
+    @SerializedName("scope")          private String scope;
+    
+    @SerializedName("token_type")     private String tokenType;
+    
+    @SerializedName("backup_code")    private String backupCode;
+    
+    @SerializedName("expires_in")     private int expiresIn;
+    
+    /** The multifactor authorization code to enable login */
+    @SerializedName("mfa_code")       private String mfaCode;
 
     /** The type of multifactor authorization */
-    private String mfa_type;
+    @SerializedName("mfa_type")       private String mfaType;
 
     /** Whether multifactor is required to login */
-    private boolean mfa_required = false;
-
-    /** The multifactor authorization code to enable login */
-    private String mfaCode;
+    @SerializedName("mfa_required")   private boolean isMfaRequired = false;
+    
 
     /** @return The authorization token used to authorize private ApiMethods */
     public String getToken() {
@@ -83,8 +95,8 @@ public class AuthorizationData implements ApiElement {
      * Set the token used to authorize private ApiMethods.
      * @param newToken The new token
      */
-    public void setToken(String newToken) {
-        this.token = newToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     /**
@@ -95,30 +107,117 @@ public class AuthorizationData implements ApiElement {
         this.token = newToken.getToken();
     }
 
-    /** @param mfaCode The new multifactor authorization code */
-    public void setMfaCode(String mfaCode) {
-        this.mfaCode = mfaCode;
-    }
-
-    /** @return The code used to login with multifactor authorization */
-    public String getMfaCode() {
-        return mfaCode;
-    }
-
     /** @return Whether multifactor authorization is required to log in */
     public boolean mfaRequired() {
-        return mfa_required;
+        return isMfaRequired;
     }
 
     /** @return The {@link MultifactorType} needed to login */
     public MultifactorType getMfaType() {
-        return MultifactorType.parse(mfa_type);
+        return MultifactorType.parse(mfaType);
     }
 
+    /**
+     * @return the refresh_token
+     */
+    public String getRefreshToken()
+    {
+        return refreshToken;
+    }
+
+    /**
+     * @param refresh_token the refresh_token to set
+     */
+    public void setRefreshToken(String refreshToken)
+    {
+        this.refreshToken = refreshToken;
+    }
+
+    /**
+     * @return the scope
+     */
+    public String getScope()
+    {
+        return scope;
+    }
+
+    /**
+     * @param scope the scope to set
+     */
+    public void setScope(String scope)
+    {
+        this.scope = scope;
+    }
+
+    /**
+     * @return the token_type
+     */
+    public String getTokenType()
+    {
+        return tokenType;
+    }
+
+    /**
+     * @param token_type the token_type to set
+     */
+    public void setTokenType(String tokenType)
+    {
+        this.tokenType = tokenType;
+    }
+
+    /**
+     * @return the backup_code
+     */
+    public String getBackupCode()
+    {
+        return backupCode;
+    }
+
+    /**
+     * @param backup_code the backup_code to set
+     */
+    public void setBackupCode(String backupCodes)
+    {
+        this.backupCode = backupCode;
+    }
+
+    /**
+     * @return the expires_in
+     */
+    public int getExpiresIn()
+    {
+        return expiresIn;
+    }
+
+    /**
+     * @param expires_in the expires_in to set
+     */
+    public void setExpiresIn(int expiresIn)
+    {
+        this.expiresIn = expiresIn;
+    }
+
+    /**
+     * @return the mfa_code
+     */
+    public String getMfaCode()
+    {
+        return mfaCode;
+    }
+
+    /**
+     * @param mfa_code the mfa_code to set
+     */
+    public void setMfaCode(String mfaCode)
+    {
+        this.mfaCode = mfaCode;
+    }
+    
+    
     /** @return [TOKEN=%s][MFA_CODE=%s][MFA_TYPE=%s][MFA_REQUIRED=%s] */
     @Override
     public String toString() {
         return String.format("[TOKEN=%s][MFA_CODE=%s][MFA_TYPE=%s][MFA_REQUIRED=%s]",
-                             token, mfaCode, mfa_type, mfa_required);
+                             token, mfaCode, mfaType, isMfaRequired);
     }
 }

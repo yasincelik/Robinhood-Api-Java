@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'net.ltgt.apt' version '0.10'
 }
 
 repositories {
@@ -28,6 +29,9 @@ dependencies {
 
     //publishing
     //classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
+    
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+	apt 'org.projectlombok:lombok:1.18.2'
 }
 
 

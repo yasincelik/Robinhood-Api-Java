@@ -29,14 +29,13 @@ public class GetAuthorizationData extends Authorize {
     public GetAuthorizationData(String email, String password)
     throws UnirestException {
         super(Configuration.getDefault());
-
-        setUrlBase(RH_URL + "/api-token-auth/");
+        setUrlBase(RH_URL + "/oauth2/token/");
         //Add the parameters into the request
         this.addFieldParameter("username", email);
         this.addFieldParameter("password", password);
-
-        this.addHeaderParameter("Content-Type",
-                                "application/x-www-form-urlencoded");
+        this.addFieldParameter("client_id", "");
+        this.addFieldParameter("grant_type", "password");
+        this.addHeaderParameter("Accept", "application/json");
 
         //This needs to be ran as POST
         this.setMethodType(RequestMethod.POST);
